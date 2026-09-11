@@ -20,7 +20,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "e8595ea8ca68214a7eeabb8e2c5e21ad4738ac24a0e7a5d8ae1e20534dc8bb11"
+      "sha256": "3741fa0f61b21ba40ec65184c07530deec7e3a43d27a496266ce834d6f925bae"
     },
     {
       "path": "scripts/install-copilot-agent.mjs",
@@ -36,7 +36,7 @@
     },
     {
       "path": "docs/official-hackathon-submission.md",
-      "sha256": "151b104f4675115e7cbe03f8ed0555158d1efc0f7fbad550951033ec2ec88c5c"
+      "sha256": "47738a024b62e2e4c5015c2c2d2de4123ea5cac5c37c242a138b7f40dee1d499"
     },
     {
       "path": ".github/hackathon-facilitator/methodology/rubric.yaml",

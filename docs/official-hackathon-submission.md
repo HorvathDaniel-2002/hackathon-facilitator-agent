@@ -12,6 +12,12 @@ The public page describes the Global Hackathon as an annual private employee/int
 event using Innovation Studio. It does not establish this project's eligibility,
 the current edition's deadline or a completed internal registration.
 
+**Submission access:** https://innovationstudio.microsoft.com opens the Microsoft
+work-account sign-in flow. Submission is blocked until the owner signs in and
+confirms the exact event/project. No entry has been created or submitted.
+Do not assume the edition from the generic `aka.ms/hackathon` shortcut: it
+redirected to a `hackathon2025` path during preparation.
+
 ## Project name
 
 **Hackathon Facilitator**
@@ -149,7 +155,7 @@ asserted here.
 | Field | Status |
 | --- | --- |
 | Exact official event and edition | Confirm |
-| Authenticated submission portal | Confirm |
+| Authenticated submission portal | https://innovationstudio.microsoft.com ; owner sign-in and exact event/project required |
 | Eligibility and project/category rules | Confirm |
 | Registration/submission deadlines and time zone | Confirm |
 | Project owner, team members and their consent | Confirm |

@@ -8,8 +8,16 @@ Official Microsoft hackathon submission remains pending.**
 
 Repository: https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
 
+Published ZIP and checksum:
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.1.0
+
 Colleagues need repository access and a permitted GitHub Copilot subscription.
 Repository ownership/visibility is not Microsoft corporate approval.
+
+Microsoft hackathon submission requires a work-account sign-in at
+https://innovationstudio.microsoft.com and confirmation of the target event/project.
+The [submission draft](docs/official-hackathon-submission.md) is ready; no official
+entry has been created or submitted.
 
 ## Install
 
