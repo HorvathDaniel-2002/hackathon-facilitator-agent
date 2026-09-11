@@ -1,0 +1,85 @@
+# Agenda templates — source: product spec §5.4
+# Consumed by lib/domain/agenda.ts to seed a full milestone plan in one click.
+version: "1.0.0"
+
+# offsetDays is relative to the hackathon start date (negative = before).
+prep:
+  - title: Team kickoff & agenda alignment
+    offsetDays: -28
+    description: Confirm the facilitation team, agenda, sponsor and logistics.
+  - title: Per-use-case scoping calls
+    offsetDays: -21
+    description: One scoping call per candidate use case with the process owner.
+  - title: Scenario & technical requirement confirmation
+    offsetDays: -14
+    description: Confirm data, connectors, environments and access per use case.
+  - title: Common Copilot Studio enablement session
+    offsetDays: -7
+    description: Shared enablement so teams start building, not learning, on Day 1.
+  - title: Prep day (engineers only)
+    offsetDays: -1
+    description: Technical prep and final alignment. Not part of the hackathon itself.
+
+formats:
+  2day:
+    label: 2-day hackathon
+    days:
+      - day: 1
+        items:
+          - Sponsor opening & business framing
+          - Agent enablement refresher
+          - Team split & scope confirmation
+          - Start building
+          - Confirm the fallback / mock path before end of day
+      - day: 2
+        items:
+          - Build
+          - Test & iterate
+          - Freeze scope — stop adding features
+          - Final demos (mid-afternoon)
+          - Outcomes, owners & next steps
+
+  3day:
+    label: 3-day hackathon
+    days:
+      - day: 1
+        items:
+          - Sponsor opening & business framing
+          - Alignment & environment setup
+          - Team split & scope confirmation
+          - Start building
+      - day: 2
+        items:
+          - Full build day
+          - Mentor checkpoints
+          - Confirm the fallback / mock path
+      - day: 3
+        items:
+          - Finalize & test
+          - Freeze scope — stop adding features
+          - Readout & final demos
+          - Outcomes, owners & next steps
+
+post:
+  - title: Capture exit package per use case
+    offsetDays: 2
+    description: What was built, demo or blocker, outcome, owners, gaps.
+  - title: Portfolio decision review with sponsor
+    offsetDays: 7
+    description: Every case gets Stop, Customer-led, Partner-led or Microsoft-supported.
+  - title: Route to next engagement
+    offsetDays: 14
+    description: Open the follow-on motion for each Microsoft-supported case.
+  - title: 30-day value check-in
+    offsetDays: 30
+    description: Confirm owners are progressing and value is being tracked.
+
+# Non-negotiable facilitation rules surfaced in the UI during the event.
+buildRhythmRules:
+  - Start with scope, not tooling.
+  - One mentor per 1–2 teams — the mentor never takes over the keyboard.
+  - Confirm the fallback / mock path by the end of Day 1.
+  - Stop adding features before the demo.
+  - Prepare a backup recording.
+  - Never debug live in the showcase.
+  - End with a value statement and a pilot ask.

@@ -1,0 +1,171 @@
+version: "1.0.0"
+notice: "This is a project-authored facilitation checklist informed by the linked Microsoft guidance. Cadence, weights, gates and evidence requirements are local controls, not an official Microsoft corporate standard. Confirm internal rules with your sponsor, IT, privacy and Responsible AI contacts."
+checks:
+  - id: sponsor-charter
+    stage: Preparation
+    title: Sponsor, outcome and decision criteria agreed
+    ownerRole: Facilitator + sponsor
+    offsetDays: -28
+    gate: Start
+    sourceIds: [hackathons, envisioning]
+    instruction: "Name the sponsor and business owners, confirm the objective and judging panel, and record acceptance criteria. Evidence: charter approval and decision owner."
+  - id: participants-logistics
+    stage: Preparation
+    title: Registration, accessibility and collaboration ready
+    ownerRole: Facilitator
+    offsetDays: -21
+    gate: Start
+    sourceIds: [hackathons]
+    instruction: "Confirm attendees, skills, availability, accessibility needs, venue/Wi-Fi or Teams channels, time zone, agenda and support contacts. Evidence: attendance roster and logistics confirmation."
+  - id: solution-choice
+    stage: Preparation
+    title: No-agent and prebuilt alternatives considered
+    ownerRole: Architect + process owners
+    offsetDays: -21
+    gate: Start
+    sourceIds: [technology, envisioning]
+    instruction: "Decide whether an agent is justified, whether an existing SaaS feature fits, and only then choose a custom build. The fit score compares custom-build options; it does not answer this prior decision."
+  - id: scoped-portfolio
+    stage: Preparation
+    title: Small portfolio and one demo path per team selected
+    ownerRole: Sponsor + facilitator
+    offsetDays: -14
+    gate: Start
+    sourceIds: [hackathons, envisioning]
+    instruction: "Review gate failures, owner attendance, team skills, mentor coverage and the smallest demonstrable slice. Record selected cases and scope exclusions. A high score never clears a failed gate."
+  - id: value-baseline
+    stage: Preparation
+    title: Baseline, target and measurement owner recorded
+    ownerRole: Business owners
+    offsetDays: -14
+    gate: Start
+    sourceIds: [value]
+    instruction: "For each selected case record the metric, unit, baseline, target, sample size, measurement period and owner. Distinguish demo estimates from pilot measurements; do not treat a model-generated ROI as evidence."
+  - id: licenses-capacity
+    stage: Technical readiness
+    title: Licenses, publishing entitlement and capacity confirmed
+    ownerRole: Tenant admin + facilitator
+    offsetDays: -14
+    gate: Start
+    sourceIds: [licensing]
+    instruction: "Test maker access for every participant and confirm the planned channel is licensed. Copilot Studio trial supports test chat, not publishing. Record approved capacity/budget or an agreed test-chat-only demonstration; verify Foundry deployment quota when used."
+  - id: environment-access
+    stage: Technical readiness
+    title: Approved environment and least-privilege access tested
+    ownerRole: Tenant/environment admin
+    offsetDays: -14
+    gate: Start
+    sourceIds: [environments]
+    instruction: "Record the approved tenant, region, environment, Dataverse readiness, access/security group and participant roles. Test using a maker account, not just an administrator. Do not use production customer environments for experimentation."
+  - id: data-permissions
+    stage: Technical readiness
+    title: Sample data and knowledge permissions verified
+    ownerRole: Data owner + privacy contact
+    offsetDays: -7
+    gate: Start
+    sourceIds: [hackathons, knowledge, responsible-ai]
+    instruction: "Use approved synthetic/anonymized data. Document permission to use it, source readiness/indexing and access boundaries. Test with a least-privileged intended user, including a denied document. A filled-in data description is not proof of access or approval."
+  - id: connector-policies
+    stage: Technical readiness
+    title: DLP, connectors and authentication approved
+    ownerRole: Security + Power Platform admin
+    offsetDays: -7
+    gate: Start
+    sourceIds: [dlp]
+    instruction: "Test all needed connectors in compatible data groups, endpoint filters, agent authentication and publishing channels. Do not disable DLP for a hackathon; use approved mocks or a permitted sandbox instead."
+  - id: responsible-ai-review
+    stage: Technical readiness
+    title: Risk assessment and human oversight agreed
+    ownerRole: Privacy/security/Responsible AI contacts
+    offsetDays: -7
+    gate: Start
+    sourceIds: [responsible-ai]
+    instruction: "Document intended/forbidden use, impacted people, data risks, human review of consequential actions, escalation and stop authority. Record the internal risk-review decision reference; public guidance is not approval to use Microsoft corporate/customer data."
+  - id: channel-fallback
+    stage: Technical readiness
+    title: Teams distribution or permitted fallback tested
+    ownerRole: Teams admin + mentor
+    offsetDays: -7
+    gate: Start
+    sourceIds: [publishing, licensing]
+    instruction: "Publish and install as an intended user if entitled. Confirm sharing, Teams app policy and organization-wide approval where needed. If approval/licensing is unavailable, agree test chat or a recording without circumventing policy."
+  - id: enablement
+    stage: Technical readiness
+    title: Team enablement and scoping calls completed
+    ownerRole: Mentors + facilitator
+    offsetDays: -7
+    gate: Start
+    sourceIds: [hackathons]
+    instruction: "Share preparation material, run scoping calls and verify participant familiarity with the chosen stack. Confirm named mentor coverage and who resolves access problems."
+  - id: dry-run
+    stage: Day 0
+    title: End-to-end dry run and go/no-go recorded
+    ownerRole: Facilitator + technical lead
+    offsetDays: -1
+    gate: Start
+    sourceIds: [hackathons, knowledge, publishing]
+    instruction: "Walk through sign-in, data, connectors, one useful path and the approved demo channel from a participant account. Record results, blockers and sponsor decision. This does not authorize external sharing."
+  - id: kickoff
+    stage: During event
+    title: Sponsor opening and scope reconfirmed
+    ownerRole: Sponsor + facilitator
+    offsetDays: 0
+    gate: None
+    sourceIds: [hackathons]
+    instruction: "Open with the business outcome, explain judging and safety rules, confirm teams and mentor checkpoints. Use the milestone agenda for timing; do not expand scope to production deployment."
+  - id: checkpoint
+    stage: During event
+    title: Mentor checkpoints and blockers captured
+    ownerRole: Mentors
+    offsetDays: 0
+    gate: None
+    sourceIds: [hackathons]
+    instruction: "Record which useful path works, what is blocked, who owns the blocker and the fallback. Capture decisions at least at midday and end of day; keep a team-owned working demo."
+  - id: scenario-tests
+    stage: During event
+    title: Scenario, permission and human-review tests recorded
+    ownerRole: Teams + business owners
+    offsetDays: 1
+    gate: Close
+    sourceIds: [knowledge, responsible-ai]
+    instruction: "For each demo record happy path, missing/denied knowledge, out-of-scope and adversarial input, incorrect answers and consequential-action approval tests. Record failures honestly; an MVP demo is not production certification."
+  - id: demo-readout
+    stage: During event
+    title: Demo evidence, judging and limitations captured
+    ownerRole: Teams + judges
+    offsetDays: 1
+    gate: Close
+    sourceIds: [hackathons, value]
+    instruction: "Use a consistent readout: problem, benefit, working path, test evidence, limitations, demo/recording link, judging outcome and pilot ask. Adjust final-day scheduling for a three-day event."
+  - id: exit-ownership
+    stage: Follow-up
+    title: Every case has an exit decision and follow-up owner
+    ownerRole: Sponsor + facilitator
+    offsetDays: 2
+    gate: Close
+    sourceIds: [hackathons, operations]
+    instruction: "Save a per-case exit package including Stop/Archive cases, learnings, owner and dated next milestone. Continuing cases need technical/delivery ownership, pilot cohort, success criteria and risks. Do not orphan prototypes."
+  - id: engagement-confirmation
+    stage: Follow-up
+    title: Follow-on engagement eligibility confirmed or pending
+    ownerRole: Account team + engagement owner
+    offsetDays: 7
+    gate: None
+    sourceIds: [accelerate, operations]
+    instruction: "Treat suggested routes as provisional. Verify current program name, region, eligibility, scope and sponsor funding with the actual owner. Do not promise AI Agents Pilot, FastTrack, Solution Assessment or Factory support based on a fit score."
+  - id: retention-cleanup
+    stage: Follow-up
+    title: Data retention, access and resource cleanup assigned
+    ownerRole: Environment admin + data owner
+    offsetDays: 2
+    gate: Close
+    sourceIds: [responsible-ai, operations]
+    instruction: "Record artifact classification, permitted audience, retention/deletion dates, owner for access removal and sandbox/cost cleanup. Keep needed evidence before removing resources; this tool never deletes cloud resources automatically."
+  - id: value-checkin
+    stage: Follow-up
+    title: Value check-in and retrospective scheduled
+    ownerRole: Business owners + facilitator
+    offsetDays: 30
+    gate: None
+    sourceIds: [value, operations, hackathons]
+    instruction: "Measure baseline versus actual pilot performance, adoption, cost and failure rates. Collect participant feedback, lessons and reuse candidates. Share only approved, appropriately labeled artifacts."

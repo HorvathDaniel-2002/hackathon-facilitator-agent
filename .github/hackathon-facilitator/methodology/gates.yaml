@@ -1,0 +1,62 @@
+# Hard qualification gates — source: product spec §5.2
+# If any gate fails the case should be rejected, deferred or re-scoped.
+#
+# PLAN REFINEMENT R-1: gates are split by `kind`.
+#   deterministic -> answered from database state by lib/domain/gates.ts.
+#                    Never sent to a model, never flaky, fully unit-tested.
+#   judgement     -> answered by the model, always shown with a "model assessment"
+#                    marker so the facilitator knows it is an opinion, not a fact.
+version: "1.1.0"
+# The eight hard gates include demo-slice definition in canDemoOnePath, rather
+# than counting a text field as a separate ninth qualification gate.
+# Approval is explicit facilitator evidence, not inferred from a description.
+# https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance
+
+gates:
+  - id: hasBusinessOwner
+    kind: deterministic
+    label: Someone owns the business outcome
+    failReason: No business owner is named or assigned to this use case.
+    remedy: Name a business owner on the canvas or assign a BusinessOwner contact to this case.
+
+  - id: processOwnerAttending
+    kind: deterministic
+    label: A knowledgeable process owner will attend
+    failReason: Process-owner attendance has not been confirmed for an assigned BusinessOwner or Sponsor.
+    remedy: Assign the knowledgeable process owner to this team and explicitly confirm their attendance.
+
+  - id: hasSampleData
+    kind: deterministic
+    label: Usable sample / anonymized / synthetic data exists
+    failReason: A usable sample has not been explicitly approved for this event.
+    remedy: Record the sample source and confirm data-owner approval, usability and appropriate anonymization or synthetic data.
+
+  - id: hasHumanApproval
+    kind: deterministic
+    label: Consequential actions stay behind human review
+    failReason: Human review or an explicit read-only boundary has not been documented.
+    remedy: Define human approval before consequential writes or decisions; for informational scenarios explicitly document the read-only boundary.
+
+  - id: canDemoOnePath
+    kind: judgement
+    label: A smallest useful path is defined and demoable during the event
+    failReason: A smallest demoable slice is missing or cannot realistically be demonstrated in the event window.
+    remedy: Define and assess a single useful path that can be shown on the final day.
+
+  - id: noProductionIntegrationBlock
+    kind: judgement
+    label: Does not need several production integrations before anything can be shown
+    failReason: The scenario depends on production integrations that cannot be mocked in time.
+    remedy: Mock or stub the integrations and record them as production dependencies.
+
+  - id: accessResolvable
+    kind: judgement
+    label: Access / DLP / identity / connector approval can be resolved or mocked
+    failReason: Required access or DLP approval cannot be obtained or mocked before the event.
+    remedy: Agree a sandbox environment or a mocked connector path with IT and Security.
+
+  - id: notProductionRollout
+    kind: judgement
+    label: Target is a hackathon MVP, not a production rollout
+    failReason: The stated target is effectively a production rollout, not a hackathon MVP.
+    remedy: Split off an MVP slice; route the rollout to a post-hackathon engagement.

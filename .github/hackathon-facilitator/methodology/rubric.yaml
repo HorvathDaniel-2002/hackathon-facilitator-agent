@@ -1,0 +1,38 @@
+# Weighted prioritization rubric — source: product spec §5.1
+# Change this file (and bump `version`) to re-tune the methodology without code changes.
+# Every generated artifact is stamped with this version so old results stay explainable.
+version: "1.0.0"
+
+scale:
+  min: 1
+  max: 5
+
+# Must sum to exactly 1.0 or the app refuses to boot.
+weights:
+  value: 0.40
+  feasibility: 0.30
+  dataReadiness: 0.20
+  reusability: 0.10
+
+dimensions:
+  - id: value
+    label: Business value
+    assess: Time saved, cost avoided, risk reduced, user/customer experience
+  - id: feasibility
+    label: Feasibility
+    assess: Buildable with current skills, connectors, and available time
+  - id: dataReadiness
+    label: Data readiness
+    assess: Data available, usable, clean, permissioned, approved
+  - id: reusability
+    label: Reusability
+    assess: Extendable to other teams, countries, entities
+
+# Evaluated top-down; first match wins.
+bands:
+  - id: High
+    min: 4.0
+  - id: Medium
+    min: 3.0
+  - id: Low
+    min: 0.0

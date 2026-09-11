@@ -1,0 +1,79 @@
+{
+  "name": "hackathon-facilitator",
+  "version": "0.1.0",
+  "status": "private-github-distribution",
+  "publication": "Private GitHub repository distribution. Official Microsoft hackathon submission is pending.",
+  "exclusions": [
+    "customer data",
+    "databases",
+    "credentials",
+    "session artifacts",
+    "screenshots",
+    "git history",
+    "node_modules",
+    "app runtime"
+  ],
+  "files": [
+    {
+      "path": ".github/agents/hackathon-facilitator.agent.md",
+      "sha256": "0770dffb8d5922ded10173fe0401588001fa983d37500b77f98ee03aced47cfe"
+    },
+    {
+      "path": "README.md",
+      "sha256": "e8595ea8ca68214a7eeabb8e2c5e21ad4738ac24a0e7a5d8ae1e20534dc8bb11"
+    },
+    {
+      "path": "scripts/install-copilot-agent.mjs",
+      "sha256": "86e59a9274473f170c56da3e054e470ab89bc186833786fa8e8b15fa0dc4ba65"
+    },
+    {
+      "path": "docs/copilot-agent-installation.md",
+      "sha256": "0beb20e7923e21865e7dd7b051053f4f96305bfd7ea1bcdb65cc3322f721fc40"
+    },
+    {
+      "path": "docs/colleague-distribution.md",
+      "sha256": "6e532627ae02fbd62a45fcd4e6d67741c5febff541f6b7dcfa49e8d8d804e97c"
+    },
+    {
+      "path": "docs/official-hackathon-submission.md",
+      "sha256": "151b104f4675115e7cbe03f8ed0555158d1efc0f7fbad550951033ec2ec88c5c"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/rubric.yaml",
+      "sha256": "00f674965fb1c4b2e6e64df7b27e094b6134539600b443d3990c4967961cc1b0"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/gates.yaml",
+      "sha256": "f684589068f280f60afd11e2bd1d306552178e7baebf0e394afd565eaee1a162"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/routing.yaml",
+      "sha256": "5759b401c5e5e2830d9dbf375eaa4e4318e4ee8de2244ecfbeab854a69d78c66"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/agendas.yaml",
+      "sha256": "5fea2e1b8b10240064ca2f73b59f1c7a24a599a78d9592a44b3b2daeeab8dc2e"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/handoff.yaml",
+      "sha256": "661791d0d0d35a0664e045a79c94d94611e58f098c4fe7af37f7fa9739c98300"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/runbook.yaml",
+      "sha256": "dab388d5099e97fad26246e1e731e678d53498552ba2aa1e26faf71bf0bbd299"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/sources.yaml",
+      "sha256": "04a6e68532c8039faf35ab9979d7d69d4e1e5fe18c6747f6109609d5b1266ad1"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "2971401db178c56b9d1f4ad60a636b7586cafba4bbbe8a4c05d7a82d08367cc4"
+    }
+  ],
+  "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent"
+}

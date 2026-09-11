@@ -1,0 +1,95 @@
+# Handoff & production routing — source: product spec §5.5
+# Production deployment is out of hackathon scope by design; this file encodes
+# where each case goes next instead.
+version: "1.1.0"
+# All recommendations are provisional, not entitlement or delivery commitments.
+# Confirm current program availability, eligibility, scope and delivery ownership
+# with the responsible Microsoft/partner team. A priority score is not readiness.
+# Cloud Adoption Framework guidance requires confirming data, skills and cost;
+# it is distinct from the Cloud Accelerate Factory engagement program.
+# https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/strategy
+# Public Azure Accelerate currently redirects to Frontier Accelerate for Azure:
+# https://azure.microsoft.com/en-us/solutions/frontier-accelerate
+# Route IDs/labels below preserve the local engagement taxonomy, not a verified
+# current program catalog. Confirm the actual offering with its program owner.
+# Public guidance is not approval for Microsoft corporate/customer-data use.
+
+portfolioDecisions:
+  - id: Stop
+    label: Stop / Archive
+    description: No viable value case, or the gate failures cannot be resolved.
+  - id: CustomerLed
+    label: Customer-led
+    description: The customer takes it forward with their own build team.
+  - id: PartnerLed
+    label: Partner-led pilot
+    description: A partner carries the engineering, integration and change management.
+  - id: MicrosoftMotion
+    label: Microsoft-supported motion
+    description: Routes to a specific follow-on Microsoft engagement.
+
+# Evaluated top-down; first match wins. Only applies to MicrosoftMotion cases,
+# except CustomerLed / PartnerLed which are matched from the decision directly.
+routes:
+  - id: CustomerLed
+    label: Customer-led
+    useWhen: Customer has an internal build team, standard capabilities and clear ownership.
+    match:
+      decision: CustomerLed
+
+  - id: PartnerLed
+    label: Partner-led pilot
+    useWhen: Engineering, integration or change management remains and a partner joined the hack.
+    match:
+      decision: PartnerLed
+
+  - id: AIAgentsGovernance
+    label: AI Agents Governance / Workshop
+    useWhen: A governance or upskilling gap surfaced during the event.
+    match:
+      decision: MicrosoftMotion
+      failedGateIn: [accessResolvable, hasHumanApproval]
+
+  - id: AIAgentsPilot
+    label: AI Agents Pilot (Workforce Productivity / Business Process Automation)
+    useWhen: Candidate for pilot scoping after qualification; confirm governance, readiness, availability and program eligibility.
+    match:
+      decision: MicrosoftMotion
+      platformIn: [CopilotStudio]
+
+  - id: FastTrack
+    label: FastTrack
+    useWhen: Tenant or workload configuration, Copilot readiness and adoption. CSA stays lead.
+    match:
+      decision: MicrosoftMotion
+      platformIn: [CopilotStudio]
+
+  - id: CloudAccelerateFactory
+    label: Cloud Accelerate Factory (CAF)
+    useWhen: Candidate only after implementation-ready scope and program eligibility have been independently confirmed; priority score alone never qualifies.
+    match:
+      decision: MicrosoftMotion
+      platformIn: [AzureAI, Hybrid]
+
+  - id: SolutionAssessment
+    label: Azure Solution Assessment (Discover → Analyze → Plan)
+    useWhen: Needs broader AI readiness, estate discovery and a roadmap.
+    match:
+      decision: MicrosoftMotion
+      platformIn: [AzureAI, Hybrid]
+
+exitPackageFields:
+  - whatWasBuilt
+  - demoOrBlocker
+  - outcomeDemonstrated
+  - businessOwner
+  - technicalOwner
+  - deliveryOwner
+  - gaps
+
+# A use case cannot be closed without these.
+closureRequirements:
+  - portfolioDecision
+  - businessOwner
+  - nextMilestone
+  - nextMilestoneDate
