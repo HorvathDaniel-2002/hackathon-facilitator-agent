@@ -1,8 +1,8 @@
 {
   "name": "hackathon-facilitator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "status": "public-github-distribution",
-  "publication": "Public GitHub agent-only distribution. Official Microsoft hackathon submission is pending.",
+  "publication": "Public GitHub agent and no-install facilitation materials. Companion web app excluded. Official Microsoft hackathon submission is pending.",
   "exclusions": [
     "customer data",
     "databases",
@@ -20,7 +20,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "f2997e9e29644aecfe8669fd73891d85c785c3a00f648d0b51f09d958be86d39"
+      "sha256": "d8ab5fe8729f2cd4c96c458b18c1be1cb57ade949fb2c8ac234802e979e1c7a4"
     },
     {
       "path": "scripts/install-copilot-agent.mjs",
@@ -28,11 +28,11 @@
     },
     {
       "path": "docs/copilot-agent-installation.md",
-      "sha256": "949d7d87f897efbd6492422f6430d16b6a650e7ae9657bd46c5f037a8bdddcda"
+      "sha256": "9e783c035255d2d5038e7aba99079821d4baa2ad9472f3db82d4ec99d765d134"
     },
     {
       "path": "docs/colleague-distribution.md",
-      "sha256": "81a58cec8dcfda43d3670effc9343e4624582bac5f51fb40e6bb7c16ef13658f"
+      "sha256": "b8201b0abdf53cf52ec26bfdd435250cd063d233693ece88997890db31cfeb15"
     },
     {
       "path": "docs/official-hackathon-submission.md",
@@ -68,11 +68,31 @@
     },
     {
       "path": ".gitattributes",
-      "sha256": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c"
+      "sha256": "d28adce39fb1af1efc19a3ab3ca20172fd99766ceb36233d1ddb0b9e22cd5c67"
     },
     {
       "path": ".gitignore",
       "sha256": "2971401db178c56b9d1f4ad60a636b7586cafba4bbbe8a4c05d7a82d08367cc4"
+    },
+    {
+      "path": "materials/README.md",
+      "sha256": "3f1eaa36f923b5b62a7e489677f5c4757a715e655a043636cf6ac53eabc3b59c"
+    },
+    {
+      "path": "materials/Hackathon-Facilitator-Playbook.docx",
+      "sha256": "70b2fc2bc4a9d53b1b582840ce49d7a4793a49d92fa3f521f44a4c44ccbe5903"
+    },
+    {
+      "path": "materials/Hackathon-Facilitator-Playbook.pdf",
+      "sha256": "47bcba557c1465d14fe483dfa1094044164e6b3557de613d65361acc99bfd159"
+    },
+    {
+      "path": "materials/Hackathon-Facilitator-Workshop.pptx",
+      "sha256": "98964950e840d5aad0043fbe5577c637eefe888c53ac68bdd8056d274c90957d"
+    },
+    {
+      "path": "materials/Hackathon-Facilitator-Workshop.pdf",
+      "sha256": "db62a5c42c88173961082ebbbeec01425df63402d92beffa68742459e120a906"
     }
   ],
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent"

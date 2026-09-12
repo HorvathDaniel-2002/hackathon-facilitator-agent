@@ -1,1 +1,4 @@
 * text=auto eol=lf
+*.docx -text
+*.pptx -text
+*.pdf -text

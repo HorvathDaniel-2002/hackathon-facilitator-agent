@@ -48,6 +48,11 @@ quality.
 
 **Package/repository:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
 
+**No technical setup needed:** download the Word playbook, PowerPoint workshop or
+PDFs from https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/tree/main/materials .
+Use the editable templates and checklists manually; no agent or Copilot
+subscription is needed for that route.
+
 The repository is public; no invitation is needed.
 Download and extract the ZIP from
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest .

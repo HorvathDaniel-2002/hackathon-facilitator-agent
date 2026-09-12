@@ -3,7 +3,26 @@
 A custom Copilot agent for planning customer AI hackathons from charter and
 use-case intake to readiness, demos and accountable follow-up.
 
-**Public agent-only preview. Not an official Microsoft product.**
+**Public facilitator toolkit: optional agent and ready-to-use materials.
+Not an official Microsoft product.**
+
+## No technical setup? Start with the materials
+
+You can use the process **without installing the agent or using Copilot**:
+
+| Download | What you get |
+| --- | --- |
+| [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx) | 14 editable pages: charter, use-case canvas, checklists, agenda, tests and handoff templates |
+| [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx) | 16 slides with facilitator prompts and activities in speaker notes |
+| [Playbook PDF](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.pdf) / [Slides PDF](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pdf) | Browser-friendly reading and printing |
+
+Download a file, save a working copy in your approved team location, and replace
+the prompts with your own plan. **No code, Azure account or Copilot subscription
+is needed for manual use.** Use Word/PowerPoint or another compatible application
+to edit; PDFs are for reading. [Start-here guide](materials/README.md).
+
+The examples are fictional. Never upload completed customer workbooks or private
+approval evidence to this public repository.
 
 ## Try it in VS Code
 
@@ -75,6 +94,7 @@ prompt logs. Keep real planning artifacts in an appropriately restricted workspa
 
 ## Included
 
+- Editable Word playbook, PowerPoint workshop with speaker notes and PDF copies.
 - GitHub Copilot custom-agent profile.
 - Seven public-source/project-methodology YAML references.
 - Safe, no-overwrite local installer.

@@ -1,5 +1,9 @@
 # Install Hackathon Facilitator in GitHub Copilot
 
+**Prefer not to install anything?** Use the [Word playbook, PowerPoint workshop or
+PDFs](../materials/README.md) manually. They need no Copilot subscription or
+developer tools. The rest of this guide is only for the optional agent.
+
 This package is a **custom agent profile**, not a hosted service, a trained model,
 a VS Code extension, a Marketplace listing or a Microsoft 365 Copilot agent.
 It configures GitHub Copilot's behavior for hackathon planning and reviewed
