@@ -65,10 +65,11 @@ workflow, saved guide generation, runbook checks, milestones, handoff and
 Markdown/CSV/print-ready exports. The custom agent is packaged as a supported
 `.agent.md` profile with installation and distribution instructions.
 
-The private repository distributes the Copilot agent and reference pack:
+The public repository distributes the Copilot agent and reference pack:
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
 The companion web application's runtime/source is separate and is not included
-in this agent-only repository. Reviewers need authorized access to the private repo.
+in this agent-only repository. Reviewers can download the agent without an invitation.
+Using it still requires permitted GitHub Copilot access.
 
 Stack: Next.js, React, TypeScript, Prisma/SQLite and an optional Azure OpenAI
 provider. Tests use synthetic data and mock AI. The existing local application
@@ -160,7 +161,7 @@ asserted here.
 | Registration/submission deadlines and time zone | Confirm |
 | Project owner, team members and their consent | Confirm |
 | Organization/IP/reuse permission and visibility | Confirm |
-| Repository/package link | https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent (private; reviewer access must be arranged) |
+| Repository/package link | https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent (public agent-only repository) |
 | Approved synthetic demo video/slides link | Prepare after portal requirements are known |
 | Privacy/security/Responsible AI disclosures and required review | Confirm |
 | Final review of generated text against portal word limits | Pending |

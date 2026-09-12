@@ -1,6 +1,6 @@
 # Distribute Hackathon Facilitator to colleagues
 
-**Current state:** private GitHub repository distribution at
+**Current state:** public GitHub agent-only distribution at
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
 No colleague access grant, announcement or official hackathon submission has been performed.
 
@@ -8,12 +8,13 @@ No colleague access grant, announcement or official hackathon submission has bee
 
 | Route | Who acts | What colleagues need |
 | --- | --- | --- |
+| Public agent repository / latest release | Anyone can download | Permitted Copilot access; no repository invitation, Azure key or app dependencies needed |
 | Approved private/internal GitHub repository | Repository owner | Repository access, Copilot entitlement/policy, profile on the default branch |
 | Reviewed agent-only ZIP via an approved internal channel | Owner of the artifact and channel | ZIP, installation guide, a permitted Copilot host |
 | Organization-wide Copilot agent | Authorized organization/enterprise administrator | Profile published in the designated organization agent repository and permitted policies |
 
-Do not publish this working folder or its git history without review. Only the
-agent-only allowlist is included in the generated package. The companion app's
+Do not publish a recipient workspace or the companion app's history without
+review. Only the agent-only allowlist is included in this repository and package. The companion app's
 source is a separate release candidate requiring its own repository/history,
 dependency-feed, security and ownership review.
 
@@ -47,19 +48,24 @@ quality.
 
 **Package/repository:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
 
-This repository is private; request access from its owner before cloning.
+The repository is public; no invitation is needed.
+Download and extract the ZIP from
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest .
 
-**Install guide:** `docs\copilot-agent-installation.md`
+**Install guide:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/blob/main/docs/copilot-agent-installation.md
 
 Open the reviewed folder in VS Code and select `hackathon-facilitator`, or run
 the included installer against an existing workspace and use Copilot CLI `/agent`.
+Opening the extracted folder in VS Code requires no Node.js, Azure key or app
+dependencies; you still need GitHub Copilot access and applicable policy permission.
 
 This is an experimental planning aid, not an official Microsoft policy authority
 or production service. The optional web app uses demo authentication and mock
 scoring by default. Do not supply unapproved customer data or treat mock scores
 as validated assessments. Work IQ access and corporate approvals are not bundled.
 
-Please send sanitized feedback to [maintainer/contact to confirm], covering:
+Please send sanitized feedback through
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues , covering:
 installation, one useful output, one wrong/missing recommendation and whether the
 tool helped you identify a better next action.
 
@@ -94,11 +100,11 @@ unresolved approvals. Separate demonstrated outcomes from estimated value.
 
 ## Publication checklist
 
-- Approved owner/repository and private/internal visibility confirmed.
+- Repository owner authorized public visibility for the reviewed agent-only package.
 - Customer contacts, data, screenshots, databases and session artifacts excluded.
 - `.env`, credentials and internal/private links absent from the shareable set.
 - Package manifest and hash reviewed; clean install tested.
 - Agent profile available in the target host after installation/default-branch merge.
 - No unsupported "Microsoft approved", accuracy, cost-savings or adoption claims.
-- Colleague access and actual sends approved separately.
+- No colleague invitation is required for downloads; actual announcements are approved separately.
 - Maintainer, feedback route, update procedure and permitted distribution scope set.

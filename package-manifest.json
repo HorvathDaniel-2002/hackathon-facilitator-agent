@@ -1,8 +1,8 @@
 {
   "name": "hackathon-facilitator",
-  "version": "0.1.0",
-  "status": "private-github-distribution",
-  "publication": "Private GitHub repository distribution. Official Microsoft hackathon submission is pending.",
+  "version": "0.1.1",
+  "status": "public-github-distribution",
+  "publication": "Public GitHub agent-only distribution. Official Microsoft hackathon submission is pending.",
   "exclusions": [
     "customer data",
     "databases",
@@ -20,7 +20,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "3741fa0f61b21ba40ec65184c07530deec7e3a43d27a496266ce834d6f925bae"
+      "sha256": "f2997e9e29644aecfe8669fd73891d85c785c3a00f648d0b51f09d958be86d39"
     },
     {
       "path": "scripts/install-copilot-agent.mjs",
@@ -28,15 +28,15 @@
     },
     {
       "path": "docs/copilot-agent-installation.md",
-      "sha256": "0beb20e7923e21865e7dd7b051053f4f96305bfd7ea1bcdb65cc3322f721fc40"
+      "sha256": "949d7d87f897efbd6492422f6430d16b6a650e7ae9657bd46c5f037a8bdddcda"
     },
     {
       "path": "docs/colleague-distribution.md",
-      "sha256": "6e532627ae02fbd62a45fcd4e6d67741c5febff541f6b7dcfa49e8d8d804e97c"
+      "sha256": "81a58cec8dcfda43d3670effc9343e4624582bac5f51fb40e6bb7c16ef13658f"
     },
     {
       "path": "docs/official-hackathon-submission.md",
-      "sha256": "47738a024b62e2e4c5015c2c2d2de4123ea5cac5c37c242a138b7f40dee1d499"
+      "sha256": "1f8590eff32f2f8f893e80256ad378313703905ed2b7c7baed917e903518aaaf"
     },
     {
       "path": ".github/hackathon-facilitator/methodology/rubric.yaml",

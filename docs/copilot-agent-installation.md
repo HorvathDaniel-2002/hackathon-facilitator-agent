@@ -5,34 +5,39 @@ a VS Code extension, a Marketplace listing or a Microsoft 365 Copilot agent.
 It configures GitHub Copilot's behavior for hackathon planning and reviewed
 facilitation. The optional web app is a separate local development MVP.
 
-Private repository:
+Public repository:
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
 
-Obtain repository access from its owner before cloning. The release ZIP is an
-alternative for approved recipients. This repository is not a corporate deployment
-or an official Microsoft Marketplace listing.
+Download the agent ZIP and SHA-256 checksum from the
+[latest release](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest).
+No repository invitation or GitHub sign-in is needed to download or clone.
+Using Copilot still requires its own sign-in/access and applicable organization policy.
+This is not a corporate deployment or an official Microsoft Marketplace listing.
 
 ## Prerequisites
 
 - GitHub Copilot access and an organization policy that permits the intended
   Copilot host, selected model, custom agents and data use.
-- VS Code with GitHub Copilot enabled, or GitHub Copilot CLI.
-- Permission to access the package/repository and to use any information supplied.
-- Node 24 for the included installer or companion app. Manual profile copying
-  does not require Node or the application's dependencies.
+- A current VS Code installation with GitHub Copilot enabled, or GitHub Copilot CLI.
+- Permission to use any information supplied to the selected Copilot host/model.
+- Node.js 24 only for the optional installer. Opening the extracted folder in
+  VS Code or manually copying the profile does not require Node or app dependencies.
 
 The agent uses the model selected in Copilot. You do **not** need an Azure OpenAI
 key merely to use the custom agent in Copilot Chat.
 
 ## Option A: use it in this repository
 
-1. Obtain the reviewed source repository or extract the agent-only ZIP into a
-   folder you trust. Never use a ZIP of the author's entire working directory.
+1. Download and extract the agent ZIP from the latest release, or clone this
+   public repository. Review the files before granting workspace trust.
 2. Open that folder in VS Code.
 3. Open Copilot Chat and choose **hackathon-facilitator** from the agent picker.
    If it is missing, run **Chat: Open Customizations** and inspect Agents, or reload
    the VS Code window after confirming Copilot and workspace trust are enabled.
 4. Start with the synthetic prompt below.
+
+Open the folder that contains `README.md` and `.github`, not its parent or the
+ZIP file itself. No installer or `npm install` is needed for this option.
 
 Repository profiles live at `.github\agents\hackathon-facilitator.agent.md`.
 The agent-only ZIP includes a namespaced methodology reference pack.
@@ -50,6 +55,12 @@ From the extracted package or this source repository, run:
 
 ```powershell
 node .\scripts\install-copilot-agent.mjs --target "C:\src\my-project"
+```
+
+On macOS/Linux, from the extracted package, use your existing workspace's path:
+
+```bash
+node ./scripts/install-copilot-agent.mjs --target "$HOME/my-project"
 ```
 
 The target folder must already exist. The installer:
@@ -113,7 +124,9 @@ installation easier. Review tool permissions and keep the normal approval flow.
 There is no separate "upload this chatbot" step. A supported agent profile is
 committed to a permitted GitHub repository:
 
-1. Confirm the approved owner/repository and private/internal visibility.
+1. Choose a repository you control and whose data/visibility policy permits the
+   intended task. Public read access to this repository does not grant write
+   access or permission to run cloud-agent tasks in it.
 2. Review the allowlisted package and its contents.
 3. Add `.github\agents\hackathon-facilitator.agent.md` and the desired reference
    pack, then merge to the repository's default branch.
@@ -125,6 +138,8 @@ steps below are optional administrator actions, not changes performed by this pr
 
 Repository access and Copilot cloud-agent availability are prerequisites. A local
 file passing validation does not prove the agent appears in every host's picker.
+Use a restricted repository for real customer planning; cloud-agent commits,
+pull requests and issues in a public repository expose their contents publicly.
 
 For organization-wide distribution, an authorized organization/enterprise owner
 can place the profile in the appropriate root `agents` directory of the designated
@@ -133,17 +148,11 @@ Do not create or modify those organization-level repositories without approval.
 
 ## Optional companion web app
 
-The agent-only package is sufficient for Copilot planning. The full web app
-requires the separately reviewed source repository:
-
-```powershell
-npm ci
-Copy-Item .env.sample .env  # first setup only; never overwrite existing settings
-npm run setup             # NEW local database only
-npm run dev
-```
-
-Open <http://127.0.0.1:3000>. Keep it loopback-only.
+The agent-only package is sufficient for Copilot planning. The web app's source,
+runtime and database are **not included** in this repository or its releases.
+Do not run `npm ci`, `npm run setup` or `npm run dev` here: this is not an npm
+application and has no `package.json`. The separate local web MVP is not a hosted
+service or a publicly downloadable companion app.
 
 The local app's default AI evaluator is **mock**, whose keyword/hash scores are
 not reliable for real portfolio selection. Installing this Copilot profile does
@@ -154,6 +163,24 @@ Entra SSO, production hosting, recovery operations and corporate approvals are
 not supplied by this installer. The existing app lockfile references an approved
 package feed; dependency access must be checked in the recipient's environment.
 Do not promise outside-organization or Linux cloud-app installation until validated.
+
+## Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| Agent is missing | Open the extracted root containing `.github`, not the ZIP or its parent. Update VS Code/Copilot, check sign-in and custom-agent policy, then reload the window. Use **Chat: Open Customizations** to inspect agent discovery. |
+| `node` is not recognized | Use Option A without an installer, copy the profile manually, or install Node.js 24 before using Options B/C. |
+| Target folder does not exist | Create or select your actual workspace first. `C:\src\my-project` is an example, not a folder the installer creates. |
+| Existing file differs | Compare and back up the local customization before updating. The installer intentionally does not overwrite it. |
+| Symlink/junction rejected | Choose a normal directory whose parents do not redirect through links; do not bypass the protection. |
+| `npm` reports a missing `package.json` | Do not install application dependencies in this agent package. Open it directly in VS Code or run the standalone installer with Node. |
+| Copilot access is denied | Confirm Copilot access and your organization's host/model/custom-agent policies. Making this repository public does not grant a Copilot entitlement. |
+
+Release assets include a SHA-256 checksum. On Windows, compare the ZIP hash from
+`Get-FileHash -Algorithm SHA256` with the checksum file before extraction if
+verifying the download. Report problems with your host/OS/version and a synthetic
+reproduction in [Issues](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues).
+Never attach customer data, internal documents, credentials or raw prompt logs.
 
 ## Confirm installation
 
