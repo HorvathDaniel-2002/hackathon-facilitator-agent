@@ -31,9 +31,9 @@ evidence-aware workflow, with a GitHub Copilot facilitator and a local workspace
 
 Customer AI hackathons often start with disconnected idea lists, spreadsheets,
 technical prerequisites and unclear post-event ownership. Hackathon Facilitator
-brings these activities into a reusable workflow: charter, structured use cases,
-solution choice, readiness evidence, event planning, demo preparation and dated
-ownership handoffs.
+brings these activities into a reusable workflow: structured use cases,
+independent progress and delivery routes, readiness evidence, demo preparation
+and dated ownership handoffs.
 
 The project combines a GitHub Copilot custom-agent profile with a working local
 web MVP. It emphasizes evidence and human judgment: missing approvals do not
@@ -54,27 +54,30 @@ pilot scope, a next milestone or a permitted follow-on engagement is unclear.
 - Structured use-case capture with evidence-based review, human overrides and
   explicit distinctions between customer priority, votes and assessment scores.
 - Source-linked readiness and closure checks with owners, dates and evidence.
-- Workspace-scoped collaboration roles, version-checked edits, agendas and
+- Workspace-scoped collaboration roles, version-checked edits, Kanban and
   preserved historical artifacts.
 - Readout/handoff exports and follow-up/cleanup ownership.
 
 ## What is implemented
 
-The local application supports charter/intake, contacts and teams, evaluation
-workflow, saved guide generation, runbook checks, milestones, handoff and
-Markdown/CSV/print-ready exports. The custom agent is packaged as a supported
-`.agent.md` profile with installation and distribution instructions.
+The local application opens on a responsive blue Kanban board with selectable
+Dashboard, contacts/teams, evaluation workflow, saved guides, readiness checks,
+shared card/overview handoffs and Markdown/CSV/print-ready exports. Standalone
+Charter and Milestones were removed. In production and Submitted to CAF are
+explicit external-activity records requiring owner and evidence.
 
-The public repository distributes the Copilot agent and reference pack:
+The public repository distributes sanitized app source under `app/`, an easy
+local-demo launcher, the Copilot agent, and Word/PowerPoint/PDF materials:
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
-The companion web application's runtime/source is separate and is not included
-in this agent-only repository. Reviewers can download the agent without an invitation.
-Using it still requires permitted GitHub Copilot access.
+Reviewers can download it without an invitation. Node.js 24 is required for the
+local app; only the optional agent requires permitted GitHub Copilot access.
+Created by Daniel Horvath; contact: dahorvath@microsoft.com.
 
 Stack: Next.js, React, TypeScript, Prisma/SQLite and an optional Azure OpenAI
 provider. Tests use synthetic data and mock AI. The existing local application
-review recorded **409 unit/API tests and 53 browser tests passing**, plus
-TypeScript, lint and production packaging. These counts are software regression
+review recorded **409 unit/API tests and 53 browser tests passing** for the
+September 11 version. The current version has separate regression checks;
+that historical count is not a claim about the redesigned version. These are software regression
 evidence, not model accuracy, customer adoption or production certification.
 
 ## Differentiation
@@ -161,7 +164,7 @@ asserted here.
 | Registration/submission deadlines and time zone | Confirm |
 | Project owner, team members and their consent | Confirm |
 | Organization/IP/reuse permission and visibility | Confirm |
-| Repository/package link | https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent (public agent-only repository) |
+| Repository/package link | https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent (public app, agent and materials) |
 | Approved synthetic demo video/slides link | Prepare after portal requirements are known |
 | Privacy/security/Responsible AI disclosures and required review | Confirm |
 | Final review of generated text against portal word limits | Pending |

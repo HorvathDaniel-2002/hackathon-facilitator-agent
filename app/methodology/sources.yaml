@@ -1,0 +1,52 @@
+version: "1.0.0"
+reviewedAt: "2026-09-09"
+scope: "Verified public Microsoft guidance; not Microsoft corporate policy approval."
+sources:
+  - id: hackathons
+    title: Organize hackathons
+    url: https://learn.microsoft.com/en-us/power-platform/guidance/adoption/hackathons
+    supports: "Sponsor, judges, registration, logistics, training, test data, permissions, presentations and follow-up."
+  - id: envisioning
+    title: Envision and uncover high-value Power Platform use cases
+    url: https://learn.microsoft.com/en-us/power-platform/guidance/adoption/solution-envisioning
+    supports: "Business objectives, stakeholder participation, current/future process, pain points and prioritization."
+  - id: licensing
+    title: Copilot Studio licensing and subscriptions
+    url: https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-licensing-subscriptions
+    supports: "Trial allows authoring/test chat but not publishing; verify current entitlements, capacity and self-service restrictions."
+  - id: environments
+    title: Work with Power Platform environments
+    url: https://learn.microsoft.com/en-us/microsoft-copilot-studio/environments-first-run-experience
+    supports: "Environment access, region and Dataverse setup; non-default production environment for production agents."
+  - id: dlp
+    title: Configure data policies for agents
+    url: https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-data-loss-prevention
+    supports: "Data group compatibility, authentication, knowledge/HTTP/channel policies; no agent enforcement exemption."
+  - id: publishing
+    title: Connect and configure an agent for Teams and Microsoft 365 Copilot
+    url: https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams
+    supports: "Publish first, share permissions, Teams app policies and organization-wide admin approval."
+  - id: knowledge
+    title: Knowledge sources summary
+    url: https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio
+    supports: "Knowledge-specific authentication, source limits and user access trimming; test as intended end user."
+  - id: technology
+    title: Technology plan for AI agents
+    url: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/technology-solutions-plan-strategy
+    supports: "Consider no-agent/code and prebuilt SaaS before custom Copilot Studio, Microsoft Foundry or infrastructure."
+  - id: responsible-ai
+    title: Responsible AI policies
+    url: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai/responsible-ai-policies
+    supports: "Corporate governance alignment, impact assessments, human oversight, risk-based approvals, incident response."
+  - id: value
+    title: Measure and communicate business value
+    url: https://learn.microsoft.com/en-us/power-platform/guidance/adoption/business-value
+    supports: "Baseline versus actual time/cost/error/productivity measures and tangible versus intangible value."
+  - id: operations
+    title: Manage AI agents across your organization
+    url: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/integrate-manage-operate
+    supports: "Phased expansion, measured value, change management, lifecycle ownership, monitoring and retirement."
+  - id: accelerate
+    title: Frontier Accelerate for Azure
+    url: https://azure.microsoft.com/en-us/solutions/frontier-accelerate
+    supports: "Planning/assessment or proof of value before implementation; program eligibility is not a score."

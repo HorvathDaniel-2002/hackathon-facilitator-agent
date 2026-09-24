@@ -1,0 +1,274 @@
+// Hackathon Facilitator — data model
+//
+// SQLite is the supported local database. PostgreSQL requires its own generated
+// client, provider-specific migrations and integration tests, not just an adapter swap.
+//   - no native `enum`      -> String constrained by a Zod union in lib/schemas
+//   - no scalar lists       -> String holding JSON, read via parseJsonField()
+//   - no `Json` scalar      -> same
+//   - no @db.* native types
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id          String       @id @default(cuid())
+  entraOid    String?      @unique
+  email       String       @unique
+  name        String
+  globalRole  String       @default("User") // User | Admin
+  createdAt   DateTime     @default(now())
+  memberships Membership[]
+}
+
+model Membership {
+  id          String   @id @default(cuid())
+  userId      String
+  hackathonId String
+  role        String // Owner | Contributor | Viewer
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, hackathonId])
+  @@index([hackathonId])
+}
+
+model Hackathon {
+  id               String    @id @default(cuid())
+  name             String
+  customer         String
+  status           String    @default("Planning") // Planning | Ready | Running | Closed | Archived
+  version          Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  memberships Membership[]
+  useCases    UseCase[]
+  contacts    Contact[]
+  runbookChecks RunbookCheck[]
+
+  @@index([status])
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  hackathonId String
+  name        String
+  email       String?
+  org         String?
+  roleType    String // Sponsor | BusinessOwner | IT | Security | Data | Mentor | Partner
+  influence   String   @default("Medium") // High | Medium | Low
+  notes       String?
+  version     Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  hackathon   Hackathon    @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  teamMembers TeamMember[]
+
+  @@index([hackathonId])
+}
+
+model UseCase {
+  id                 String   @id @default(cuid())
+  hackathonId        String
+  code               String // UC-01
+  title              String
+  description        String?
+  businessOwner      String?
+  targetUser         String?
+  currentProcess     String?
+  painPoints         String?
+  desiredOutcome     String?
+  dataSources        String?
+  sampleDataApproved Boolean @default(false)
+  processOwnerConfirmed Boolean @default(false)
+  systemsConnectors  String?
+  agentOutput        String?
+  humanApprovalPoint String?
+  successMetric      String?
+  constraints        String?
+  reusePotential     String?
+  smallestSlice      String?
+  productionVision   String?
+  manualImpact       String? // High | Medium | Low
+  status             String   @default("Draft") // Draft | Qualified | Selected | Building | Demoed | Closed | Parked
+  version            Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  hackathon   Hackathon    @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  evaluations Evaluation[]
+  buildGuides BuildGuide[]
+  handoff     Handoff?
+  teamMembers TeamMember[]
+
+  @@unique([hackathonId, code])
+  @@index([hackathonId])
+}
+
+// Append-only (plan R-2). Human edits never mutate a row; they create an
+// EvaluationOverride that is merged on read.
+model Evaluation {
+  id        String @id @default(cuid())
+  useCaseId String
+  version   Int    @default(1)
+
+  valueScore         Float
+  feasibilityScore   Float
+  dataReadinessScore Float
+  reusabilityScore   Float
+  weightedScore      Float // recomputed in code, never taken from the model
+  priorityBand       String // High | Medium | Low
+
+  csFitBand           String // Strong | Moderate | Weak
+  recommendedPlatform String // CopilotStudio | AzureAI | Hybrid
+  confidence          Float
+
+  routingSignals String // JSON string[]
+  gateResults    String // JSON GateResult[]
+  rationale      String
+
+  source             String   @default("ai") // ai | manual
+  model              String?
+  promptVersion      String?
+  methodologyVersion String?
+  rubricSnapshot     String?
+  useCaseVersion     Int?
+  useCaseSnapshot    String?
+  generatedAt        DateTime @default(now())
+
+  useCase  UseCase             @relation(fields: [useCaseId], references: [id], onDelete: Cascade)
+  override EvaluationOverride?
+
+  @@index([useCaseId])
+  @@unique([useCaseId, version])
+}
+
+model EvaluationOverride {
+  id               String @id @default(cuid())
+  evaluationId     String @unique
+  version          Int    @default(0)
+  overriddenFields String // JSON string[] — drives the "human-edited" badge
+
+  valueScore          Float?
+  feasibilityScore    Float?
+  dataReadinessScore  Float?
+  reusabilityScore    Float?
+  csFitBand           String?
+  recommendedPlatform String?
+  rationale           String?
+
+  reason       String?
+  overriddenBy String
+  overriddenAt DateTime @default(now())
+
+  evaluation Evaluation @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+}
+
+model BuildGuide {
+  id                 String   @id @default(cuid())
+  useCaseId          String
+  version            Int      @default(1)
+  platform           String // CopilotStudio | AzureAI | Hybrid
+  mvpGuideMd         String   @default("")
+  productionPlanMd   String   @default("")
+  status             String   @default("complete") // streaming | complete | failed
+  model              String?
+  promptVersion      String?
+  methodologyVersion String?
+  useCaseVersion     Int?
+  evaluationId       String?
+  inputSnapshot      String?
+  errorMessage       String?
+  generatedAt        DateTime @default(now())
+
+  useCase UseCase @relation(fields: [useCaseId], references: [id], onDelete: Cascade)
+
+  @@index([useCaseId])
+  @@unique([useCaseId, version])
+}
+
+model RunbookCheck {
+  id          String   @id @default(cuid())
+  hackathonId String
+  templateId  String
+  templateVersion String @default("")
+  status      String   @default("NotStarted")
+  owner       String   @default("")
+  dueDate     DateTime?
+  evidence    String   @default("")
+  version     Int      @default(0)
+  updatedBy   String
+  updatedAt   DateTime @updatedAt
+  hackathon   Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+
+  @@unique([hackathonId, templateId])
+}
+
+model Handoff {
+  id                  String    @id @default(cuid())
+  useCaseId           String    @unique
+  whatWasBuilt        String?
+  demoOrBlocker       String?
+  outcomeDemonstrated String?
+  businessOwner       String?
+  technicalOwner      String?
+  deliveryOwner       String?
+  portfolioDecision   String? // Stop | CustomerLed | PartnerLed | MicrosoftMotion
+  nextEngagement      String?
+  nextMilestone       String?
+  nextMilestoneDate   DateTime?
+  rolloutScope        String?
+  gaps                String?
+  progressStage       String    @default("Intake")
+  deliveryRoute       String    @default("Unassigned")
+  cafStatus           String    @default("NotSubmitted")
+  cafReference        String?
+  cafSubmittedOn      DateTime?
+  productionReference String?
+  workflowUpdatedBy   String?
+  workflowUpdatedAt   DateTime?
+  version             Int       @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  useCase UseCase @relation(fields: [useCaseId], references: [id], onDelete: Cascade)
+}
+
+model TeamMember {
+  id             String  @id @default(cuid())
+  useCaseId      String
+  contactId      String
+  party          String // Microsoft | Partner | Customer
+  responsibility String?
+
+  useCase UseCase @relation(fields: [useCaseId], references: [id], onDelete: Cascade)
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@unique([useCaseId, contactId])
+}
+
+// Plan R-6: cost/abuse control + adoption metrics in one table.
+model AiUsage {
+  id               String   @id @default(cuid())
+  userId           String
+  hackathonId      String?
+  useCaseId        String?
+  operation        String // evaluate | build-guide
+  model            String
+  promptTokens     Int      @default(0)
+  completionTokens Int      @default(0)
+  latencyMs        Int      @default(0)
+  status           String // ok | error | rate_limited
+  errorMessage     String?
+  createdAt        DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

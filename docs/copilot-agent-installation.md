@@ -4,10 +4,10 @@
 PDFs](../materials/README.md) manually. They need no Copilot subscription or
 developer tools. The rest of this guide is only for the optional agent.
 
-This package is a **custom agent profile**, not a hosted service, a trained model,
+This guide covers the **custom agent profile**, not a hosted service, a trained model,
 a VS Code extension, a Marketplace listing or a Microsoft 365 Copilot agent.
 It configures GitHub Copilot's behavior for hackathon planning and reviewed
-facilitation. The optional web app is a separate local development MVP.
+facilitation. The web app is now included under `app/` as a local development MVP.
 
 Public repository:
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
@@ -152,11 +152,12 @@ Do not create or modify those organization-level repositories without approval.
 
 ## Optional companion web app
 
-The agent-only package is sufficient for Copilot planning. The web app's source,
-runtime and database are **not included** in this repository or its releases.
-Do not run `npm ci`, `npm run setup` or `npm run dev` here: this is not an npm
-application and has no `package.json`. The separate local web MVP is not a hosted
-service or a publicly downloadable companion app.
+The agent is sufficient for Copilot planning. The full web app source is now
+included in `app/`; databases and customer information are not. To try it, install
+Node.js 24 and run `Start-Hackathon.cmd` from the repository root on Windows,
+or `node app/scripts/start-demo.mjs` from the root on any supported platform.
+The launcher creates its own fictional workspace. The app needs no Copilot access
+or Azure key in demo mode. See [app setup](../app/docs/local-demo-setup.md).
 
 The local app's default AI evaluator is **mock**, whose keyword/hash scores are
 not reliable for real portfolio selection. Installing this Copilot profile does
@@ -164,9 +165,9 @@ not replace that evaluator or configure Azure OpenAI. Real app evaluations need
 an approved endpoint, deployment, credentials and quality review.
 
 Entra SSO, production hosting, recovery operations and corporate approvals are
-not supplied by this installer. The existing app lockfile references an approved
-package feed; dependency access must be checked in the recipient's environment.
-Do not promise outside-organization or Linux cloud-app installation until validated.
+not supplied by either installer. The distributed app lockfile uses public npm
+tarball URLs. Package downloads/native SQLite support still depend on the
+recipient's OS, Node version, network and policy.
 
 ## Troubleshooting
 
@@ -177,7 +178,7 @@ Do not promise outside-organization or Linux cloud-app installation until valida
 | Target folder does not exist | Create or select your actual workspace first. `C:\src\my-project` is an example, not a folder the installer creates. |
 | Existing file differs | Compare and back up the local customization before updating. The installer intentionally does not overwrite it. |
 | Symlink/junction rejected | Choose a normal directory whose parents do not redirect through links; do not bypass the protection. |
-| `npm` reports a missing `package.json` | Do not install application dependencies in this agent package. Open it directly in VS Code or run the standalone installer with Node. |
+| `npm` reports a missing `package.json` | The repository root contains the agent. The web app is in `app/`; use the root launcher, or run `npm run demo` inside `app/`. |
 | Copilot access is denied | Confirm Copilot access and your organization's host/model/custom-agent policies. Making this repository public does not grant a Copilot entitlement. |
 
 Release assets include a SHA-256 checksum. On Windows, compare the ZIP hash from

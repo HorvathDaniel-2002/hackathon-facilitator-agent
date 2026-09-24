@@ -1,99 +1,879 @@
 {
   "name": "hackathon-facilitator",
-  "version": "0.1.2",
-  "status": "public-github-distribution",
-  "publication": "Public GitHub agent and no-install facilitation materials. Companion web app excluded. Official Microsoft hackathon submission is pending.",
+  "version": "0.2.0",
+  "status": "public-toolkit",
+  "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
+  "creator": {
+    "name": "Daniel Horvath",
+    "email": "dahorvath@microsoft.com"
+  },
+  "publication": "Full local web app, optional Copilot agent and no-install materials. Official hackathon submission remains pending.",
   "exclusions": [
-    "customer data",
+    "customer records",
     "databases",
-    "credentials",
-    "session artifacts",
-    "screenshots",
-    "git history",
+    "secrets",
+    "internal documents",
+    "private screenshots",
+    "original local git history",
     "node_modules",
-    "app runtime"
+    "generated app runtime"
   ],
   "files": [
     {
+      "path": ".gitattributes",
+      "sha256": "6585fbb017cb8f069f05b595643bbded141f3f0dc395a4601a7acd7aab71c828"
+    },
+    {
       "path": ".github/agents/hackathon-facilitator.agent.md",
-      "sha256": "0770dffb8d5922ded10173fe0401588001fa983d37500b77f98ee03aced47cfe"
-    },
-    {
-      "path": "README.md",
-      "sha256": "d8ab5fe8729f2cd4c96c458b18c1be1cb57ade949fb2c8ac234802e979e1c7a4"
-    },
-    {
-      "path": "scripts/install-copilot-agent.mjs",
-      "sha256": "86e59a9274473f170c56da3e054e470ab89bc186833786fa8e8b15fa0dc4ba65"
-    },
-    {
-      "path": "docs/copilot-agent-installation.md",
-      "sha256": "9e783c035255d2d5038e7aba99079821d4baa2ad9472f3db82d4ec99d765d134"
-    },
-    {
-      "path": "docs/colleague-distribution.md",
-      "sha256": "b8201b0abdf53cf52ec26bfdd435250cd063d233693ece88997890db31cfeb15"
-    },
-    {
-      "path": "docs/official-hackathon-submission.md",
-      "sha256": "1f8590eff32f2f8f893e80256ad378313703905ed2b7c7baed917e903518aaaf"
-    },
-    {
-      "path": ".github/hackathon-facilitator/methodology/rubric.yaml",
-      "sha256": "00f674965fb1c4b2e6e64df7b27e094b6134539600b443d3990c4967961cc1b0"
-    },
-    {
-      "path": ".github/hackathon-facilitator/methodology/gates.yaml",
-      "sha256": "f684589068f280f60afd11e2bd1d306552178e7baebf0e394afd565eaee1a162"
-    },
-    {
-      "path": ".github/hackathon-facilitator/methodology/routing.yaml",
-      "sha256": "5759b401c5e5e2830d9dbf375eaa4e4318e4ee8de2244ecfbeab854a69d78c66"
+      "sha256": "72db607671bf3369ad0e8157f3cc17c10a213aac837603a53f2cb795490d824c"
     },
     {
       "path": ".github/hackathon-facilitator/methodology/agendas.yaml",
       "sha256": "5fea2e1b8b10240064ca2f73b59f1c7a24a599a78d9592a44b3b2daeeab8dc2e"
     },
     {
+      "path": ".github/hackathon-facilitator/methodology/gates.yaml",
+      "sha256": "f684589068f280f60afd11e2bd1d306552178e7baebf0e394afd565eaee1a162"
+    },
+    {
       "path": ".github/hackathon-facilitator/methodology/handoff.yaml",
       "sha256": "661791d0d0d35a0664e045a79c94d94611e58f098c4fe7af37f7fa9739c98300"
     },
     {
+      "path": ".github/hackathon-facilitator/methodology/routing.yaml",
+      "sha256": "5759b401c5e5e2830d9dbf375eaa4e4318e4ee8de2244ecfbeab854a69d78c66"
+    },
+    {
+      "path": ".github/hackathon-facilitator/methodology/rubric.yaml",
+      "sha256": "00f674965fb1c4b2e6e64df7b27e094b6134539600b443d3990c4967961cc1b0"
+    },
+    {
       "path": ".github/hackathon-facilitator/methodology/runbook.yaml",
-      "sha256": "dab388d5099e97fad26246e1e731e678d53498552ba2aa1e26faf71bf0bbd299"
+      "sha256": "9923cc4ab5fe65f6d2b9c4cba200de7a739cb0a88ae4a28ac6e94f784bc49262"
     },
     {
       "path": ".github/hackathon-facilitator/methodology/sources.yaml",
       "sha256": "04a6e68532c8039faf35ab9979d7d69d4e1e5fe18c6747f6109609d5b1266ad1"
     },
     {
-      "path": ".gitattributes",
-      "sha256": "d28adce39fb1af1efc19a3ab3ca20172fd99766ceb36233d1ddb0b9e22cd5c67"
+      "path": ".github/workflows/verify-app.yml",
+      "sha256": "4deadf762d7f04054792a60678ffc23f64dcceb7a40eae6e14039909ee53e1b6"
     },
     {
       "path": ".gitignore",
-      "sha256": "2971401db178c56b9d1f4ad60a636b7586cafba4bbbe8a4c05d7a82d08367cc4"
+      "sha256": "bf05a25981862fd62eaa8884616d35a0de5343d1f0a1453b7bc238bec00a2de7"
     },
     {
-      "path": "materials/README.md",
-      "sha256": "3f1eaa36f923b5b62a7e489677f5c4757a715e655a043636cf6ac53eabc3b59c"
+      "path": "README.md",
+      "sha256": "563d2a1a843cdebe76b32f2956e6eb3a36a36760274217d8486d7ca496d561d4"
+    },
+    {
+      "path": "Start-Hackathon.cmd",
+      "sha256": "c6af5598293d248cbea8c4034af661c58a26937999f819c397e735699a8ea3e7"
+    },
+    {
+      "path": "app/.env.sample",
+      "sha256": "79eb75b6945746ce3e66404e59a28de721e88b03cca05e79c416728bc9b0b2cf"
+    },
+    {
+      "path": "app/.github/agents/hackathon-facilitator.agent.md",
+      "sha256": "72db607671bf3369ad0e8157f3cc17c10a213aac837603a53f2cb795490d824c"
+    },
+    {
+      "path": "app/.github/workflows/copilot-setup-steps.yml",
+      "sha256": "924bdd9ab58d3fe1d923b4b3d629e4777013da9c0867377346c4fa02f372cc48"
+    },
+    {
+      "path": "app/.gitignore",
+      "sha256": "30c6bce005a0f88dd9f0986b14bdce4d167ddf8ba9fdafc1c06ecfc354244567"
+    },
+    {
+      "path": "app/AGENTS.md",
+      "sha256": "63f2c50380ed6303237cce215ce27af1d620d094c215e28d1b1538a3c070e3bb"
+    },
+    {
+      "path": "app/README.md",
+      "sha256": "4a90e0fb5f51179d28b2ee783c7b3ac9b0804f9b880018fac7c22473bd848665"
+    },
+    {
+      "path": "app/Start-Hackathon.cmd",
+      "sha256": "b3ad63f91cfc6efa517138dcf9910e340754d625e4b78140b8878d390d6e32e7"
+    },
+    {
+      "path": "app/distribution/README.md",
+      "sha256": "d4b096e2b7194539eab91ee5c557ce4672d49441302ed913a8ab0b7f06661216"
+    },
+    {
+      "path": "app/distribution/app-README.md",
+      "sha256": "3203306dc2996c7ec7f496ac616a097684d2ccd7e3cfc734c75384b6919ac95b"
+    },
+    {
+      "path": "app/docs/colleague-distribution.md",
+      "sha256": "a16a2e980cef9f1b8edad57c5905aa73696d98c3476e8eaf28cd1625d4e5bc08"
+    },
+    {
+      "path": "app/docs/copilot-agent-installation.md",
+      "sha256": "30e99b193ba1185f18acc594c932bc7883d86cdd5b81515eb2c68056658112ed"
+    },
+    {
+      "path": "app/docs/kanban-workflow.md",
+      "sha256": "592e9ca6e70b6553f4338c312301a702a14a3b69ba60e6dd3e29e52de50fd843"
+    },
+    {
+      "path": "app/docs/local-demo-setup.md",
+      "sha256": "91d35eac5915d2ace1473483362ecd1d5ecfa23906d00cf982e09361f0429066"
+    },
+    {
+      "path": "app/docs/microsoft-grounding.md",
+      "sha256": "410d9d3a3a229b8964eb91da76ef0d8b6831345334d4675678e08e893024b09f"
+    },
+    {
+      "path": "app/docs/official-hackathon-submission.md",
+      "sha256": "f92357846ff25e6a504d3adfc25c1e7013fdd33fdbaa52e91955b8cd76a47008"
+    },
+    {
+      "path": "app/eslint.config.mjs",
+      "sha256": "ac5de67a7be50f96e0149f02ff84ac0d29e818fc5ef37cbdadaa6b97fb0ca47f"
+    },
+    {
+      "path": "app/methodology/agendas.yaml",
+      "sha256": "5fea2e1b8b10240064ca2f73b59f1c7a24a599a78d9592a44b3b2daeeab8dc2e"
+    },
+    {
+      "path": "app/methodology/gates.yaml",
+      "sha256": "f684589068f280f60afd11e2bd1d306552178e7baebf0e394afd565eaee1a162"
+    },
+    {
+      "path": "app/methodology/handoff.yaml",
+      "sha256": "661791d0d0d35a0664e045a79c94d94611e58f098c4fe7af37f7fa9739c98300"
+    },
+    {
+      "path": "app/methodology/routing.yaml",
+      "sha256": "5759b401c5e5e2830d9dbf375eaa4e4318e4ee8de2244ecfbeab854a69d78c66"
+    },
+    {
+      "path": "app/methodology/rubric.yaml",
+      "sha256": "00f674965fb1c4b2e6e64df7b27e094b6134539600b443d3990c4967961cc1b0"
+    },
+    {
+      "path": "app/methodology/runbook.yaml",
+      "sha256": "9923cc4ab5fe65f6d2b9c4cba200de7a739cb0a88ae4a28ac6e94f784bc49262"
+    },
+    {
+      "path": "app/methodology/sources.yaml",
+      "sha256": "04a6e68532c8039faf35ab9979d7d69d4e1e5fe18c6747f6109609d5b1266ad1"
+    },
+    {
+      "path": "app/next.config.ts",
+      "sha256": "275203c564c49bd02805ff229724195b5e7200bd5ce89ec1a3e4bf4af487cfe2"
+    },
+    {
+      "path": "app/package-lock.json",
+      "sha256": "d7b24220a44a65ca0eceacad1f9e6acd57795586db4a8deaad5c8036c13f0538"
+    },
+    {
+      "path": "app/package.json",
+      "sha256": "31d1280990903caf5629f0b8738b9f16acc56315fd9d406cf5c4ef3446a233e6"
+    },
+    {
+      "path": "app/playwright.config.ts",
+      "sha256": "5e63e979d0e5a4f023c9008ee55c1497521a8c3074652f3446390c6ddda7cbaa"
+    },
+    {
+      "path": "app/postcss.config.mjs",
+      "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde"
+    },
+    {
+      "path": "app/prisma.config.ts",
+      "sha256": "0707e926d651630f3d632ea96805aa3e3783708e98ed928ae09011bf4a25d392"
+    },
+    {
+      "path": "app/prisma/schema.prisma",
+      "sha256": "5c768a3eea311574361d6f6301248ae1db668c459d03fb1a8ff7a973d7460986"
+    },
+    {
+      "path": "app/prisma/seed.ts",
+      "sha256": "a51b7b96149259f2fd1477dcadea4758f8b9825935f479ff67e7f57175a8eb5a"
+    },
+    {
+      "path": "app/prompts/evaluator.md",
+      "sha256": "9a2f4ae1444c2b4aad69c195ca9b2392492cea0f462bfe8b58e06f57bdf0306c"
+    },
+    {
+      "path": "app/prompts/guide-azure-ai.md",
+      "sha256": "af4c4cf317f8b0f3ef71c15d7d4b6b43b1d80bba0f46799a23e191860f28a4a4"
+    },
+    {
+      "path": "app/prompts/guide-copilot-studio.md",
+      "sha256": "ce2e258927db90d14bd081fcb850534cc00283a4e74198fade82fd1821eb03af"
+    },
+    {
+      "path": "app/prompts/guide-hybrid-addendum.md",
+      "sha256": "b696c5734fd0afaacf56c0356b1523d2aa24ca572de78bd50e35509dcc78a014"
+    },
+    {
+      "path": "app/scripts/ai-lifecycle-check.mts",
+      "sha256": "e3ef5d3b934f720fda6e7744b294aed23119a836b78f27522f137d170532bed8"
+    },
+    {
+      "path": "app/scripts/install-copilot-agent.mjs",
+      "sha256": "86e59a9274473f170c56da3e054e470ab89bc186833786fa8e8b15fa0dc4ba65"
+    },
+    {
+      "path": "app/scripts/migrate-kanban.mjs",
+      "sha256": "560454ed2e48f1811f004acc1e9d3da7a44f94751b0dfc1a33d8bff84fbcff48"
+    },
+    {
+      "path": "app/scripts/package-copilot-agent.mjs",
+      "sha256": "4cb22b7476cf14eb27f32740be9a25df8d1e361f4c8c957c2d9bab8159a16cc9"
+    },
+    {
+      "path": "app/scripts/package-public-app.mjs",
+      "sha256": "a2f5678cf41861abf422ebec804b040dd823f25e9334340ebb7e800e39b74fc3"
+    },
+    {
+      "path": "app/scripts/smoke.mjs",
+      "sha256": "a429cca81d178c8f331a535151e14defb24e363d51649da4d868f3fcacd8325e"
+    },
+    {
+      "path": "app/scripts/start-demo.mjs",
+      "sha256": "d75fca4ef5296175de6ff5184590ee139733df6c08c7083630204e0eb8a1eddf"
+    },
+    {
+      "path": "app/src/app/(app)/board/page.tsx",
+      "sha256": "24a9f2971ace5e6f9e353f9524f638e192573c012c9892562b95652661f77acf"
+    },
+    {
+      "path": "app/src/app/(app)/dashboard/page.tsx",
+      "sha256": "0e8fdbdd8f6da38b74bfc08aaa85468f2734514495d8be256a81ce4a44e5d66f"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/contacts/contacts-board.tsx",
+      "sha256": "638eb5293036f75dfcc2a39255eac649411121b5eb87271c2014e28c96f4efe2"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/contacts/page.tsx",
+      "sha256": "730128d62607c15b74fbeb11c2e0316de2f492955de0fe8861b1e9a7411d4e3e"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/exports/page.tsx",
+      "sha256": "dbda00111a30f1586b1b75c54e0ba9c97cb7051d354f951813cf13716e9636da"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/handoff/handoff-board.tsx",
+      "sha256": "26b52bbe0e39b84571e7756f36694a059878590a94df43deb237fb2beeb8ff23"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/handoff/page.tsx",
+      "sha256": "1c89468f1cc7df8053e4fe45e5ee3b17e2e29cc840af21ecbb9fee273d2dfd9a"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/members-panel.tsx",
+      "sha256": "6d6c6510d9fba5e5d6ea17242b378ec02e63080515e372bef5d983b3ecdefec4"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/milestones/page.tsx",
+      "sha256": "4e8e1d876255ff2c3387b38ecd24cbcb923e51ff5aba4d0c9cd79eb0085fd819"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/page.tsx",
+      "sha256": "3474c9e88b82f3ed3437b517da40d03a23ddad753f6716c5960ba80d176b7b79"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/runbook/page.tsx",
+      "sha256": "d1d28087c7abbe0e67de82606ac8f70bf3a2cf02790d25041cd1e5883191b02d"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/runbook/runbook-board.tsx",
+      "sha256": "d653b0d5bab4dea0044b9941a364d58dfa4331dd5b98df7edf49436c8132b07d"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/settings/page.tsx",
+      "sha256": "2716c6d4f538b8a9c841d8b6cb44bfcbd34623c8ce8637eea0d2b693cba65cd6"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/settings/workspace-editor.tsx",
+      "sha256": "402e869512cc63638be41aa025ea7afbb5843b8ca6b063ea593d5cc8fef09134"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/usecases/[ucId]/edit/page.tsx",
+      "sha256": "a8105f5fcaad596d16a8879e1b7a3c60af715733c25c208f52ac6b470cdf6879"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/usecases/[ucId]/page.tsx",
+      "sha256": "3e6a35d7db649179cdf981c43bb3894c142bc6a450128674391c40e23f084b95"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/usecases/new/page.tsx",
+      "sha256": "131f100ab15eaba6afa8e955723db1ab9fe0639fdb80d842d392b7d49e1d999e"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/[id]/usecases/page.tsx",
+      "sha256": "3b5b96c9be8d19999e25d398b124c9371d0f207f0607adc30e3db5b968723198"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/new/new-hackathon-form.tsx",
+      "sha256": "1a9bd841359a2c072f62113420465a61903c1f2341ec6268627e797c87649a8c"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/new/page.tsx",
+      "sha256": "dd82963513c78e0ed2f5e1613430c885441000e2c00b4fcb90615974f045b163"
+    },
+    {
+      "path": "app/src/app/(app)/hackathons/page.tsx",
+      "sha256": "acc3dfd7964c0b356cf99564c921c4de412e9f491d23c2624485a56331c44ba9"
+    },
+    {
+      "path": "app/src/app/(app)/layout.tsx",
+      "sha256": "ed7ff7b781dac2165ddc1af9723b768e9856cfe81ca137af2b13f838268f0ea8"
+    },
+    {
+      "path": "app/src/app/api/build-guide/route.ts",
+      "sha256": "cd4d5f9bfe129b13bad1902bc5511dc719ebe415cdbdf4ca23ec6c4371eee5fa"
+    },
+    {
+      "path": "app/src/app/api/dev-session/reset/route.ts",
+      "sha256": "881305f0711560c5d0ea05b147d509763ef1d7123bceeb17ba85bde89e005ca3"
+    },
+    {
+      "path": "app/src/app/api/export/route.ts",
+      "sha256": "e5a0681625be27bf1dffa232e6a614193f61ec84d649f414bb60a116f104f7df"
+    },
+    {
+      "path": "app/src/app/error.tsx",
+      "sha256": "d96e0cce86db78523990d380457845bb139cb2424c9e379e4b08404f513e5215"
+    },
+    {
+      "path": "app/src/app/global-error.tsx",
+      "sha256": "827246b943975080e66e34a61ca4880b437818bed78beafb64d6827031e6cb8e"
+    },
+    {
+      "path": "app/src/app/globals.css",
+      "sha256": "288f661e365caf12eb7a19ace75e831ada5e3323ff927ad3c457c6cc91260e99"
+    },
+    {
+      "path": "app/src/app/icon.svg",
+      "sha256": "b32b249d44f6c4c7d10f8181556eb89993e52b731c9752567396cb894ba14fd4"
+    },
+    {
+      "path": "app/src/app/layout.tsx",
+      "sha256": "84c0e2a538a4c1eed7b0fcd5e13cc0fa8b40ab127c830242bb2cf544f64b6996"
+    },
+    {
+      "path": "app/src/app/page.tsx",
+      "sha256": "6f9d8b43b573d68f64ab0fbe2199e764f094e3ed28949cf3e0fe1c33abe4f6cd"
+    },
+    {
+      "path": "app/src/components/action-feedback.tsx",
+      "sha256": "18b52ca92a71bdbb93f6894b63546363d7057d5a2af688b90113eec5ce8cdbef"
+    },
+    {
+      "path": "app/src/components/build-guide-panel.tsx",
+      "sha256": "071949870fdddec5e0308f7e9883e8f3e912cf7702db94af529bcf7bb5f9b198"
+    },
+    {
+      "path": "app/src/components/charts/bar-chart.tsx",
+      "sha256": "4210e5ddd7321066451324d330d488cebad2bbbce3648d5a8c122fbe76bb1ba1"
+    },
+    {
+      "path": "app/src/components/charts/bubble-matrix.tsx",
+      "sha256": "bf335a4114553b4719aa97cdc922a48faa5821fe36fd28c7c3fc0e80d0a633b2"
+    },
+    {
+      "path": "app/src/components/dev-session-recovery.tsx",
+      "sha256": "dbc6606b7a31dd79e50ca331688a664c8e68454b4d3e5f4d367fe32f4d7d908b"
+    },
+    {
+      "path": "app/src/components/evaluator-panel.tsx",
+      "sha256": "f8c0cc9200c468ea7ba5c420f2c14918739432af5ebb12ca413b4458a4f16f3c"
+    },
+    {
+      "path": "app/src/components/handoff-drawer.tsx",
+      "sha256": "9b37eb20f967ad9b75d1aa36cb7f7fe89739879051b510a9672e2ab9153326d0"
+    },
+    {
+      "path": "app/src/components/handoff-form.tsx",
+      "sha256": "dad4cbb95a870d9229ddce4216b912700521d98ec2015154b66b0712a39ad1e8"
+    },
+    {
+      "path": "app/src/components/kanban-board.tsx",
+      "sha256": "2faaab8502ba42f5d268f2ea14c55e2ea769576a910e12bf9930283ad8984ddc"
+    },
+    {
+      "path": "app/src/components/layout/app-shell.tsx",
+      "sha256": "4ef122a0aa994b0f502dbcde767636ac70f7bca2cb604cbf7b097ec4db2f3231"
+    },
+    {
+      "path": "app/src/components/layout/sidebar.tsx",
+      "sha256": "f70bb2917f583e0e4a46d2a67cf1e26bfe2a7264da635c1839aa90b4e602d358"
+    },
+    {
+      "path": "app/src/components/layout/topbar.tsx",
+      "sha256": "0488d6afa166ca89daabfea43d2569fc40ba743c91f9e3a27e318f0ce0110b3b"
+    },
+    {
+      "path": "app/src/components/layout/workspace-selection.ts",
+      "sha256": "19e9fa1478214166db18d3200bdaa7688fd9918de87379989bd7d889f903ab89"
+    },
+    {
+      "path": "app/src/components/native-dialog.tsx",
+      "sha256": "6b2d7cd820de30b599b02d923a1f9a1061f6630c8f355cf9826160fe420bda99"
+    },
+    {
+      "path": "app/src/components/recovery-panel.tsx",
+      "sha256": "cf81056be55cdb1cad18710a9a822537c1305452c4b628a33dc3e1c5e97b1312"
+    },
+    {
+      "path": "app/src/components/ui/avatar.tsx",
+      "sha256": "acd40de2f1527ed013914c1be47242e43bd4f03517014d84c789bc81bd2f1aa4"
+    },
+    {
+      "path": "app/src/components/ui/badge.tsx",
+      "sha256": "16e9f29aa2ac951190ef0ad6992fd9062755e8ba2decd27c52a687ba7efe717e"
+    },
+    {
+      "path": "app/src/components/ui/button.tsx",
+      "sha256": "7e0ef62825eb06db082051cb98166ee1fb4bdf123a535a91f849e98305ab6f9c"
+    },
+    {
+      "path": "app/src/components/ui/card.tsx",
+      "sha256": "90e4d4e4c2654f7153b0b28f0605884a0caee11246d2b3c11e9ed90119639ada"
+    },
+    {
+      "path": "app/src/components/ui/empty-state.tsx",
+      "sha256": "99e570991455c6824a7322817da7d6d1b0c49d1421170757df13ba40396cac20"
+    },
+    {
+      "path": "app/src/components/ui/field.tsx",
+      "sha256": "9f1fbc98be6cbe47e33958fae99bb8223e7a1568d0b79ac56cbd6b714f0190e2"
+    },
+    {
+      "path": "app/src/components/ui/stat.tsx",
+      "sha256": "f97ac8bc5c37b03992cc567fcda9e3bdadc21452227bbdeb806627da7a76b30f"
+    },
+    {
+      "path": "app/src/components/use-action-transition.ts",
+      "sha256": "bb0c333156774f4c5d2703750ec605ffa88a07a3aa16e7cb77d5fdd181bef80a"
+    },
+    {
+      "path": "app/src/components/usecase-actions.tsx",
+      "sha256": "5af6fd79ca65d5e3ea14fa3b58d78613376d9de34cb8d7ea7864993567964c08"
+    },
+    {
+      "path": "app/src/components/usecase-canvas-form.tsx",
+      "sha256": "56bdb9b6cb2d3a7d7e8de0d6d4b26735a7ec4cec42e0df6e9b06aa7a5fb73592"
+    },
+    {
+      "path": "app/src/components/usecase-confirmations.tsx",
+      "sha256": "5fc53a3bf9ce122eea3d4c12e9e5fea69573cc79f2058f354e7cd3289ee62ec1"
+    },
+    {
+      "path": "app/src/components/usecase-team-panel.tsx",
+      "sha256": "7369f3ce889b60644ab16f31a68b580447110769c31744acdcff40b73045a8f8"
+    },
+    {
+      "path": "app/src/components/workspace-state.ts",
+      "sha256": "05d64d6e424d701c9ccc557c351508de929bd3d73d8c8df1fb85b519afc0ee57"
+    },
+    {
+      "path": "app/src/lib/actions/contact.ts",
+      "sha256": "d04770d52ca38531b93ad5e0999cb88dc55e104ec69cd3c020cd4015e6421e75"
+    },
+    {
+      "path": "app/src/lib/actions/evaluation.ts",
+      "sha256": "edb1f565cb34bd801eeadd193c929658967b807a302caa986ba9919e76307f1f"
+    },
+    {
+      "path": "app/src/lib/actions/guard.ts",
+      "sha256": "16bdf99e08938870973ec8ef60c6ea82a642bbe715be960f2a43d0b2d1d3ef93"
+    },
+    {
+      "path": "app/src/lib/actions/hackathon.ts",
+      "sha256": "2dd46541ce48478ae65ee2d13db56d0eb26087d8962c0cefbb3e702ccabce13d"
+    },
+    {
+      "path": "app/src/lib/actions/handoff.ts",
+      "sha256": "a8290becf7f331b67ef465cbb46132a85d3c80be591de1adac3383fab43f61f1"
+    },
+    {
+      "path": "app/src/lib/actions/runbook.ts",
+      "sha256": "f03c95c1a30aab73bab0de03649e24f8cc31e5dcb2d797c4df2d9bbf0be34cdc"
+    },
+    {
+      "path": "app/src/lib/actions/usecase.ts",
+      "sha256": "9be3f731ce387e1ccde35c6b6a0df9966241b9887b9b33e7320ff7a144c41723"
+    },
+    {
+      "path": "app/src/lib/ai/diagnostics.ts",
+      "sha256": "33ea68e66cfdd22c9f9802b118ef0ee9ffc77b848d1860d7cb2a716d162f757a"
+    },
+    {
+      "path": "app/src/lib/ai/errors.ts",
+      "sha256": "ff411b7bc40c0bf28a40507d5bf4babcbbdb9bf8b193e995a2e1cc65e85d1820"
+    },
+    {
+      "path": "app/src/lib/ai/evaluator.ts",
+      "sha256": "ec91e7d6c9623b5c12b36e5f17a1d2afe06452d8fdc59098fdbc3bf3411d7f5b"
+    },
+    {
+      "path": "app/src/lib/ai/guide.ts",
+      "sha256": "c2e10e90f85d33824e941cbdc7816808e5544790f684a3de805739768c13cdcd"
+    },
+    {
+      "path": "app/src/lib/ai/input-validation.ts",
+      "sha256": "1beb95d2614ea48d9e5e44056f0ff6447c43a426ffa44454ffd3e4c747fe12bf"
+    },
+    {
+      "path": "app/src/lib/ai/limits.ts",
+      "sha256": "34f04c6ddbd3d1ad3000b2338db1235723c501f25cea35f71ef3848e844a0229"
+    },
+    {
+      "path": "app/src/lib/ai/mock-fixtures.ts",
+      "sha256": "69e631932794749b913e7a867e2a62949af5842a0a07c724debf995aeeb45125"
+    },
+    {
+      "path": "app/src/lib/ai/output-schema.ts",
+      "sha256": "6b43c674f874f59012e56423b428d40eab546ded902209ec10617666bb6d4b58"
+    },
+    {
+      "path": "app/src/lib/ai/prompts.ts",
+      "sha256": "da8cb319b307ea7552c88b6ed840171e3130d1b01a3871b6422181d7ca2b1e94"
+    },
+    {
+      "path": "app/src/lib/ai/provenance.ts",
+      "sha256": "a4a1a9cf16fc38478b749c0c047544f9d213f5beede140377e13b5208ae27fd1"
+    },
+    {
+      "path": "app/src/lib/ai/provider.ts",
+      "sha256": "43d1d60ec25d044f5754abc09fea47f17fbf919a6636517ebef5b51eebc67f8d"
+    },
+    {
+      "path": "app/src/lib/ai/usage.ts",
+      "sha256": "dc135481f3c299bc6623c9f02da17b3a9dff637ca4828bd469ee52068864ad95"
+    },
+    {
+      "path": "app/src/lib/ai/workspace-access.ts",
+      "sha256": "8811e363641116f0a504b4c0d2b2ee67dcd388c6effc2d8bc3d606a014c772c6"
+    },
+    {
+      "path": "app/src/lib/api-errors.ts",
+      "sha256": "f9b7504be091b2d5d498093dfcfed95def806bd08c16ddc7c80c9c3541891aa1"
+    },
+    {
+      "path": "app/src/lib/auth/index.ts",
+      "sha256": "110d644b5a91940c04928b5a3f4458d9b7063a100be9136387619f186db9c909"
+    },
+    {
+      "path": "app/src/lib/db.ts",
+      "sha256": "6c7fe669efd70e4c0cbd2de78ebe777caaa45f3377fdc449c0cabf446ce27a45"
+    },
+    {
+      "path": "app/src/lib/domain/evaluation.ts",
+      "sha256": "b20bca2354662fa30335cfa2cf87231297644b583a925b0f445882ba9e5960db"
+    },
+    {
+      "path": "app/src/lib/domain/gates.ts",
+      "sha256": "5bf9e40c4809e6889a001d8c23bbb6797e56e92463299428b6a487c11dfb63f6"
+    },
+    {
+      "path": "app/src/lib/domain/handoff.ts",
+      "sha256": "f4d52a1d166be3c3e690d1b760d9e794184d5e10b552d67636c16cfcfdeaabd3"
+    },
+    {
+      "path": "app/src/lib/domain/routing.ts",
+      "sha256": "6536f3fb7de99da49093d4a381b2097838225b015fd6d88cd420a175ec9d4dde"
+    },
+    {
+      "path": "app/src/lib/domain/runbook.ts",
+      "sha256": "60753c158ac77a7f4138a2a52475ecb205877ccfe04e20ee82db1bd0212abddf"
+    },
+    {
+      "path": "app/src/lib/domain/scoring.ts",
+      "sha256": "cae9910908300ae85ace27fbad72b6d8c42fc703b3e83b57a0c9cbb17d9d9738"
+    },
+    {
+      "path": "app/src/lib/exports.ts",
+      "sha256": "c781c17b613ba3ea3ecf51a2cff143f638f3a23592d24fb082b0ade0e22442e5"
+    },
+    {
+      "path": "app/src/lib/kanban.ts",
+      "sha256": "1a2c84c50e7bf51f547314586d2825138543734c166e779b8450b69744c20ec0"
+    },
+    {
+      "path": "app/src/lib/markdown.ts",
+      "sha256": "e8bb33b7b4eae2c508ed63ec69f82b5ca47daf30bc77d10e61d38ab55980173f"
+    },
+    {
+      "path": "app/src/lib/methodology/index.ts",
+      "sha256": "57ff1a1387ae9e3e5eed5bad89a237c854250ba53e14ed554b1da4c68a81a710"
+    },
+    {
+      "path": "app/src/lib/queries.ts",
+      "sha256": "cf446523f3e726548b8229b0188b4f57408fcfd1fd83e2c791714b1d82198f14"
+    },
+    {
+      "path": "app/src/lib/runbook.ts",
+      "sha256": "ee92c33d0d82862d4ed9989701f9f08884fc547b6461751ec4650e5063637608"
+    },
+    {
+      "path": "app/src/lib/schemas/index.ts",
+      "sha256": "1c89d1352c77affa61b8b7d0711968246e7889eae021c84caf28d39746f15131"
+    },
+    {
+      "path": "app/src/lib/utils.ts",
+      "sha256": "52999f00daeee34ee5cd5b004934a6bd0ba76e5867cb889a8236cca78e97c3ac"
+    },
+    {
+      "path": "app/start-hackathon.command",
+      "sha256": "c7a6dc5af81d7bc11061f72a77ab2cb68dfca590b41723aa68770aea5ad9330f"
+    },
+    {
+      "path": "app/tests/e2e/ai-lifecycle.spec.ts",
+      "sha256": "954010b5d7d98ffaa398e0c76ee3edd8afb0704321de97f92735abe63b37be5e"
+    },
+    {
+      "path": "app/tests/e2e/blue-shell.spec.ts",
+      "sha256": "52d50d3636751788172b4ce73fd8e047e4f788e6c026c141ab5389160a440bcf"
+    },
+    {
+      "path": "app/tests/e2e/cleanup-reporter.ts",
+      "sha256": "20928429b45da00ce022607ec32f7a41f9e3813da9f2209785ee25960aaefb48"
+    },
+    {
+      "path": "app/tests/e2e/concurrent-writes.spec.ts",
+      "sha256": "af214698d4aedc4ca0370edeb3500268b1a089f79b8455a30473c01ba6b68b9f"
+    },
+    {
+      "path": "app/tests/e2e/exports.spec.ts",
+      "sha256": "be63baea9bc5a5dbf2b4b5b351330ddfb301db8034dd5679d2c2ef763f2deb2c"
+    },
+    {
+      "path": "app/tests/e2e/fixtures.ts",
+      "sha256": "19595aecfeb3ea89b57522d90cacafd7e77234dad8826ccb8e51a895dd96389a"
+    },
+    {
+      "path": "app/tests/e2e/hydration.spec.ts",
+      "sha256": "91682881d7d6ed79a0620e2039022fcd0e42773078846bbdc2582a83bf725e47"
+    },
+    {
+      "path": "app/tests/e2e/isolation.mts",
+      "sha256": "4bae3c6e7d9891b426d5e82afd8a03c66ddfa761100a46226642a6b73deecc40"
+    },
+    {
+      "path": "app/tests/e2e/kanban.spec.ts",
+      "sha256": "0fc573019aca1cbff85cfeccd07e6c5350192f49e104cf8dfc802be342142bda"
+    },
+    {
+      "path": "app/tests/e2e/lifecycle.spec.ts",
+      "sha256": "8abbe8a0bb8b4302a1a8d804bb17f5155ddfa10bdbdc2e7c4cd8e124d80642b7"
+    },
+    {
+      "path": "app/tests/e2e/runbook.spec.ts",
+      "sha256": "c32e7981f0935a741b0f271530dcd6a07fb39964c7adf20c2cde94f6e4e91522"
+    },
+    {
+      "path": "app/tests/e2e/server.mts",
+      "sha256": "804f9073a45f1290c1308527e103dfb20f92f20c7d90f311b61d2aeadc965760"
+    },
+    {
+      "path": "app/tests/e2e/terminal-events.spec.ts",
+      "sha256": "450e9a1979c2dfd90b4764f58f3a80edc0311db501b4b78c5392dc3df2ee5b3e"
+    },
+    {
+      "path": "app/tests/e2e/usability-review.spec.ts",
+      "sha256": "07bd2e38697d5bbe51603c03bd85ca4cb58bbdc5c9470c58eb7693220517078f"
+    },
+    {
+      "path": "app/tests/unit/actions-guarded.test.ts",
+      "sha256": "c5b2d94ef36f12837e07db9bfe6822773d8b1a428f527ee1c2cdf7f4e5cc4d08"
+    },
+    {
+      "path": "app/tests/unit/ai-actions.test.ts",
+      "sha256": "878d42f38cca8631e7fd5ebf672ebcc088f4f0e2344e17c0dc1a6adc5a798b82"
+    },
+    {
+      "path": "app/tests/unit/ai-correctness.test.ts",
+      "sha256": "3c25a1249874e685da70c3b784c81acfff3255182f0cf8922b968bb66b1c2caf"
+    },
+    {
+      "path": "app/tests/unit/ai-database.ts",
+      "sha256": "8a3ddb579bfb03c604e9035e22ed5b549e76542f29df30644aef0cb73f479c1f"
+    },
+    {
+      "path": "app/tests/unit/ai-guide-route.test.ts",
+      "sha256": "ff382c104c23cce6a01dbf5b1c36b272bbf13b157db34e51dbad6d2897ea5ef5"
+    },
+    {
+      "path": "app/tests/unit/ai-persistence.test.ts",
+      "sha256": "f5c6cef4136c55d77a58cfe68d13b356ae202218eed8844118093eca9269563f"
+    },
+    {
+      "path": "app/tests/unit/ai-provider.test.ts",
+      "sha256": "8a7087cf9b48aa722389604a64a4a32b1d603a25fda20a36c6b3d620f426133f"
+    },
+    {
+      "path": "app/tests/unit/ai-usage.test.ts",
+      "sha256": "6d2629f539e0437082536d2c5e890b5622dcbc7b039dd88919ef42785b29b50f"
+    },
+    {
+      "path": "app/tests/unit/auth.test.ts",
+      "sha256": "4ff883a8bc4c8d5b59b2a105fde9edff7bd5705169a5efd6c6fd849ea087ff5f"
+    },
+    {
+      "path": "app/tests/unit/board-home.test.ts",
+      "sha256": "9fdf8f6fd2bf4062f2fc12fe5cf3cebc090c4c22e613453879ef7b257b9b552a"
+    },
+    {
+      "path": "app/tests/unit/copilot-distribution.test.ts",
+      "sha256": "c4a9b44f3593ce6d315ab557dff4d5397d98072ffdb782dc4c5d22403101772d"
+    },
+    {
+      "path": "app/tests/unit/demo-launcher.test.ts",
+      "sha256": "675b01bd27c593b70037ad2f5e8fb94e00cbfadf4ee45099b1708b3ff63e605f"
+    },
+    {
+      "path": "app/tests/unit/dev-session-reset.test.ts",
+      "sha256": "3b5cadb7625e485295ae8a4824ae163cfb27e7b1205154e94dac42f2c6136d5d"
+    },
+    {
+      "path": "app/tests/unit/export-route.test.ts",
+      "sha256": "2444ee7dcf796a93f376cdc0f532e5837af9c3674f2c642256824626feb36738"
+    },
+    {
+      "path": "app/tests/unit/gates.test.ts",
+      "sha256": "c8d18475b7efe894a9ac7e8afada7a284a7afad8c76f93abcd2a1286dcbc8873"
+    },
+    {
+      "path": "app/tests/unit/guard-errors.test.ts",
+      "sha256": "74d973474c8ca5bb6028d632a5ba0e0f66c7bb2e2a5de223daeff262c35747cd"
+    },
+    {
+      "path": "app/tests/unit/handoff.test.ts",
+      "sha256": "78829f78690a64a5ba6c6d94d48d454a8990a04e7e8c523a23352ff9dc1ebafa"
+    },
+    {
+      "path": "app/tests/unit/kanban-actions.test.ts",
+      "sha256": "e8503820358bed16d2f48c0a7218abf3c5aff4c0e804f05656dde5862f631dd6"
+    },
+    {
+      "path": "app/tests/unit/kanban-guide.test.ts",
+      "sha256": "83fb33ca8e93ce1c773b5ad4ed9c2aa45915b350c3d5d78dcb535572291a1f1c"
+    },
+    {
+      "path": "app/tests/unit/kanban-migration.test.ts",
+      "sha256": "b9a4cb7dccddbcbbdd5cac5130c08f84e329b220f2a3ddf845c6cd18265299cc"
+    },
+    {
+      "path": "app/tests/unit/lifecycle-actions.test.ts",
+      "sha256": "ee1a1969c6d3f2b0fe23b873939939c087b257fdafa1b962845f0ccc175df64e"
+    },
+    {
+      "path": "app/tests/unit/markdown.test.ts",
+      "sha256": "6664a31d8d2d0efaaa35c622cf8e386ebec1aafb9409ee00635022aa75eb235b"
+    },
+    {
+      "path": "app/tests/unit/public-app-package.test.ts",
+      "sha256": "b9b976407460148753f0826caff1f55a5334cc751085689e5c870941539a3e5c"
+    },
+    {
+      "path": "app/tests/unit/queries-scoped.test.ts",
+      "sha256": "5ee41fa8322dc6d662138ad4382674348ff010b08ab428104c30bde35a269b61"
+    },
+    {
+      "path": "app/tests/unit/recovery.test.tsx",
+      "sha256": "6da69b42e4897158ddd8a4bd19a7148125b3ee0e5a23d4b950d5d7c5e72b65b7"
+    },
+    {
+      "path": "app/tests/unit/routing.test.ts",
+      "sha256": "300a97e0a301e4c26a1eaec168656c17fa30f4f6c96fa4e53f5a0796fc1da979"
+    },
+    {
+      "path": "app/tests/unit/runbook.test.ts",
+      "sha256": "356d3037b635d8e512436f8a370e60e0836c9fc5012b56c264bb3dc2650cdfcb"
+    },
+    {
+      "path": "app/tests/unit/schemas-integrity.test.ts",
+      "sha256": "fd42be2568d91b5b3ce20b079f427e8127d18faa0a5ab07de0fa2665f689fc0f"
+    },
+    {
+      "path": "app/tests/unit/scoring.test.ts",
+      "sha256": "5e2bf5ade8689245dd3d0a7f3182da93441edc07bfd2d50e1496975739d9dfb4"
+    },
+    {
+      "path": "app/tests/unit/usecase-guide-history.test.ts",
+      "sha256": "d89248ba50b4f20b93261f4fa2d6ca2a49d741f9ec814bd9081081d6f6e0b96f"
+    },
+    {
+      "path": "app/tests/unit/visual-accessibility.test.ts",
+      "sha256": "51de45b470d752fbb551911fed9cb0d65427cef3a70710231f4bbde6eeef1694"
+    },
+    {
+      "path": "app/tests/unit/workflow-review.test.ts",
+      "sha256": "1f8082d6eef2ccb155d4abd3b1d7815370e8a0d0c3949ab1c98ef6d8b0872138"
+    },
+    {
+      "path": "app/tests/unit/workspace-selection.test.ts",
+      "sha256": "cafe25c2890f6b7348e21fcf192922ca5ef76c5fabbd0c143fbfeb7d7ccf5b1a"
+    },
+    {
+      "path": "app/tsconfig.json",
+      "sha256": "c71a05909bbde8bb6ca2bd89322f38e42b164d303c7f46811329f91ecde0c5be"
+    },
+    {
+      "path": "app/vitest.config.mts",
+      "sha256": "2676e4120f8fba9b07470d58bc9a27fd5bc097960ce70119d3db1362143b5f07"
+    },
+    {
+      "path": "docs/colleague-distribution.md",
+      "sha256": "17e76851408dca6b3281534f3345e29c8d060425b570da3e7e695c912f9c2bbf"
+    },
+    {
+      "path": "docs/copilot-agent-installation.md",
+      "sha256": "ce6dde5f926ef62c538234d67077ecf1bdeda73fc4c7028b97477f312bf8457d"
+    },
+    {
+      "path": "docs/official-hackathon-submission.md",
+      "sha256": "41145481ac54c612ab073d8e778162495f425f02ca43bce8fabeb03e7e26149d"
     },
     {
       "path": "materials/Hackathon-Facilitator-Playbook.docx",
-      "sha256": "70b2fc2bc4a9d53b1b582840ce49d7a4793a49d92fa3f521f44a4c44ccbe5903"
+      "sha256": "b89ceba34f2668a770cc51ab53ab74516d76ca22e713bbfbf71352c92137a65f"
     },
     {
       "path": "materials/Hackathon-Facilitator-Playbook.pdf",
-      "sha256": "47bcba557c1465d14fe483dfa1094044164e6b3557de613d65361acc99bfd159"
-    },
-    {
-      "path": "materials/Hackathon-Facilitator-Workshop.pptx",
-      "sha256": "98964950e840d5aad0043fbe5577c637eefe888c53ac68bdd8056d274c90957d"
+      "sha256": "95acd9da40be212fd3ace6f951e1322c4419a71ca54d41c97e71f4822b8bd5b5"
     },
     {
       "path": "materials/Hackathon-Facilitator-Workshop.pdf",
-      "sha256": "db62a5c42c88173961082ebbbeec01425df63402d92beffa68742459e120a906"
+      "sha256": "6b654f94824d9fcb0229ce312fcda3cec1a20719a4fd7db9c9194f52a0044eaa"
+    },
+    {
+      "path": "materials/Hackathon-Facilitator-Workshop.pptx",
+      "sha256": "35e0da55f1c0f6f42804fc1b9464524a5fcc15be2ca3a80ce1cf75727b85ebf6"
+    },
+    {
+      "path": "materials/README.md",
+      "sha256": "9165791abf1b6fd796839922e54ed88b2e4e70520481f5424cf5b1d4effa0ec2"
+    },
+    {
+      "path": "media/handoff-panel.png",
+      "sha256": "db497213940b6dac604352aa7d04963f5d27e77d79b6f85274f75fc68e172841"
+    },
+    {
+      "path": "media/kanban-progress.png",
+      "sha256": "4c12f814561e4e1cb7a0b7ee66f01f3e01884bf0c5a48a6a8d15a0bb43acb3b6"
+    },
+    {
+      "path": "media/kanban-route.png",
+      "sha256": "ebb3a7cba51eb0fbded33e80f65003e8d95700d7e80c63942d124adc2ffd4210"
+    },
+    {
+      "path": "scripts/install-copilot-agent.mjs",
+      "sha256": "86e59a9274473f170c56da3e054e470ab89bc186833786fa8e8b15fa0dc4ba65"
+    },
+    {
+      "path": "start-hackathon.command",
+      "sha256": "0accd40f324590716f6e3a799b59f0c5d89132bbc556ba79bdd9f33ac8477b9b"
     }
-  ],
-  "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent"
+  ]
 }

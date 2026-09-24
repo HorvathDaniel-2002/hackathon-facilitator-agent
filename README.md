@@ -1,119 +1,107 @@
-# Hackathon Facilitator for GitHub Copilot
+# Hackathon Facilitator
 
-A custom Copilot agent for planning customer AI hackathons from charter and
-use-case intake to readiness, demos and accountable follow-up.
+**Created by Daniel Horvath** · [dahorvath@microsoft.com](mailto:dahorvath@microsoft.com)
 
-**Public facilitator toolkit: optional agent and ready-to-use materials.
-Not an official Microsoft product.**
+A blue, Kanban-first workspace for AI hackathon use cases: make progress visible,
+keep delivery routes separate, and leave every prototype with an owner and a next
+action. The full local app, optional Copilot agent and editable workshop materials
+are now in one public repository.
 
-## No technical setup? Start with the materials
+**Experimental local MVP, not an official Microsoft product or production service.**
 
-You can use the process **without installing the agent or using Copilot**:
+![Blue Kanban board with every progress column visible](media/kanban-progress.png)
 
-| Download | What you get |
-| --- | --- |
-| [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx) | 14 editable pages: charter, use-case canvas, checklists, agenda, tests and handoff templates |
-| [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx) | 16 slides with facilitator prompts and activities in speaker notes |
-| [Playbook PDF](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.pdf) / [Slides PDF](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pdf) | Browser-friendly reading and printing |
+*Fictional sample workspace. Mock evaluations are labeled; statuses do not imply
+approval, deployment or a CAF submission.*
 
-Download a file, save a working copy in your approved team location, and replace
-the prompts with your own plan. **No code, Azure account or Copilot subscription
-is needed for manual use.** Use Word/PowerPoint or another compatible application
-to edit; PDFs are for reading. [Start-here guide](materials/README.md).
+## Choose how to try it
 
-The examples are fictional. Never upload completed customer workbooks or private
-approval evidence to this public repository.
+| I want to… | Start here | Required |
+| --- | --- | --- |
+| **Try the web app** | Download the [latest release ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest), extract it and run **Start-Hackathon.cmd** on Windows | [Node.js 24](https://nodejs.org/en/download), a browser and internet for first-run dependencies |
+| **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
+| **Use the Copilot agent** | Open the extracted repository in VS Code, then select **hackathon-facilitator** in Copilot Chat | Permitted GitHub Copilot access |
 
-## Try it in VS Code
+The local demo and the materials **do not require a Copilot subscription or an
+Azure API key**. Copilot access is needed only for the separate agent.
 
-You need a current VS Code installation with GitHub Copilot enabled and signed in,
-Copilot access, and any required organization permission to use custom agents.
-Downloading the files does not require repository access approval.
+## Web app: easiest setup
 
-1. [Download the latest agent ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest)
-   and extract it. Open the extracted folder containing this README in VS Code.
-   Alternatively, clone this public repository.
-2. Open **Copilot Chat** and select **hackathon-facilitator** in the agent picker.
-   If it is missing, reload the window and check **Chat: Open Customizations**.
-   Review the files before granting workspace trust.
-3. Paste this starter prompt:
+1. Install **Node.js 24**. Extract the ZIP into a normal writable folder.
+2. **Windows:** double-click `Start-Hackathon.cmd` in the extracted root.
+   **macOS/Linux:** open a terminal in the extracted folder and run:
 
-```text
-Plan a two-day AI hackathon for a fictional logistics company with three teams.
-Start with a charter, one demoable slice per team, a readiness checklist and
-dated handoffs. Mark missing decisions as unknown. Use synthetic examples only.
-Do not provision, publish, invite or submit anything.
-```
+   ```text
+   node app/scripts/start-demo.mjs
+   ```
 
-Expect a planning draft with explicit unknowns, not a deployment or approval.
-The downloaded folder already contains the agent and reference pack: **no installer,
-Node.js, Azure key, database or application dependencies are needed for this route.**
+3. Wait for dependencies and the fictional sample workspace to be prepared.
+   The browser opens on the **Kanban board**. Keep the terminal open; **Ctrl+C**
+   stops the app. Use the same launcher next time.
 
-## Install into your own workspace
+If you prefer npm, run `npm run demo` from the `app` folder.
+[Detailed setup and troubleshooting](app/docs/local-demo-setup.md).
 
-Use this option to keep your plans separate from the public agent repository.
-The optional installer requires **Node.js 24** and an existing target folder.
-From a downloaded/extracted package, skip the first two commands:
+The launcher uses its own local synthetic-data database, mock AI and loopback-only
+development sign-in. It does not reset another workspace, read your customer
+database or configure any cloud service. Existing installations with older
+schemas must use the [reviewed migration procedure](app/docs/kanban-workflow.md),
+not an automatic reset.
+
+## What changed
+
+- **Responsive Kanban:** all progress columns fit across desktop screens;
+  smaller screens use a responsive layout instead of a horizontally clipped board.
+- **Kanban is home; Dashboard is optional.** Choose Dashboard in navigation for
+  assessment charts and summaries.
+- **Progress and delivery are independent:** Intake, Assessing, Building, Pilot,
+  In production and Parked; group the same cards by Copilot / Cowork, Copilot
+  Studio, Custom build, CAF or Unassigned.
+- **One shared handoff:** open a card's side panel or the Handoff overview to
+  edit owners, next action/date, results and evidence.
+- **Evidence-backed records:** In production and Submitted to CAF require an owner
+  and reference. Saving records something done elsewhere; it never deploys or
+  submits to CAF.
+- **Simpler navigation:** standalone Charter and Milestones have been removed.
+  Workspace Settings retain names, membership and lifecycle controls.
+
+## No-install materials
+
+Use the Word workbook manually, lead a session with the PowerPoint speaker notes,
+or read/print the PDFs. [Download guide](materials/README.md).
+Save completed copies in your approved team location. The materials are reusable
+templates, not automatic Office exports from the web app.
+
+## Optional Copilot agent
+
+The `.github/agents` profile works independently of the app. To add it to an
+existing workspace with Node.js 24:
 
 ```powershell
-git clone https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent.git
-Set-Location hackathon-facilitator-agent
 node .\scripts\install-copilot-agent.mjs --target "C:\src\my-project"
 ```
 
-Open the target workspace in VS Code and select the agent. The installer copies
-eight files, makes no network calls and refuses to overwrite local customizations.
-Reinstalling identical files is safe.
+The installer does not overwrite local customizations or install cloud services.
+Use `/agent` in Copilot CLI, or the agent picker in VS Code.
+[Agent installation guide](docs/copilot-agent-installation.md).
 
-For a personal Copilot CLI profile across workspaces:
+## Scope and sharing
 
-```powershell
-node .\scripts\install-copilot-agent.mjs --personal
-```
+Only reviewed source, fictional seed data, public references and reusable
+materials are distributed. **No customer records, databases, credentials,
+private screenshots or original local git history are included.**
+Do not upload real data, completed plans or approval evidence to public issues,
+commits or forks.
 
-In Copilot CLI, use `/agent` and choose `hackathon-facilitator`.
-See the [installation guide](docs/copilot-agent-installation.md) for manual copying,
-CLI setup, GitHub.com, troubleshooting and uninstall instructions.
+The demo uses synthetic identities, not Entra SSO; do not expose it on a network
+or deploy it as a corporate service. Mock evaluation scores are fixtures, not
+validated portfolio recommendations. Live-model quality, real corporate sign-in,
+production operations and required approvals remain separate work.
 
-**This is not the companion web app.** There is no `package.json`, `npm run dev`,
-web server or hosted demo in this package. The agent uses your Copilot host's
-selected model; it does not connect Work IQ, configure Azure, enable corporate SSO
-or grant data-processing permissions.
+Public availability is not Microsoft approval, program eligibility or an
+open-source license grant. The [Microsoft hackathon submission](docs/official-hackathon-submission.md)
+is still a draft, not a submitted/accepted entry.
 
-## Share and give feedback
-
-Share this repository or the [latest release](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest).
-No repository invitation is needed. A [copy-ready colleague announcement](docs/colleague-distribution.md)
-and a [detailed setup guide](docs/copilot-agent-installation.md) are included.
-
-Report installation problems or missing recommendations in
-[GitHub Issues](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues),
-using synthetic examples only. Issues, commits and forks of this repository are public:
-do not post customer data, internal documents, contact details, credentials or raw
-prompt logs. Keep real planning artifacts in an appropriately restricted workspace.
-
-## Included
-
-- Editable Word playbook, PowerPoint workshop with speaker notes and PDF copies.
-- GitHub Copilot custom-agent profile.
-- Seven public-source/project-methodology YAML references.
-- Safe, no-overwrite local installer.
-- Installation and colleague-sharing guides.
-- Submission-ready Microsoft hackathon draft and demo script.
-- Package manifest with SHA-256 hashes.
-
-## Deliberately excluded
-
-Customer workspaces, personal contact information, local databases/backups, keys,
-`.env` files, private reports, screenshots, session artifacts, git history,
-`node_modules`, generated app files and app runtime code.
-
-Use synthetic examples first. Public Microsoft guidance and agent-generated
-plans are not corporate approval. Distribution and reuse remain subject to
-applicable ownership and organization permissions; this package does not declare
-an open-source license or Microsoft endorsement.
-
-Official Microsoft hackathon submission remains pending. The
-[submission draft](docs/official-hackathon-submission.md) is prepared, but no official
-entry has been created or submitted. Public GitHub availability is not Microsoft
-corporate approval or competition acceptance.
+[Report a problem using a synthetic example](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues)
+· [Copy-ready colleague message](docs/colleague-distribution.md)
+· [Source and developer instructions](app/README.md)

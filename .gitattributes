@@ -2,3 +2,5 @@
 *.docx -text
 *.pptx -text
 *.pdf -text
+*.cmd -text whitespace=cr-at-eol
+*.command text eol=lf

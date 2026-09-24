@@ -1,0 +1,72 @@
+# Platform routing — the "Copilot Studio fit" logic. Source: product spec §5.3
+#
+# The model returns which signals fired; lib/domain/routing.ts turns fired signals
+# into a platform recommendation deterministically. The model never picks the
+# platform on its own, so routing stays explainable and tunable here.
+version: "1.1.0"
+
+signals:
+  copilotStudio:
+    - id: conversational
+      label: Conversational or guided interaction
+    - id: grounded-in-m365
+      label: Grounded in M365 / SharePoint / Dataverse / supported knowledge
+    - id: power-platform-connectors
+      label: Uses Power Platform connectors, Power Automate, approvals
+    - id: distributed-via-teams
+      label: Distributed via Teams / M365
+    - id: mixed-business-it-team
+      label: Built by a mixed business + IT team
+    - id: human-approval
+      label: Human approval before consequential updates
+    - id: reusable-low-code-agent
+      label: Scales as a reusable low-code agent
+
+  azureAI:
+    - id: high-volume-doc-processing
+      label: High-volume custom document processing
+    - id: vision-extraction
+      label: Advanced vision / extraction pipelines
+    - id: custom-ml
+      label: Custom ML or propensity models
+    - id: bespoke-orchestration
+      label: Bespoke model orchestration
+    - id: large-scale-retrieval
+      label: Large-scale custom retrieval
+    - id: custom-code-infra
+      label: Custom code / IaC / CI-CD / observability
+    - id: latency-throughput-control
+      label: Latency, throughput or model control beyond a low-code agent
+
+# Decision table, evaluated top-down; first match wins.
+# cs = count of Copilot Studio signals fired, az = count of Azure AI signals fired.
+#
+# The governing idea from the methodology: Hybrid means Copilot Studio is the
+# user-facing orchestration layer while Azure does specialist processing. So a
+# case is only a *pure* Copilot Studio case when NO Azure signal fired at all —
+# one genuine Azure need (a trained model, a vision pipeline) makes it Hybrid
+# even if the conversational signals are strong.
+rules:
+  - if: az == 0 && cs >= 3
+    platform: CopilotStudio
+    band: Strong
+  - if: az == 0 && cs >= 1
+    platform: CopilotStudio
+    band: Moderate
+  - if: az >= 2 && cs <= 1
+    platform: AzureAI
+    band: Weak
+  - if: az >= 1 && cs == 0
+    platform: AzureAI
+    band: Weak
+  - if: cs >= 1 && az >= 1
+    platform: Hybrid
+    band: Moderate
+  - if: "true"
+    platform: Hybrid
+    band: Moderate
+
+hybridRule: >
+  Validate the conversation and the value on sample data during the hackathon.
+  Record the Azure component as a production dependency — do not build the whole
+  long-term architecture during the event.

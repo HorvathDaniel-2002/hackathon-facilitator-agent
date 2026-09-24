@@ -1,6 +1,6 @@
 # Distribute Hackathon Facilitator to colleagues
 
-**Current state:** public GitHub agent-only distribution at
+**Current state:** public GitHub app, agent and no-install materials at
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
 No colleague access grant, announcement or official hackathon submission has been performed.
 
@@ -8,15 +8,15 @@ No colleague access grant, announcement or official hackathon submission has bee
 
 | Route | Who acts | What colleagues need |
 | --- | --- | --- |
-| Public agent repository / latest release | Anyone can download | Permitted Copilot access; no repository invitation, Azure key or app dependencies needed |
+| Public web-app demo | Anyone can download | Node.js 24; use the launcher. No Copilot subscription or Azure key |
+| Public agent repository / latest release | Anyone can download | Permitted Copilot access; no repository invitation or Azure key |
 | Approved private/internal GitHub repository | Repository owner | Repository access, Copilot entitlement/policy, profile on the default branch |
 | Reviewed agent-only ZIP via an approved internal channel | Owner of the artifact and channel | ZIP, installation guide, a permitted Copilot host |
 | Organization-wide Copilot agent | Authorized organization/enterprise administrator | Profile published in the designated organization agent repository and permitted policies |
 
 Do not publish a recipient workspace or the companion app's history without
-review. Only the agent-only allowlist is included in this repository and package. The companion app's
-source is a separate release candidate requiring its own repository/history,
-dependency-feed, security and ownership review.
+review. The repository contains an allowlisted app source tree, not a copy of
+the author's complete working folder, databases or original git history.
 
 ## Controlled rollout
 
@@ -34,19 +34,24 @@ dependency-feed, security and ownership review.
 
 ## Copy-ready Teams / email announcement
 
-**Subject:** Pilot invitation: Hackathon Facilitator for GitHub Copilot
+**Subject:** Try Hackathon Facilitator: blue Kanban, shared handoffs and no-install materials
 
 Hi colleagues,
 
-I have prepared **Hackathon Facilitator**, a GitHub Copilot custom agent that
-helps structure customer AI hackathons from charter and use-case scoping through
-readiness, demo preparation and accountable follow-up.
+I have built **Hackathon Facilitator**, a Kanban-first workspace for use-case
+progress, delivery routes, readiness and accountable handoffs. The public toolkit
+also includes an optional GitHub Copilot agent and editable workshop materials.
 
 I am looking for a small pilot group to try it with synthetic scenarios and
 provide feedback on installation, planning completeness and recommendation
 quality.
 
 **Package/repository:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
+
+**Try the app:** install Node.js 24, extract the latest release, and run
+`Start-Hackathon.cmd` on Windows. Alternatively, run
+`node app/scripts/start-demo.mjs` from the extracted folder. The local synthetic
+demo needs no Copilot subscription or Azure key.
 
 **No technical setup needed:** download the Word playbook, PowerPoint workshop or
 PDFs from https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/tree/main/materials .
@@ -74,7 +79,9 @@ https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues , cover
 installation, one useful output, one wrong/missing recommendation and whether the
 tool helped you identify a better next action.
 
-Thanks!
+Thanks,
+Daniel Horvath
+dahorvath@microsoft.com
 
 ## Short project description
 
@@ -105,7 +112,7 @@ unresolved approvals. Separate demonstrated outcomes from estimated value.
 
 ## Publication checklist
 
-- Repository owner authorized public visibility for the reviewed agent-only package.
+- Repository owner authorized public distribution of the reviewed app, agent and materials.
 - Customer contacts, data, screenshots, databases and session artifacts excluded.
 - `.env`, credentials and internal/private links absent from the shareable set.
 - Package manifest and hash reviewed; clean install tested.
