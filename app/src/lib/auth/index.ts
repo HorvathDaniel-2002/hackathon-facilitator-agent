@@ -1,6 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { prisma } from "@/lib/db";
 import { entityIdSchema, membershipRoleSchema, ROLE_RANK, type MembershipRole } from "@/lib/schemas";
+import { desktopRequestError } from "@/lib/auth/desktop";
 
 /**
  * Pluggable authentication — plan D-5 / R-10.
@@ -13,11 +14,12 @@ import { entityIdSchema, membershipRoleSchema, ROLE_RANK, type MembershipRole } 
  * establish a real identity provider; Entra remains fail-closed until implemented.
  */
 
-export type AuthMode = "dev" | "entra";
+export type AuthMode = "dev" | "entra" | "desktop-local";
 
 export const AUTH_MODE = process.env.AUTH_MODE;
 
 export const IS_DEV_AUTH = AUTH_MODE === "dev";
+export const IS_DESKTOP_AUTH = AUTH_MODE === "desktop-local";
 
 /**
  * R-10 guard.
@@ -31,8 +33,13 @@ export const IS_DEV_AUTH = AUTH_MODE === "dev";
 async function assertAuthModeIsSafe(): Promise<void> {
   // Resolve request context first so Next never pre-renders authenticated routes.
   const requestHeaders = await headers();
+  if (AUTH_MODE === "desktop-local") {
+    const error = desktopRequestError(requestHeaders);
+    if (error) throw new AccessDeniedError(error);
+    return;
+  }
   if (AUTH_MODE !== "dev" && AUTH_MODE !== "entra") {
-    throw new AccessDeniedError("Configure AUTH_MODE explicitly as 'dev' or 'entra'.");
+    throw new AccessDeniedError("Configure AUTH_MODE explicitly as 'dev' or 'entra', or start the packaged desktop application.");
   }
   if (AUTH_MODE === "dev" && process.env.NODE_ENV !== "development" && process.env.NODE_ENV !== "test") {
     throw new Error(
@@ -88,8 +95,7 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
     throw new AccessDeniedError("Entra authentication is not configured. Access is disabled.");
   }
 
-  const store = await cookies();
-  const userId = store.get(SESSION_COOKIE)?.value;
+  const userId = IS_DESKTOP_AUTH ? undefined : (await cookies()).get(SESSION_COOKIE)?.value;
 
   // Only the known fixture identities can use the local demo provider.
   if (userId && !entityIdSchema.safeParse(userId).success) return null;

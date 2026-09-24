@@ -128,6 +128,29 @@ describe("authorization runtime role validation", () => {
     expect(canEdit(role as never)).toBe(false);
   });
 
+  describe("desktop single-user identity", () => {
+    it("uses the desktop owner only after capability validation and ignores development cookies", async () => {
+      vi.stubEnv("AUTH_MODE", "desktop-local");
+      vi.stubEnv("NODE_ENV", "production");
+      vi.stubEnv("AI_PROVIDER", "mock");
+      vi.stubEnv("HF_DESKTOP_PACKAGE", "1");
+      vi.stubEnv("HF_DESKTOP_SESSION_TOKEN", "a".repeat(64));
+      vi.stubEnv("APP_URL", "http://127.0.0.1:3199");
+      mocks.requestHeaders = new Headers({ host: "127.0.0.1:3199", "x-hf-desktop-token": "a".repeat(64) });
+      mocks.cookieGet.mockReturnValue({ value: "untrusted-cookie" });
+      const { getCurrentUser, setDevUser, clearDevSession, listDevUsers } = await import("@/lib/auth");
+      expect(await getCurrentUser()).toMatchObject({ id: seeded.id });
+      expect(mocks.cookieGet).not.toHaveBeenCalled();
+      await expect(listDevUsers()).rejects.toThrow();
+      await expect(setDevUser(seeded.id)).rejects.toThrow();
+      await expect(clearDevSession()).rejects.toThrow();
+      mocks.requestHeaders.delete("x-hf-desktop-token");
+      mocks.userFind.mockClear();
+      await expect(getCurrentUser()).rejects.toThrow("desktop application");
+      expect(mocks.userFind).not.toHaveBeenCalled();
+    });
+  });
+
   it.each([
     ["Viewer", "Viewer", true], ["Viewer", "Contributor", false], ["Contributor", "Owner", false],
     ["Contributor", "Contributor", true], ["Owner", "Owner", true],

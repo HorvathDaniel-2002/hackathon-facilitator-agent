@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/app-shell";
-import { AccessDeniedError, canEdit, getCurrentUser, IS_DEV_AUTH } from "@/lib/auth";
+import { AccessDeniedError, canEdit, getCurrentUser, IS_DEV_AUTH, IS_DESKTOP_AUTH } from "@/lib/auth";
 import { buildSearchIndex, listHackathons } from "@/lib/queries";
 import Link from "next/link";
 import type { MembershipRole } from "@/lib/schemas";
@@ -46,6 +46,7 @@ export default async function AppLayout({
       searchItems={searchItems}
       userName={user.name}
       isDevAuth={IS_DEV_AUTH}
+      isDesktopAuth={IS_DESKTOP_AUTH}
     >
       {children}
     </AppShell>

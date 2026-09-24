@@ -1,0 +1,59 @@
+{
+  "name": "hackathon-facilitator-desktop",
+  "productName": "Hackathon Facilitator",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Single-user Windows desktop preview for Hackathon Facilitator",
+  "author": "Daniel Horvath <dahorvath@microsoft.com>",
+  "main": "main.cjs",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "prepare:app": "node scripts/prepare-app.mjs",
+    "pack": "electron-builder --win --dir",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "43.7.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.danielhorvath.hackathonfacilitator",
+    "productName": "Hackathon Facilitator",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.cjs",
+      "runtime.cjs",
+      "policy.cjs",
+      "assets/icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "payload",
+        "to": "backend"
+      }
+    ],
+    "asar": true,
+    "npmRebuild": false,
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico",
+      "signExecutable": false,
+      "artifactName": "Hackathon-Facilitator-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Hackathon Facilitator",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

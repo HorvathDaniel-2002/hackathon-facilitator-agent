@@ -18,12 +18,29 @@ approval, deployment or a CAF submission.*
 
 | I want to… | Start here | Required |
 | --- | --- | --- |
+| **Install the Windows desktop app** | Download the matching **x64 / ARM64 `.exe` installer** from [Releases](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest) | Windows; no separate Node.js or Copilot installation |
 | **Try the web app** | Download the [latest release ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest), extract it and run **Start-Hackathon.cmd** on Windows | [Node.js 24](https://nodejs.org/en/download), a browser and internet for first-run dependencies |
 | **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
 | **Use the Copilot agent** | Open the extracted repository in VS Code, then select **hackathon-facilitator** in Copilot Chat | Permitted GitHub Copilot access |
 
 The local demo and the materials **do not require a Copilot subscription or an
 Azure API key**. Copilot access is needed only for the separate agent.
+
+## Windows desktop preview
+
+The desktop installer includes its own runtime and opens a dedicated application
+window. It adds a Start menu entry and optional desktop shortcut. Closing the
+window keeps it in the notification area; use **Open** to restore or **Quit** to
+exit fully. You can pin the running app to the taskbar yourself.
+
+Data is stored separately in `%APPDATA%\Hackathon Facilitator\data` and is not
+overwritten by reinstalling a compatible version.
+[Desktop installation, tray behavior, backup and build guide](desktop/README.md).
+
+**The initial Windows preview is unsigned.** SmartScreen or organizational policy
+may block it. Do not disable those protections; ask IT to review/sign/approve it.
+The desktop preview is a local single-user app with mock AI, not Entra SSO or a
+corporate production deployment.
 
 ## Web app: easiest setup
 

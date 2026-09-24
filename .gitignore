@@ -16,3 +16,6 @@ coverage/
 next-env.d.ts
 .tsconfig-*.json
 tests/e2e/.runtime/
+desktop/payload/
+desktop/dist/
+desktop/.build/

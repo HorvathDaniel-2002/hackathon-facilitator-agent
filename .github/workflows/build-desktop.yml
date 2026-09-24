@@ -1,0 +1,44 @@
+name: Build Windows desktop preview
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - desktop/**
+      - app/src/lib/auth/**
+      - app/src/app/api/desktop-health/**
+      - .github/workflows/build-desktop.yml
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: |
+            desktop/package-lock.json
+            app/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run prepare:app
+      - run: npm run dist -- --x64
+      - name: Retain unsigned preview installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64-installer
+          path: desktop/dist/Hackathon-Facilitator-Setup-*-x64.exe
+          if-no-files-found: error
+          retention-days: 14

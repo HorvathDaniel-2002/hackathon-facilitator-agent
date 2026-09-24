@@ -1,0 +1,5 @@
+node_modules/
+payload/
+dist/
+.build/
+*.log

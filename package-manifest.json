@@ -1,13 +1,13 @@
 {
   "name": "hackathon-facilitator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "public-toolkit",
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
   "creator": {
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "Full local web app, optional Copilot agent and no-install materials. Official hackathon submission remains pending.",
+  "publication": "Windows desktop preview, local web app, optional Copilot agent and no-install materials. Desktop installer is unsigned; official hackathon submission remains pending.",
   "exclusions": [
     "customer records",
     "databases",
@@ -56,16 +56,20 @@
       "sha256": "04a6e68532c8039faf35ab9979d7d69d4e1e5fe18c6747f6109609d5b1266ad1"
     },
     {
+      "path": ".github/workflows/build-desktop.yml",
+      "sha256": "e3786755c37b6251b7e329ec327ba65015b8d15ddf8d07f406f5e3a9e11bce28"
+    },
+    {
       "path": ".github/workflows/verify-app.yml",
       "sha256": "4deadf762d7f04054792a60678ffc23f64dcceb7a40eae6e14039909ee53e1b6"
     },
     {
       "path": ".gitignore",
-      "sha256": "bf05a25981862fd62eaa8884616d35a0de5343d1f0a1453b7bc238bec00a2de7"
+      "sha256": "6228eb497bbe8a94f9eb38822aa7c5144788089fe8db369199fd8b4310bf5c1d"
     },
     {
       "path": "README.md",
-      "sha256": "563d2a1a843cdebe76b32f2956e6eb3a36a36760274217d8486d7ca496d561d4"
+      "sha256": "0488837125eceb35226ba3ec44bbc2f2a70bbe8e5f86f145fdcf03b0aa669065"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -133,7 +137,7 @@
     },
     {
       "path": "app/eslint.config.mjs",
-      "sha256": "ac5de67a7be50f96e0149f02ff84ac0d29e818fc5ef37cbdadaa6b97fb0ca47f"
+      "sha256": "b294f33dac7a5764c34cfa93dd82b96720c8b00937c7fdb3212443fa4b0478d7"
     },
     {
       "path": "app/methodology/agendas.yaml",
@@ -165,7 +169,7 @@
     },
     {
       "path": "app/next.config.ts",
-      "sha256": "275203c564c49bd02805ff229724195b5e7200bd5ce89ec1a3e4bf4af487cfe2"
+      "sha256": "58b8baa42547e41e787a43806ed90c0ca07a6f3ef378251238610c68f4d1dd65"
     },
     {
       "path": "app/package-lock.json",
@@ -181,7 +185,7 @@
     },
     {
       "path": "app/postcss.config.mjs",
-      "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde"
+      "sha256": "e728cbb3e1fc308c0bb9a16d7ddd81d2380cf97374f789e60cf6ae93b8921b9b"
     },
     {
       "path": "app/prisma.config.ts",
@@ -325,11 +329,15 @@
     },
     {
       "path": "app/src/app/(app)/layout.tsx",
-      "sha256": "ed7ff7b781dac2165ddc1af9723b768e9856cfe81ca137af2b13f838268f0ea8"
+      "sha256": "7d4de3570e5fe05b06edea1529c635b9f901bd1ec1b5205aa68f0477c15c3aff"
     },
     {
       "path": "app/src/app/api/build-guide/route.ts",
       "sha256": "cd4d5f9bfe129b13bad1902bc5511dc719ebe415cdbdf4ca23ec6c4371eee5fa"
+    },
+    {
+      "path": "app/src/app/api/desktop-health/route.ts",
+      "sha256": "9072b93deb0d432d67abd8fccdb6a413db89149ea90b277c4a2ef8baf7436c78"
     },
     {
       "path": "app/src/app/api/dev-session/reset/route.ts",
@@ -401,7 +409,7 @@
     },
     {
       "path": "app/src/components/layout/app-shell.tsx",
-      "sha256": "4ef122a0aa994b0f502dbcde767636ac70f7bca2cb604cbf7b097ec4db2f3231"
+      "sha256": "74fba65ecfcb06b0a0d9ea1b0aa521f8d54ce81d9fc928317392ca667c40f690"
     },
     {
       "path": "app/src/components/layout/sidebar.tsx",
@@ -560,8 +568,12 @@
       "sha256": "f9b7504be091b2d5d498093dfcfed95def806bd08c16ddc7c80c9c3541891aa1"
     },
     {
+      "path": "app/src/lib/auth/desktop.ts",
+      "sha256": "99dfedd4c4fee42b2a88946a89ce2e6d08b7544eae112451391dc421b0eeffb0"
+    },
+    {
       "path": "app/src/lib/auth/index.ts",
-      "sha256": "110d644b5a91940c04928b5a3f4458d9b7063a100be9136387619f186db9c909"
+      "sha256": "db0ec7eb024a035831c25d23fa8c2ff94e649af551c31adfb673e709e59b05fd"
     },
     {
       "path": "app/src/lib/db.ts",
@@ -717,7 +729,7 @@
     },
     {
       "path": "app/tests/unit/auth.test.ts",
-      "sha256": "4ff883a8bc4c8d5b59b2a105fde9edff7bd5705169a5efd6c6fd849ea087ff5f"
+      "sha256": "ede62fd29e585a72769d3d1c6edb33f4285201355d81586812ff8d481079f41c"
     },
     {
       "path": "app/tests/unit/board-home.test.ts",
@@ -730,6 +742,14 @@
     {
       "path": "app/tests/unit/demo-launcher.test.ts",
       "sha256": "675b01bd27c593b70037ad2f5e8fb94e00cbfadf4ee45099b1708b3ff63e605f"
+    },
+    {
+      "path": "app/tests/unit/desktop-auth.test.ts",
+      "sha256": "c20d109990721bb74061af6383680f7602891fa72ac91052e41b4e6516bbe6cf"
+    },
+    {
+      "path": "app/tests/unit/desktop-health.test.ts",
+      "sha256": "199099f322c92b69a8eb6f237b235ac5445124b90c27289256243b27e50a7266"
     },
     {
       "path": "app/tests/unit/dev-session-reset.test.ts",
@@ -822,6 +842,58 @@
     {
       "path": "app/vitest.config.mts",
       "sha256": "2676e4120f8fba9b07470d58bc9a27fd5bc097960ce70119d3db1362143b5f07"
+    },
+    {
+      "path": "desktop/.gitignore",
+      "sha256": "68d11b19935f85229fff94393ac0f49899769d9a908f5a0e83a11eb368c34b5c"
+    },
+    {
+      "path": "desktop/README.md",
+      "sha256": "9736adea3d056092df980c7e91347242cf32d0e2ff94b6b1659738915caf5411"
+    },
+    {
+      "path": "desktop/assets/icon.ico",
+      "sha256": "c0394dd6948e5e31cc2a35f9dc6ba2e2e0c99d6fb99ae5bda7b3c1dec42d9de3"
+    },
+    {
+      "path": "desktop/assets/icon.png",
+      "sha256": "0ff3e75d1a1c89eb6f11d65a204327e80491859ce21209887d565427450b9e74"
+    },
+    {
+      "path": "desktop/main.cjs",
+      "sha256": "707e734d6fa4f45f7f84cff1bd0f44ba0ad7b5806c4d372c751026d74b67762d"
+    },
+    {
+      "path": "desktop/package-lock.json",
+      "sha256": "c33a252998a03ff372bf3b39507d478dfa65d08f79c47b54458c54affc307668"
+    },
+    {
+      "path": "desktop/package.json",
+      "sha256": "4d4eef33f894ba6c49d493112e5d49d04e7166b16f1269edc13827faf8e50f3e"
+    },
+    {
+      "path": "desktop/policy.cjs",
+      "sha256": "4af2cf9269b01e955ced051251e6b35f4090c40a6f3bb243ac27c66abb7bffd6"
+    },
+    {
+      "path": "desktop/runtime.cjs",
+      "sha256": "b77d4b39f78c1e81a0b38dddce91215f707c8e06a92da1076ff78dc4a5031865"
+    },
+    {
+      "path": "desktop/scripts/prepare-app.mjs",
+      "sha256": "a3d81c6196acdecde38e2e2d9623c19505941bfc94794b8a223ceb1fe5986be3"
+    },
+    {
+      "path": "desktop/tests/main.test.cjs",
+      "sha256": "cc87811ae07d6abfa1b5e5056a1c7d8eff5b34ee76fa42b8faa7f2e2aa45e16c"
+    },
+    {
+      "path": "desktop/tests/policy.test.cjs",
+      "sha256": "9c667282f60c19229965c8bd992e2cd0f02c219b7d94978c5c0795c26dd787d9"
+    },
+    {
+      "path": "desktop/tests/runtime.test.cjs",
+      "sha256": "235a4a828ea21227245aa8e113db699f633077fcf976228b76c6f7054e313ee9"
     },
     {
       "path": "docs/colleague-distribution.md",

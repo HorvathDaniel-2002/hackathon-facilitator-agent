@@ -21,12 +21,14 @@ export function AppShell({
   searchItems,
   userName,
   isDevAuth,
+  isDesktopAuth = false,
   children,
 }: {
   hackathons: NavHackathon[];
   searchItems: SearchItem[];
   userName: string;
   isDevAuth: boolean;
+  isDesktopAuth?: boolean;
   children: ReactNode;
 }) {
   const pathname = usePathname();
@@ -67,6 +69,9 @@ export function AppShell({
         />
 
         {isDevAuth ? <DevAuthBanner /> : null}
+        {isDesktopAuth ? <div className="mb-3 shrink-0 rounded-[var(--radius-inner)] border border-info/25 bg-info-soft px-3 py-2 text-xs text-info">
+          <strong>Local desktop preview.</strong>{" "}Single-user data in this Windows profile. Mock AI; not Microsoft Entra sign-in or corporate approval.
+        </div> : null}
         {active && isWorkspaceFrozen(active.status) ? (
           <div role="status" className="mb-4 rounded-[var(--radius-inner)] border border-info/25 bg-info-soft px-4 py-3 text-sm text-info">
             {active.status === "Archived"
