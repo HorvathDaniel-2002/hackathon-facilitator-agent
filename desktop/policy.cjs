@@ -101,6 +101,23 @@ function isSafeExternalUrl(value) {
   }
 }
 
+function isAttributionMailto(value) {
+  return value === 'mailto:dahorvath@microsoft.com';
+}
+
+function isTrustedPrintViewUrl(value, origin) {
+  if (!isTrustedBackendUrl(value, origin)) return false;
+  const url = new URL(value);
+  return url.pathname === '/api/export'
+    && url.searchParams.getAll('format').length === 1
+    && url.searchParams.get('format') === 'html'
+    && [...url.searchParams.keys()].every((key) => ['format', 'kind', 'hackathonId'].includes(key))
+    && url.searchParams.getAll('kind').length === 1
+    && ['portfolio', 'readout', 'runbook'].includes(url.searchParams.get('kind'))
+    && url.searchParams.getAll('hackathonId').length === 1
+    && Boolean(url.searchParams.get('hackathonId')?.trim());
+}
+
 function isTrustedDownloadUrl(value, origin) {
   return isTrustedBackendUrl(value, origin)
     || (typeof value === 'string' && value.startsWith('blob:')
@@ -120,5 +137,5 @@ function safeDownloadName(value) {
 module.exports = {
   APP_NAME, APP_ID, TOKEN_HEADER, assertToken, loopbackOrigin, isTrustedBackendUrl,
   headersForRequest, sanitizeEnvironment, backendEnvironment, isSafeExternalUrl,
-  isTrustedDownloadUrl, safeDownloadName,
+  isAttributionMailto, isTrustedPrintViewUrl, isTrustedDownloadUrl, safeDownloadName,
 };

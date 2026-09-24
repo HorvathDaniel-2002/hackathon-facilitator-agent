@@ -5,7 +5,7 @@ const { randomBytes } = require('node:crypto');
 const { app, BrowserWindow, Tray, Menu, dialog, shell, session } = require('electron');
 const {
   APP_NAME, APP_ID, headersForRequest, isTrustedBackendUrl, isSafeExternalUrl,
-  isTrustedDownloadUrl, safeDownloadName,
+  isAttributionMailto, isTrustedPrintViewUrl, isTrustedDownloadUrl, safeDownloadName,
 } = require('./policy.cjs');
 const { DesktopRuntimeError, payloadDirectory, startDesktopRuntime } = require('./runtime.cjs');
 
@@ -21,6 +21,7 @@ let quitting = false;
 let shutdownComplete = false;
 let failureShown = false;
 const startupAbort = new AbortController();
+const printWindows = new Set();
 
 function showWindow() {
   if (!mainWindow || mainWindow.isDestroyed()) return;
@@ -39,10 +40,80 @@ function fail(error) {
 }
 
 function openExternal(url) {
-  if (!isSafeExternalUrl(url)) return;
+  if (!isSafeExternalUrl(url) && !isAttributionMailto(url)) return;
   void shell.openExternal(url).catch(() => {
-    if (!quitting) dialog.showErrorBox(APP_NAME, 'The link could not be opened in your default browser.');
+    if (!quitting) dialog.showErrorBox(APP_NAME, 'The link could not be opened in your default application.');
   });
+}
+
+function isolatedWebPreferences(isolatedSession) {
+  return {
+    session: isolatedSession,
+    nodeIntegration: false,
+    contextIsolation: true,
+    sandbox: true,
+    webSecurity: true,
+    webviewTag: false,
+    devTools: !app.isPackaged,
+    navigateOnDragDrop: false,
+  };
+}
+
+function restrictWindowContents(contents, isolatedSession, allowPrintView = false) {
+  contents.on('will-attach-webview', (event) => event.preventDefault());
+  contents.on('will-navigate', (event, url) => {
+    if (!isTrustedBackendUrl(url, runtime.origin)) {
+      event.preventDefault();
+      openExternal(url);
+    }
+  });
+  contents.on('will-frame-navigate', (event) => {
+    if (!event.isMainFrame && !isTrustedBackendUrl(event.url, runtime.origin)) event.preventDefault();
+  });
+  contents.on('will-redirect', (event, url) => {
+    if (!isTrustedBackendUrl(url, runtime.origin)) event.preventDefault();
+  });
+  contents.setWindowOpenHandler(({ url }) => {
+    if (!quitting && allowPrintView && isTrustedBackendUrl(contents.getURL(), runtime.origin)
+      && isTrustedPrintViewUrl(url, runtime.origin)) {
+      openPrintView(url, isolatedSession);
+    } else {
+      openExternal(url);
+    }
+    return { action: 'deny' };
+  });
+  contents.on('render-process-gone', () => fail(new DesktopRuntimeError(
+    'RENDERER_EXITED', 'The application window stopped unexpectedly. Reopen the application to reconnect to your saved workspace.',
+  )));
+  contents.on('did-fail-load', (_event, errorCode, _description, _url, isMainFrame) => {
+    if (isMainFrame && errorCode !== -3) {
+      fail(new DesktopRuntimeError('WINDOW_LOAD_FAILED', 'The application window could not load the local backend. Close and reopen the application.'));
+    }
+  });
+}
+
+function openPrintView(url, isolatedSession) {
+  const preview = new BrowserWindow({
+    parent: mainWindow,
+    title: `${APP_NAME} — Print-ready view`,
+    width: 1100,
+    height: 850,
+    minWidth: 800,
+    minHeight: 600,
+    show: false,
+    backgroundColor: '#ffffff',
+    icon: path.join(__dirname, 'assets', 'icon.png'),
+    webPreferences: isolatedWebPreferences(isolatedSession),
+  });
+  printWindows.add(preview);
+  preview.setMenu(Menu.buildFromTemplate([{ label: 'File', submenu: [
+    { label: 'Print...', accelerator: 'CmdOrCtrl+P', click: () => preview.webContents.print({ silent: false }) },
+    { role: 'close' },
+  ] }]));
+  preview.once('ready-to-show', () => { if (!quitting && !preview.isDestroyed()) preview.show(); });
+  preview.on('closed', () => printWindows.delete(preview));
+  restrictWindowContents(preview.webContents, isolatedSession);
+  void preview.loadURL(url).catch(fail);
 }
 
 function createWindow() {
@@ -64,16 +135,7 @@ function createWindow() {
     show: false,
     backgroundColor: '#ffffff',
     icon: path.join(__dirname, 'assets', 'icon.png'),
-    webPreferences: {
-      session: isolatedSession,
-      nodeIntegration: false,
-      contextIsolation: true,
-      sandbox: true,
-      webSecurity: true,
-      webviewTag: false,
-      devTools: !app.isPackaged,
-      navigateOnDragDrop: false,
-    },
+    webPreferences: isolatedWebPreferences(isolatedSession),
   });
   mainWindow.removeMenu();
   mainWindow.on('page-title-updated', (event) => event.preventDefault());
@@ -86,31 +148,7 @@ function createWindow() {
   });
   mainWindow.on('closed', () => { mainWindow = null; });
   const contents = mainWindow.webContents;
-  contents.on('will-attach-webview', (event) => event.preventDefault());
-  contents.on('will-navigate', (event, url) => {
-    if (!isTrustedBackendUrl(url, runtime.origin)) {
-      event.preventDefault();
-      openExternal(url);
-    }
-  });
-  contents.on('will-frame-navigate', (event) => {
-    if (!event.isMainFrame && !isTrustedBackendUrl(event.url, runtime.origin)) event.preventDefault();
-  });
-  contents.on('will-redirect', (event, url) => {
-    if (!isTrustedBackendUrl(url, runtime.origin)) event.preventDefault();
-  });
-  contents.setWindowOpenHandler(({ url }) => {
-    openExternal(url);
-    return { action: 'deny' };
-  });
-  contents.on('render-process-gone', () => fail(new DesktopRuntimeError(
-    'RENDERER_EXITED', 'The application window stopped unexpectedly. Reopen the application to reconnect to your saved workspace.',
-  )));
-  contents.on('did-fail-load', (_event, errorCode, _description, _url, isMainFrame) => {
-    if (isMainFrame && errorCode !== -3) {
-      fail(new DesktopRuntimeError('WINDOW_LOAD_FAILED', 'The application window could not load the local backend. Close and reopen the application.'));
-    }
-  });
+  restrictWindowContents(contents, isolatedSession, true);
 
   isolatedSession.on('will-download', (event, item, source) => {
     const filename = safeDownloadName(item.getFilename());

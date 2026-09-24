@@ -46,10 +46,12 @@ async function launch({ hasLock = true, startupError, startImpl } = {}) {
       Object.assign(this.webContents, {
         getURL: () => this.url,
         setWindowOpenHandler: (handler) => { this.openHandler = handler; },
+        print: (options) => { this.printOptions = options; },
       });
       calls.windows.push(this);
     }
     removeMenu() { this.menuRemoved = true; }
+    setMenu(menu) { this.menu = menu; }
     loadURL(url) { this.url = url; this.emit('ready-to-show'); return Promise.resolve(); }
     isDestroyed() { return this.destroyed; }
     isMinimized() { return this.minimized; }
@@ -229,6 +231,53 @@ test('exports use native save approval and foreign or executable downloads are c
     assert.equal(blocked.prevented, true);
     assert.equal(blocked.options, undefined);
   }
+});
+
+test('trusted print view opens in an equally isolated child with no nested local windows', async () => {
+  const { calls, window, session } = await launch();
+  const url = `${origin}/api/export?hackathonId=synthetic-id&kind=portfolio&format=html`;
+  assert.equal(window.openHandler({ url }).action, 'deny');
+  const preview = calls.windows[1];
+  assert.ok(preview);
+  assert.equal(preview.url, url);
+  assert.equal(preview.visible, true);
+  preview.menu[0].submenu[0].click();
+  assert.equal(preview.printOptions.silent, false);
+  assert.equal(preview.options.parent, window);
+  assert.equal(preview.options.webPreferences.session, session);
+  for (const key of ['nodeIntegration', 'contextIsolation', 'sandbox', 'webSecurity', 'webviewTag', 'devTools', 'navigateOnDragDrop']) {
+    assert.equal(preview.options.webPreferences[key], window.options.webPreferences[key], key);
+  }
+  assert.equal(Object.hasOwn(preview.options.webPreferences, 'preload'), false);
+  assert.equal(preview.openHandler({ url }).action, 'deny');
+  assert.equal(calls.windows.length, 2);
+  const close = event();
+  preview.emit('close', close);
+  assert.equal(close.prevented, false);
+  const webview = event();
+  preview.webContents.emit('will-attach-webview', webview);
+  assert.equal(webview.prevented, true);
+  const redirect = event();
+  preview.webContents.emit('will-redirect', redirect, 'https://example.com');
+  assert.equal(redirect.prevented, true);
+  const external = event();
+  preview.webContents.emit('will-navigate', external, 'https://learn.microsoft.com');
+  assert.equal(external.prevented, true);
+  assert.deepEqual(calls.external, ['https://learn.microsoft.com']);
+  window.openHandler({ url: `${origin}/dashboard` });
+  window.openHandler({ url: `${origin}/api/export?format=csv` });
+  assert.equal(calls.windows.length, 2);
+});
+
+test('attribution email opens only the exact approved mail link without desktop navigation', async () => {
+  const { calls, window } = await launch();
+  const clicked = event();
+  window.webContents.emit('will-navigate', clicked, 'mailto:dahorvath@microsoft.com');
+  assert.equal(clicked.prevented, true);
+  assert.deepEqual(calls.external, ['mailto:dahorvath@microsoft.com']);
+  window.openHandler({ url: 'mailto:dahorvath@microsoft.com?bcc=other@example.com' });
+  window.openHandler({ url: 'mailto:other@example.com' });
+  assert.equal(calls.external.length, 1);
 });
 
 test('tray data-folder action uses only the owned directory and Quit stops the backend', async () => {

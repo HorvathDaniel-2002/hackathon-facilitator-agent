@@ -861,7 +861,7 @@
     },
     {
       "path": "desktop/main.cjs",
-      "sha256": "707e734d6fa4f45f7f84cff1bd0f44ba0ad7b5806c4d372c751026d74b67762d"
+      "sha256": "ea86921b7c9fc9e3ea4f70c58d74c965d1a52767fd4ff43787720b00439ce9f9"
     },
     {
       "path": "desktop/package-lock.json",
@@ -869,11 +869,11 @@
     },
     {
       "path": "desktop/package.json",
-      "sha256": "4d4eef33f894ba6c49d493112e5d49d04e7166b16f1269edc13827faf8e50f3e"
+      "sha256": "a60c4d33a2caa6cab684b1f6d6df84050f925174c4eddbed410b810a90120f1e"
     },
     {
       "path": "desktop/policy.cjs",
-      "sha256": "4af2cf9269b01e955ced051251e6b35f4090c40a6f3bb243ac27c66abb7bffd6"
+      "sha256": "3bd2ba64c60618dc60cf67087a4d9413a12c16211b3a14090fd21e95a7f8f50c"
     },
     {
       "path": "desktop/runtime.cjs",
@@ -885,11 +885,11 @@
     },
     {
       "path": "desktop/tests/main.test.cjs",
-      "sha256": "cc87811ae07d6abfa1b5e5056a1c7d8eff5b34ee76fa42b8faa7f2e2aa45e16c"
+      "sha256": "3bff2136145d5037be4524ac94c2fa8ac69e13f2d1b87a4b16530883da99210a"
     },
     {
       "path": "desktop/tests/policy.test.cjs",
-      "sha256": "9c667282f60c19229965c8bd992e2cd0f02c219b7d94978c5c0795c26dd787d9"
+      "sha256": "f2dd8d670e11d875c270280eb591291acbf54c43e1a85ad44982ca5eb16011f0"
     },
     {
       "path": "desktop/tests/runtime.test.cjs",

@@ -5,12 +5,17 @@
   "private": true,
   "description": "Single-user Windows desktop preview for Hackathon Facilitator",
   "author": "Daniel Horvath <dahorvath@microsoft.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent.git",
+    "directory": "desktop"
+  },
   "main": "main.cjs",
   "scripts": {
     "test": "node --test tests/*.test.cjs",
     "prepare:app": "node scripts/prepare-app.mjs",
-    "pack": "electron-builder --win --dir",
-    "dist": "electron-builder --win nsis"
+    "pack": "electron-builder --win --dir --publish never",
+    "dist": "electron-builder --win nsis --publish never"
   },
   "devDependencies": {
     "electron": "43.7.1",
@@ -38,6 +43,11 @@
     ],
     "asar": true,
     "npmRebuild": false,
+    "publish": {
+      "provider": "github",
+      "owner": "HorvathDaniel-2002",
+      "repo": "hackathon-facilitator-agent"
+    },
     "win": {
       "target": ["nsis"],
       "icon": "assets/icon.ico",

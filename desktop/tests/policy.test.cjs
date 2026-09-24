@@ -6,6 +6,7 @@ const path = require('node:path');
 const {
   APP_ID, TOKEN_HEADER, loopbackOrigin, isTrustedBackendUrl, headersForRequest,
   sanitizeEnvironment, backendEnvironment, isSafeExternalUrl, isTrustedDownloadUrl, safeDownloadName,
+  isTrustedPrintViewUrl, isAttributionMailto,
 } = require('../policy.cjs');
 
 const origin = 'http://127.0.0.1:43123';
@@ -100,4 +101,28 @@ test('download policy permits local exports and rejects executable or foreign do
   for (const filename of ['setup.exe', 'script.cmd', 'payload.ps1', 'page.html', 'image.svg', 'file.csv.exe', '', null]) {
     assert.equal(safeDownloadName(filename), null, String(filename));
   }
+});
+
+test('print preview permits only the exact local HTML export endpoint', () => {
+  for (const url of [
+    `${origin}/api/export?hackathonId=synthetic-id&kind=portfolio&format=html`,
+    `${origin}/api/export?hackathonId=synthetic-id&kind=runbook&format=html`,
+  ]) assert.equal(isTrustedPrintViewUrl(url, origin), true, url);
+  for (const url of [
+    `${origin}/dashboard?format=html`, `${origin}/api/export?format=csv`,
+    `${origin}/api/export?format=html`, `${origin}/api/export?hackathonId=x&kind=summary&format=html`,
+    `${origin}/api/export?format=html&format=csv`, `${origin}/api/export?format=html&redirect=https://example.com`,
+    `${origin}/api/export?format=html&kind=a&kind=b`, `${origin}/api/export`,
+    'http://localhost:43123/api/export?format=html', 'https://example.com/api/export?format=html',
+    'file:///C:/api/export?format=html',
+  ]) assert.equal(isTrustedPrintViewUrl(url, origin), false, url);
+});
+
+test('attribution mail link cannot include extra recipients, headers, or arguments', () => {
+  assert.equal(isAttributionMailto('mailto:dahorvath@microsoft.com'), true);
+  for (const url of [
+    'mailto:other@example.test', 'mailto:dahorvath@microsoft.com?subject=hello',
+    'mailto:dahorvath@microsoft.com?bcc=other@example.com', 'mailto:dahorvath@microsoft.com,other@example.com',
+    'mailto:dahorvath@microsoft.com%0d%0aSubject:test', 'mailto:dahorvath@microsoft.com --flag',
+  ]) assert.equal(isAttributionMailto(url), false, url);
 });
