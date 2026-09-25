@@ -11,7 +11,7 @@ need to install Node.js, npm, VS Code or GitHub Copilot**.
 1. Download the Windows installer that matches your device: **x64** for Intel/AMD
    PCs, **ARM64** for Windows on Arm. Check **Settings > System > About > System type**
    if unsure.
-2. Run `Hackathon-Facilitator-Setup-0.3.0-<architecture>.exe`. It installs for your
+2. Run `Hackathon-Facilitator-Setup-0.3.1-<architecture>.exe`. It installs for your
    current Windows account without requesting administrator access.
 3. Keep **Run Hackathon Facilitator** selected at the end of setup.
 4. Open it later from the **Start menu** or the desktop shortcut.
@@ -21,6 +21,11 @@ application-control policy may block it. Do not disable those protections.
 Ask IT to review/sign/approve the package, or use the existing browser demo or
 Word/PowerPoint materials while approval is pending. A checksum verifies a
 download against the supplied hash; it does not replace a trusted publisher signature.
+
+**Use v0.3.1 or later on ARM64.** End-to-end testing found that the v0.3.0
+NSIS/7z path could omit ARM64 executable files during installation. The patch
+uses compatible ZIP payloads. Do not delete saved workspace data to repair a
+missing program executable.
 
 ## Window, tray and taskbar
 
@@ -91,3 +96,17 @@ The build is deliberately configured with Windows signing disabled for this
 unsigned preview. Production distribution requires an approved signing workflow
 and organizational review. Signing keys, tokens and private certificates must
 never be committed.
+
+## Repeatable installer validation
+
+`scripts/verify-installer.ps1` and `scripts/e2e-installed.cjs` are restricted to
+disposable Windows GitHub Actions runners. They test the real installer,
+shortcuts, per-user registration, installed app workflows, bundled runtime,
+tray behavior, same-version reinstall and data-preserving uninstall.
+They refuse to run against an existing local user's profile.
+
+The `Build Windows desktop preview` workflow runs this check on both x64 and
+ARM64 before retaining a release candidate. `Test published desktop installers`
+can repeat the checks against a named public release and its checksum file.
+Interactive SmartScreen decisions, the finish-page checkbox and native
+save/print dialog interaction remain separate manual/policy checks.

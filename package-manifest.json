@@ -1,6 +1,6 @@
 {
   "name": "hackathon-facilitator",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "public-toolkit",
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
   "creator": {
@@ -73,7 +73,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "d558d601e806f9253c1d0865004d8478687639a24b52d99432442eadd9893fbb"
+      "sha256": "f8843ee4a4335f8a7408bc32473e13ac34c3dcf158b05890230a3ddd0966cae1"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -853,7 +853,7 @@
     },
     {
       "path": "desktop/README.md",
-      "sha256": "9736adea3d056092df980c7e91347242cf32d0e2ff94b6b1659738915caf5411"
+      "sha256": "04fb2cfc523560876ef983c5772253e6fc6de7c5ee3e1c2c10060f128e8c234f"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -926,6 +926,10 @@
     {
       "path": "docs/copilot-agent-installation.md",
       "sha256": "ce6dde5f926ef62c538234d67077ecf1bdeda73fc4c7028b97477f312bf8457d"
+    },
+    {
+      "path": "docs/end-to-end-validation.md",
+      "sha256": "046fc6c43afdf7bb281ee6be28fd493208864406d825917d569361b0514f6569"
     },
     {
       "path": "docs/official-hackathon-submission.md",

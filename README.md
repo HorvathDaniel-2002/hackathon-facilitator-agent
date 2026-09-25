@@ -9,11 +9,10 @@ are now in one public repository.
 
 **Experimental local MVP, not an official Microsoft product or production service.**
 
-> **ARM64 installer update:** end-to-end installation testing found that v0.3.0
-> can omit ARM64 executable files during extraction. A v0.3.1 fix is being tested.
-> Do not use the v0.3.0 ARM64 installer; use the source-based local demo or the
-> no-install materials until the replacement is available. Existing workspace
-> data must not be deleted to work around this installation issue.
+> **Use v0.3.1 or later.** End-to-end testing found and fixed an ARM64 extraction
+> issue in v0.3.0. Both replacement installers passed real install, application
+> workflow, reinstall and data-preserving uninstall checks. Do not delete your
+> saved workspace to repair the old installer.
 
 ![Blue Kanban board with every progress column visible](media/kanban-progress.png)
 
@@ -24,13 +23,23 @@ approval, deployment or a CAF submission.*
 
 | I want to… | Start here | Required |
 | --- | --- | --- |
-| **Install the Windows desktop app** | Download the matching **x64 / ARM64 `.exe` installer** from [Releases](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest) | Windows; no separate Node.js or Copilot installation |
+| **Install the Windows desktop app** | **[Intel/AMD x64](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/Hackathon-Facilitator-Setup-0.3.1-x64.exe)** · **[Windows on Arm ARM64](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/Hackathon-Facilitator-Setup-0.3.1-arm64.exe)** | Windows; no separate Node.js or Copilot installation |
 | **Try the web app** | Download the [latest release ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest), extract it and run **Start-Hackathon.cmd** on Windows | [Node.js 24](https://nodejs.org/en/download), a browser and internet for first-run dependencies |
 | **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
 | **Use the Copilot agent** | Open the extracted repository in VS Code, then select **hackathon-facilitator** in Copilot Chat | Permitted GitHub Copilot access |
 
 The local demo and the materials **do not require a Copilot subscription or an
 Azure API key**. Copilot access is needed only for the separate agent.
+
+## End-to-end checked
+
+**25 September 2026:** 495 unit/API tests, 69 browser E2E tests and 40 desktop
+policy/runtime tests passed. The Windows x64 and native ARM64 installers were
+also installed, exercised, reinstalled and uninstalled on disposable runners,
+with saved data retained.
+
+[Full test report, CI evidence and explicit limitations](docs/end-to-end-validation.md)
+· [Installer build and lifecycle checks](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/workflows/build-desktop.yml)
 
 ## Windows desktop preview
 
