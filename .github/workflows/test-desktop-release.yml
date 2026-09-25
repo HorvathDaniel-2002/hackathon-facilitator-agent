@@ -1,0 +1,45 @@
+name: Test published desktop installers
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  installed-app:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install test harness
+        working-directory: app
+        run: npm ci --include=dev --no-audit --no-fund
+      - name: Install, exercise, reinstall and uninstall published app
+        shell: pwsh
+        run: .\desktop\scripts\verify-installer.ps1 -Architecture ${{ matrix.arch }}
+      - name: Retain synthetic test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-e2e-${{ matrix.arch }}
+          path: |
+            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/*.json
+            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/*.png
+          if-no-files-found: warn
+          retention-days: 14

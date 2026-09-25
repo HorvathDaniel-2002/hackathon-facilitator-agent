@@ -5,6 +5,10 @@ on:
   push:
     paths:
       - desktop/**
+      - '!desktop/README.md'
+      - '!desktop/tests/**'
+      - '!desktop/scripts/e2e-installed.cjs'
+      - '!desktop/scripts/verify-installer.ps1'
       - app/src/lib/auth/**
       - app/src/app/api/desktop-health/**
       - .github/workflows/build-desktop.yml

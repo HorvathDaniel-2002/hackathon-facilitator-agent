@@ -57,7 +57,11 @@
     },
     {
       "path": ".github/workflows/build-desktop.yml",
-      "sha256": "e3786755c37b6251b7e329ec327ba65015b8d15ddf8d07f406f5e3a9e11bce28"
+      "sha256": "eb22ec56f925f11fe55fe992a5e8e18765ec81179303d9d18321e6a91998ac05"
+    },
+    {
+      "path": ".github/workflows/test-desktop-release.yml",
+      "sha256": "bd0b255c7d953becf405f8ce4d68e91ddb08b57003ba666705f85ea6b586fcd3"
     },
     {
       "path": ".github/workflows/verify-app.yml",
@@ -880,8 +884,16 @@
       "sha256": "b77d4b39f78c1e81a0b38dddce91215f707c8e06a92da1076ff78dc4a5031865"
     },
     {
+      "path": "desktop/scripts/e2e-installed.cjs",
+      "sha256": "70ac4550ac7b7c30ac9b6761f23c215303aec929ac96244eff768212acd9671a"
+    },
+    {
       "path": "desktop/scripts/prepare-app.mjs",
       "sha256": "a3d81c6196acdecde38e2e2d9623c19505941bfc94794b8a223ceb1fe5986be3"
+    },
+    {
+      "path": "desktop/scripts/verify-installer.ps1",
+      "sha256": "6a5cc966ddd583a982694226e3643d5fc3f9a03057058cd3b8226702383e2d3d"
     },
     {
       "path": "desktop/tests/main.test.cjs",
