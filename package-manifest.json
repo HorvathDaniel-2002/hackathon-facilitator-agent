@@ -57,7 +57,7 @@
     },
     {
       "path": ".github/workflows/build-desktop.yml",
-      "sha256": "ac2d1bcbb75a9922a3a4b3044e74bdff7b735f7b92b0632a76c3fe127199f48b"
+      "sha256": "78c76eb0a54c02d1e24c90b49f9a68f2fd9ad337e1bcdc8682507d9ec92a3ca9"
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
@@ -73,7 +73,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "0488837125eceb35226ba3ec44bbc2f2a70bbe8e5f86f145fdcf03b0aa669065"
+      "sha256": "d558d601e806f9253c1d0865004d8478687639a24b52d99432442eadd9893fbb"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -877,11 +877,11 @@
     },
     {
       "path": "desktop/package-lock.json",
-      "sha256": "c33a252998a03ff372bf3b39507d478dfa65d08f79c47b54458c54affc307668"
+      "sha256": "d2a48462592e087490d3ebaa1c2716c8101dd664bbe0842a8ba2da2a76e4dd0d"
     },
     {
       "path": "desktop/package.json",
-      "sha256": "a60c4d33a2caa6cab684b1f6d6df84050f925174c4eddbed410b810a90120f1e"
+      "sha256": "6c1eb6c31a9c44c6965a9abc7079e10c7735a506ba62370969a3b8000df3243a"
     },
     {
       "path": "desktop/policy.cjs",
@@ -893,7 +893,7 @@
     },
     {
       "path": "desktop/scripts/e2e-installed.cjs",
-      "sha256": "a0f4e7d109962607016974baf23aedd1cc76304dd2dceb8093703b03183dbac1"
+      "sha256": "6ed3f8b9b1b1e1b0e44e8889123c5d7e79937a256ae8be950bd01a63afdc8c9a"
     },
     {
       "path": "desktop/scripts/prepare-app.mjs",
@@ -901,11 +901,15 @@
     },
     {
       "path": "desktop/scripts/verify-installer.ps1",
-      "sha256": "14b21f181edebc262ae277b85e1dbc959bcea561389ce9d93aaa1c9c0712076c"
+      "sha256": "29486ecfec607be8f742754d80bab0f325b59eab0b4cc6e0bdb51818a82419f0"
     },
     {
       "path": "desktop/tests/main.test.cjs",
       "sha256": "3bff2136145d5037be4524ac94c2fa8ac69e13f2d1b87a4b16530883da99210a"
+    },
+    {
+      "path": "desktop/tests/packaging.test.cjs",
+      "sha256": "75ce79939e1b5c17f0affebe76f9fe6d4bd9c65374278188819b4899f9f9f307"
     },
     {
       "path": "desktop/tests/policy.test.cjs",

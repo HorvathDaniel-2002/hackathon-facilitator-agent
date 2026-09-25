@@ -1,7 +1,7 @@
 {
   "name": "hackathon-facilitator-desktop",
   "productName": "Hackathon Facilitator",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "Single-user Windows desktop preview for Hackathon Facilitator",
   "author": "Daniel Horvath <dahorvath@microsoft.com>",
@@ -49,12 +49,16 @@
       "repo": "hackathon-facilitator-agent"
     },
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "assets/icon.ico",
       "signExecutable": false,
       "artifactName": "Hackathon-Facilitator-Setup-${version}-${arch}.${ext}"
     },
     "nsis": {
+      "useZip": true,
+      "differentialPackage": false,
       "oneClick": false,
       "perMachine": false,
       "allowElevation": false,

@@ -18,8 +18,16 @@ permissions:
   contents: read
 
 jobs:
-  windows-x64:
-    runs-on: windows-latest
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     defaults:
       run:
@@ -39,11 +47,26 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run prepare:app
-      - run: npm run dist -- --x64
+      - run: npm run dist -- --${{ matrix.arch }}
+      - name: Install minimal desktop test driver
+        run: npm ci --prefix e2e-harness --include=dev --no-audit --no-fund
+      - name: Test actual candidate installation and data preservation
+        shell: pwsh
+        run: .\scripts\verify-installer.ps1 -Architecture ${{ matrix.arch }} -Version 0.3.1 -InstallerPath .\dist\Hackathon-Facilitator-Setup-0.3.1-${{ matrix.arch }}.exe
+      - name: Retain candidate lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-e2e-${{ matrix.arch }}
+          path: |
+            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/*.json
+            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/*.png
+          if-no-files-found: warn
+          retention-days: 14
       - name: Retain unsigned preview installer
         uses: actions/upload-artifact@v4
         with:
-          name: windows-x64-installer
-          path: desktop/dist/Hackathon-Facilitator-Setup-*-x64.exe
+          name: windows-${{ matrix.arch }}-installer
+          path: desktop/dist/Hackathon-Facilitator-Setup-*-${{ matrix.arch }}.exe
           if-no-files-found: error
           retention-days: 14

@@ -8,7 +8,7 @@ if (process.env.GITHUB_ACTIONS !== 'true' || process.env.RUNNER_OS !== 'Windows'
   throw new Error('This modifying installer test is restricted to disposable Windows CI runners.');
 }
 const { _electron: electron, expect } = require('../e2e-harness/node_modules/@playwright/test');
-const [phase, directory] = process.argv.slice(2);
+const [phase, directory, expectedVersion = '0.3.0'] = process.argv.slice(2);
 if (!['first', 'reinstalled'].includes(phase) || !path.isAbsolute(directory || '')) {
   throw new Error('Usage: node e2e-installed.cjs <first|reinstalled> <absolute CI test directory>');
 }
@@ -48,7 +48,7 @@ async function launch() {
     };
   });
   requireCheck('packaged renderer isolation', details.sandbox && details.contextIsolation && !details.nodeIntegration);
-  requireCheck('installed version', details.version === '0.3.0');
+  requireCheck('installed version', details.version === expectedVersion);
   const expectedProfile = path.join(process.env.APPDATA, 'Hackathon Facilitator');
   requireCheck('per-user data location', details.userData.toLowerCase() === expectedProfile.toLowerCase());
   const origin = new URL(page.url()).origin;

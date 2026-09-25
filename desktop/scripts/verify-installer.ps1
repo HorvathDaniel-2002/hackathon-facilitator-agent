@@ -1,6 +1,9 @@
 param(
     [ValidateSet('x64', 'arm64')]
-    [string]$Architecture = 'x64'
+    [string]$Architecture = 'x64',
+    [ValidatePattern('^\d+\.\d+\.\d+$')]
+    [string]$Version = '0.3.0',
+    [string]$InstallerPath = ''
 )
 $ErrorActionPreference = 'Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_OS -ne 'Windows' -or -not $env:RUNNER_TEMP) {
@@ -20,13 +23,23 @@ if ((Test-Path -LiteralPath $root) -or (Test-Path -LiteralPath $profile) -or
     throw 'A prior app/profile/shortcut/test directory exists. Refusing to modify it.'
 }
 New-Item -ItemType Directory -Path $root | Out-Null
-$installerName = "Hackathon-Facilitator-Setup-0.3.0-$Architecture.exe"
+$installerName = "Hackathon-Facilitator-Setup-$Version-$Architecture.exe"
 $installer = Join-Path $root $installerName
-$expected = @{
-    x64 = '8ad7a7e9ce9c853f50a7bd7f39cfb63f3576d2bceea260157facfb214ed9b6a6'
-    arm64 = '42542a736ad54c3e6d600856e9d87e2909ee58f98f94f48ac4f9fb38decad3d2'
-}[$Architecture]
-Invoke-WebRequest -Uri "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.0/$installerName" -OutFile $installer
+if ($InstallerPath) {
+    $candidate = (Resolve-Path -LiteralPath $InstallerPath).Path
+    if ((Split-Path $candidate -Leaf) -ne $installerName) { throw 'Candidate name does not match version/architecture.' }
+    Copy-Item -LiteralPath $candidate -Destination $installer
+    $expected = (Get-FileHash -LiteralPath $candidate -Algorithm SHA256).Hash.ToLowerInvariant()
+    $packageSource = 'Fresh CI build'
+} else {
+    $releaseBase = "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v$Version"
+    $checksumText = (Invoke-WebRequest -Uri "$releaseBase/hackathon-facilitator-$Version.sha256").Content
+    $matching = @($checksumText -split "`n" | Where-Object { $_.TrimEnd() -match "^[a-f0-9]{64}  $([regex]::Escape($installerName))$" })
+    if ($matching.Count -ne 1) { throw 'Release checksum file has no unique installer entry.' }
+    $expected = $matching[0].Substring(0, 64)
+    Invoke-WebRequest -Uri "$releaseBase/$installerName" -OutFile $installer
+    $packageSource = "Published v$Version release"
+}
 if ((Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) {
     throw 'Published installer digest differs from the pinned release.'
 }
@@ -67,7 +80,7 @@ function Install-Preview {
     $registration = @(Find-Registration)
     $registration | Select-Object DisplayName, DisplayVersion, UninstallString |
         ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root 'installation-registration.json') -Encoding utf8
-    if ($registration.Count -ne 1 -or $registration[0].DisplayVersion -ne '0.3.0') {
+    if ($registration.Count -ne 1 -or $registration[0].DisplayVersion -ne $Version) {
         throw 'Per-user uninstall registration is missing, duplicated or has the wrong version.'
     }
     $wsh = New-Object -ComObject WScript.Shell
@@ -79,7 +92,7 @@ function Install-Preview {
     } finally { [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($wsh) }
 }
 Install-Preview
-node (Join-Path $PSScriptRoot 'e2e-installed.cjs') first $root
+node (Join-Path $PSScriptRoot 'e2e-installed.cjs') first $root $Version
 if ($LASTEXITCODE -ne 0) { throw 'Installed app workflow checks failed.' }
 $saved = Get-Content -LiteralPath (Join-Path $root 'data-before-reinstall.json') -Raw | ConvertFrom-Json
 Install-Preview
@@ -87,15 +100,17 @@ if ((Get-FileHash -LiteralPath (Join-Path $profile 'data\workspace.db') -Algorit
     (Get-FileHash -LiteralPath (Join-Path $profile 'data\workspace.schema.json') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $saved.marker) {
     throw 'Reinstall changed the saved workspace.'
 }
-node (Join-Path $PSScriptRoot 'e2e-installed.cjs') reinstalled $root
+node (Join-Path $PSScriptRoot 'e2e-installed.cjs') reinstalled $root $Version
 if ($LASTEXITCODE -ne 0) { throw 'Relaunch after reinstall failed.' }
 $beforeUninstall = (Get-FileHash -LiteralPath (Join-Path $profile 'data\workspace.db') -Algorithm SHA256).Hash
 $uninstaller = Join-Path $installDir 'Uninstall Hackathon Facilitator.exe'
 if (-not (Test-Path -LiteralPath $uninstaller)) { throw 'Uninstaller is missing.' }
-$remove = Start-Process -FilePath $uninstaller -ArgumentList '/S' -PassThru
+$remove = Start-Process -FilePath $uninstaller -ArgumentList @('/currentuser', '/S') -PassThru
 if (-not $remove.WaitForExit(120000)) { Stop-Process -Id $remove.Id; throw 'Uninstaller timed out.' }
 $deadline = [DateTime]::UtcNow.AddSeconds(30)
-while ((Test-Path -LiteralPath $executable) -and [DateTime]::UtcNow -lt $deadline) { Start-Sleep -Milliseconds 500 }
+while (((Test-Path -LiteralPath $executable) -or (Find-Registration).Count -or
+    (Test-Path -LiteralPath $desktopLink) -or (Test-Path -LiteralPath $startLink)) -and
+    [DateTime]::UtcNow -lt $deadline) { Start-Sleep -Milliseconds 500 }
 if ((Test-Path -LiteralPath $executable) -or (Find-Registration).Count -or
     (Test-Path -LiteralPath $desktopLink) -or (Test-Path -LiteralPath $startLink)) {
     throw 'Uninstall did not remove the executable, shortcuts or registration.'
@@ -108,7 +123,7 @@ if (-not $config.build.nsis.runAfterFinish -or $config.build.nsis.allowElevation
     throw 'Installer settings no longer match launch-after-finish/per-user/data-preservation expectations.'
 }
 $report = @{
-    status = 'passed'; version = '0.3.0'; architecture = $Architecture; installerSha256 = $expected
+    status = 'passed'; version = $Version; source = $packageSource; architecture = $Architecture; installerSha256 = $expected
     actualSilentInstall = $true; startMenuShortcut = $true; desktopShortcut = $true
     perUserRegistration = $true; installedAppWorkflow = $true
     reinstallPreservesData = $true; uninstallRemovesProgram = $true; uninstallPreservesData = $true

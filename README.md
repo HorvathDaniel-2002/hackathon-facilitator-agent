@@ -9,6 +9,12 @@ are now in one public repository.
 
 **Experimental local MVP, not an official Microsoft product or production service.**
 
+> **ARM64 installer update:** end-to-end installation testing found that v0.3.0
+> can omit ARM64 executable files during extraction. A v0.3.1 fix is being tested.
+> Do not use the v0.3.0 ARM64 installer; use the source-based local demo or the
+> no-install materials until the replacement is available. Existing workspace
+> data must not be deleted to work around this installation issue.
+
 ![Blue Kanban board with every progress column visible](media/kanban-progress.png)
 
 *Fictional sample workspace. Mock evaluations are labeled; statuses do not imply
