@@ -55,6 +55,10 @@ x64   90c1e2f1a1c83c69ac0abe9bad8e2a93d3b56d66129cf536b17cf9ee8cbd6b98
 ARM64 289d71536aa765b8a98863a0f3d8f8a8bfe567fc84799d031f3005f7d15367d5
 ```
 
+The complete lifecycle was repeated successfully **after publication**, downloading
+both installers from the public release and checking their published hashes:
+[published-installer verification](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/36101143870).
+
 ## Defect found and fixed
 
 The v0.3.0 ARM64 installer could finish without extracting the main executable,
@@ -81,6 +85,11 @@ The v0.3.0 source ZIP was downloaded without authentication; it contained
 were valid. Both PDFs opened with readable text: **15 playbook pages** and
 **16 workshop pages**. The optional Copilot profile/installer is covered by the
 unit suite; a live Copilot conversation is not used as an accuracy benchmark.
+
+Source-bundle verification also caught two CRLF/LF normalization mismatches in
+the first v0.3.1 archive's manifest. The source-only download was corrected as
+`hackathon-facilitator-0.3.1-source-r2.zip`; the signed-off installer bytes did not
+change. The checksum file names the corrected source archive explicitly.
 
 ## What this does not establish
 

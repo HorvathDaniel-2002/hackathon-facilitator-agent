@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
-      "sha256": "a484d12ef1b502b611d22eac3cc54a0936a08e582ef1e8382edee53562b3d872"
+      "sha256": "5e798b83dcb35e6dc7cf1a6791556cd2e162dc65e3c83629f2836e7c5583796e"
     },
     {
       "path": ".github/workflows/verify-app.yml",
@@ -73,7 +73,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "f8843ee4a4335f8a7408bc32473e13ac34c3dcf158b05890230a3ddd0966cae1"
+      "sha256": "fb5e72960439c8dbf1f8b3ba259d4408dfe34c664bf960b003b86d2b1e26482f"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -869,7 +869,7 @@
     },
     {
       "path": "desktop/e2e-harness/package.json",
-      "sha256": "5dd9bf7157d9572ff798fa715e9bb250c365573e464a33003ef7ca3e4cfb4f88"
+      "sha256": "d99cae9472fa3872a151974ce48419c903a46244f9a7e934101a5c933d71a07f"
     },
     {
       "path": "desktop/main.cjs",
@@ -929,7 +929,7 @@
     },
     {
       "path": "docs/end-to-end-validation.md",
-      "sha256": "046fc6c43afdf7bb281ee6be28fd493208864406d825917d569361b0514f6569"
+      "sha256": "20fb3eca380766fa7db3f7ee15bcf95b87d850f87a8017aa24acab553e3e0599"
     },
     {
       "path": "docs/official-hackathon-submission.md",
