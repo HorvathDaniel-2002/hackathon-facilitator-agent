@@ -33,7 +33,9 @@ if ($InstallerPath) {
     $packageSource = 'Fresh CI build'
 } else {
     $releaseBase = "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v$Version"
-    $checksumText = (Invoke-WebRequest -Uri "$releaseBase/hackathon-facilitator-$Version.sha256").Content
+    $checksumFile = Join-Path $root 'release-checksums.txt'
+    Invoke-WebRequest -Uri "$releaseBase/hackathon-facilitator-$Version.sha256" -OutFile $checksumFile
+    $checksumText = Get-Content -LiteralPath $checksumFile -Raw -Encoding utf8
     $matching = @($checksumText -split "`n" | Where-Object { $_.TrimEnd() -match "^[a-f0-9]{64}  $([regex]::Escape($installerName))$" })
     if ($matching.Count -ne 1) { throw 'Release checksum file has no unique installer entry.' }
     $expected = $matching[0].Substring(0, 64)

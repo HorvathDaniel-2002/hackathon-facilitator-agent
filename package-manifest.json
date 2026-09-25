@@ -901,7 +901,7 @@
     },
     {
       "path": "desktop/scripts/verify-installer.ps1",
-      "sha256": "29486ecfec607be8f742754d80bab0f325b59eab0b4cc6e0bdb51818a82419f0"
+      "sha256": "872ccc6cc9bca6bdaf17ef21a3b46df207f7964a78a787e27a0dc013933d52fc"
     },
     {
       "path": "desktop/tests/main.test.cjs",
