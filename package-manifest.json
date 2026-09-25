@@ -893,7 +893,7 @@
     },
     {
       "path": "desktop/scripts/e2e-installed.cjs",
-      "sha256": "befd049a96774572ab8c12a90032b009c2144c44712f41e6000dccf889ad55d1"
+      "sha256": "a0f4e7d109962607016974baf23aedd1cc76304dd2dceb8093703b03183dbac1"
     },
     {
       "path": "desktop/scripts/prepare-app.mjs",
@@ -901,7 +901,7 @@
     },
     {
       "path": "desktop/scripts/verify-installer.ps1",
-      "sha256": "2fdd071f36d411bbdb400f82ec292a04c07468a8e75b889b77083a9f00e0c180"
+      "sha256": "14b21f181edebc262ae277b85e1dbc959bcea561389ce9d93aaa1c9c0712076c"
     },
     {
       "path": "desktop/tests/main.test.cjs",

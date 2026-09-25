@@ -31,6 +31,7 @@ if ((Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvaria
     throw 'Published installer digest differs from the pinned release.'
 }
 $installDir = Join-Path $root 'installed'
+$installStarted = Get-Date
 $executable = Join-Path $installDir 'Hackathon Facilitator.exe'
 $signing = [string](Get-AuthenticodeSignature -LiteralPath $installer).Status
 if ($signing -ne 'NotSigned') { throw "Unexpected signing status for this unsigned preview: $signing" }
@@ -51,6 +52,16 @@ function Install-Preview {
         entries = @(Get-ChildItem -LiteralPath $installDir -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name)
         userRegistrations = @(Find-Registration | Select-Object DisplayName, DisplayVersion, UninstallString, InstallLocation)
         defaultInstallation = Test-Path -LiteralPath (Join-Path $env:LOCALAPPDATA 'Programs\Hackathon Facilitator\Hackathon Facilitator.exe')
+        remainingFileTypes = @(Get-ChildItem -LiteralPath $installDir -Recurse -File -ErrorAction SilentlyContinue |
+            Group-Object Extension | Select-Object Name, Count)
+        defenderEvents = @(Get-WinEvent -FilterHashtable @{
+            LogName = 'Microsoft-Windows-Windows Defender/Operational'; StartTime = $installStarted; Id = 1116,1117
+        } -ErrorAction SilentlyContinue | Where-Object { $_.Message -like "*$root*" } |
+            Select-Object -First 5 Id, Message)
+        integrityEvents = @(Get-WinEvent -FilterHashtable @{
+            LogName = 'Microsoft-Windows-CodeIntegrity/Operational'; StartTime = $installStarted; Id = 3076,3077
+        } -ErrorAction SilentlyContinue | Where-Object { $_.Message -like "*$root*" } |
+            Select-Object -First 5 Id, Message)
     } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $root 'installation-observation.json') -Encoding utf8
     if (-not (Test-Path -LiteralPath $executable)) { throw 'Installed executable is missing.' }
     $registration = @(Find-Registration)

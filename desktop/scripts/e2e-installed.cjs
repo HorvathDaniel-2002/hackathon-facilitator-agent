@@ -103,7 +103,7 @@ async function quit(origin) {
     await page.getByLabel('Description', { exact: true }).fill('Read-only assistant for an invented policy library.');
     await page.getByLabel('Data sources', { exact: true }).fill('Synthetic policy documents only.');
     await page.getByRole('button', { name: 'Create use case', exact: true }).click();
-    await page.waitForURL(/\/usecases\/[^/]+$/);
+    await page.waitForURL(/\/usecases\/(?!new$)[^/]+$/);
     const caseId = new URL(page.url()).pathname.split('/').at(-1);
     await page.getByRole('button', { name: 'Run evaluator', exact: true }).click();
     await expect(page.getByRole('button', { name: 'Re-evaluate', exact: true })).toBeVisible();
@@ -160,11 +160,15 @@ async function quit(origin) {
     await preview.close();
     const csvPath = path.join(qa, 'portfolio.csv');
     await instance.evaluate(({ BrowserWindow }, output) => {
-      BrowserWindow.getAllWindows()[0].webContents.session.once('will-download', (_event, item) => item.setSavePath(output));
+      globalThis.__hfTestDownload = null;
+      BrowserWindow.getAllWindows()[0].webContents.session.once('will-download', (event, item) => {
+        if (event.defaultPrevented) { globalThis.__hfTestDownload = { state: 'cancelled' }; return; }
+        item.setSavePath(output);
+        item.once('done', (_done, state) => { globalThis.__hfTestDownload = { state }; });
+      });
     }, csvPath);
-    const download = page.waitForEvent('download');
     await page.getByRole('link', { name: 'Download Excel-compatible CSV', exact: true }).click();
-    await (await download).path();
+    await expect.poll(() => instance.evaluate(() => globalThis.__hfTestDownload?.state), { timeout: 30000 }).toBe('completed');
     requireCheck('CSV export contains the saved workflow', fs.readFileSync(csvPath, 'utf8').includes('CI-CAF-REFERENCE'));
 
     await instance.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
