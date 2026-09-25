@@ -13,7 +13,7 @@ $startLink = Join-Path ([Environment]::GetFolderPath('Programs')) 'Hackathon Fac
 $uninstallRoot = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall'
 function Find-Registration {
     @(Get-ChildItem -LiteralPath $uninstallRoot -ErrorAction SilentlyContinue |
-        Get-ItemProperty | Where-Object DisplayName -EQ 'Hackathon Facilitator')
+        Get-ItemProperty | Where-Object { $_.DisplayName -match '^Hackathon Facilitator(?: \d+\.\d+\.\d+.*)?$' })
 }
 if ((Test-Path -LiteralPath $root) -or (Test-Path -LiteralPath $profile) -or
     (Test-Path -LiteralPath $desktopLink) -or (Test-Path -LiteralPath $startLink) -or (Find-Registration).Count) {
@@ -39,7 +39,12 @@ function Install-Preview {
     if (-not $process.WaitForExit(180000)) { Stop-Process -Id $process.Id; throw 'Installer timed out.' }
     if ($process.ExitCode -ne 0) { throw "Installer failed: $($process.ExitCode)" }
     if (-not (Test-Path -LiteralPath $executable)) { throw 'Installed executable is missing.' }
-    if ((Find-Registration).Count -ne 1) { throw 'Per-user uninstall registration is missing or duplicated.' }
+    $registration = @(Find-Registration)
+    $registration | Select-Object DisplayName, DisplayVersion, UninstallString |
+        ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root 'installation-registration.json') -Encoding utf8
+    if ($registration.Count -ne 1 -or $registration[0].DisplayVersion -ne '0.3.0') {
+        throw 'Per-user uninstall registration is missing, duplicated or has the wrong version.'
+    }
     $wsh = New-Object -ComObject WScript.Shell
     try {
         foreach ($shortcut in @($desktopLink, $startLink)) {

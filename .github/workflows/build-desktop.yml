@@ -7,6 +7,7 @@ on:
       - desktop/**
       - '!desktop/README.md'
       - '!desktop/tests/**'
+      - '!desktop/e2e-harness/**'
       - '!desktop/scripts/e2e-installed.cjs'
       - '!desktop/scripts/verify-installer.ps1'
       - app/src/lib/auth/**

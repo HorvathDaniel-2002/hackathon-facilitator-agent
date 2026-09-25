@@ -57,11 +57,11 @@
     },
     {
       "path": ".github/workflows/build-desktop.yml",
-      "sha256": "eb22ec56f925f11fe55fe992a5e8e18765ec81179303d9d18321e6a91998ac05"
+      "sha256": "ac2d1bcbb75a9922a3a4b3044e74bdff7b735f7b92b0632a76c3fe127199f48b"
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
-      "sha256": "bd0b255c7d953becf405f8ce4d68e91ddb08b57003ba666705f85ea6b586fcd3"
+      "sha256": "ca47d2ad8d1246b27df27c77a31e4e1033386ddada1c4f33730b56f8856cd867"
     },
     {
       "path": ".github/workflows/verify-app.yml",
@@ -864,6 +864,14 @@
       "sha256": "0ff3e75d1a1c89eb6f11d65a204327e80491859ce21209887d565427450b9e74"
     },
     {
+      "path": "desktop/e2e-harness/package-lock.json",
+      "sha256": "b1807aa414c19bf3fa83f12c9fd3f13f9d2cc176f9086adfb1e54fc52f484825"
+    },
+    {
+      "path": "desktop/e2e-harness/package.json",
+      "sha256": "5dd9bf7157d9572ff798fa715e9bb250c365573e464a33003ef7ca3e4cfb4f88"
+    },
+    {
       "path": "desktop/main.cjs",
       "sha256": "ea86921b7c9fc9e3ea4f70c58d74c965d1a52767fd4ff43787720b00439ce9f9"
     },
@@ -885,7 +893,7 @@
     },
     {
       "path": "desktop/scripts/e2e-installed.cjs",
-      "sha256": "70ac4550ac7b7c30ac9b6761f23c215303aec929ac96244eff768212acd9671a"
+      "sha256": "521393c6ef945a73793ee589124a2a0c3cc00083a7a474d39d448544e125a29a"
     },
     {
       "path": "desktop/scripts/prepare-app.mjs",
@@ -893,7 +901,7 @@
     },
     {
       "path": "desktop/scripts/verify-installer.ps1",
-      "sha256": "6a5cc966ddd583a982694226e3643d5fc3f9a03057058cd3b8226702383e2d3d"
+      "sha256": "6e316bf9121534c24e256dea328f4c8e39ed7e02b0da54931a5f19e7bbf1a66b"
     },
     {
       "path": "desktop/tests/main.test.cjs",

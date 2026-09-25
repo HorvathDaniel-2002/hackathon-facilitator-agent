@@ -4,11 +4,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { spawn, execFileSync } = require('node:child_process');
 const { createHash } = require('node:crypto');
-const { _electron: electron, expect } = require('../../app/node_modules/@playwright/test');
-
 if (process.env.GITHUB_ACTIONS !== 'true' || process.env.RUNNER_OS !== 'Windows') {
   throw new Error('This modifying installer test is restricted to disposable Windows CI runners.');
 }
+const { _electron: electron, expect } = require('../e2e-harness/node_modules/@playwright/test');
 const [phase, directory] = process.argv.slice(2);
 if (!['first', 'reinstalled'].includes(phase) || !path.isAbsolute(directory || '')) {
   throw new Error('Usage: node e2e-installed.cjs <first|reinstalled> <absolute CI test directory>');

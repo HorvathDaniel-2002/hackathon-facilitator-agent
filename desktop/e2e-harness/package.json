@@ -1,0 +1,9 @@
+{
+  "name": "hackathon-facilitator-installer-tests",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Test driver only; not required by desktop users",
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

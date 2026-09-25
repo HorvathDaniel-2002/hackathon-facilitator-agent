@@ -26,9 +26,9 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: app/package-lock.json
+          cache-dependency-path: desktop/e2e-harness/package-lock.json
       - name: Install test harness
-        working-directory: app
+        working-directory: desktop/e2e-harness
         run: npm ci --include=dev --no-audit --no-fund
       - name: Install, exercise, reinstall and uninstall published app
         shell: pwsh
