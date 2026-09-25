@@ -42,7 +42,7 @@ async function launch() {
     const w = BrowserWindow.getAllWindows()[0];
     const prefs = w.webContents.getLastWebPreferences();
     return {
-      userData: app.getPath('userData'), version: app.getVersion(),
+      userData: app.getPath('userData'), version: app.getVersion(), mainPid: process.pid,
       sandbox: prefs.sandbox, contextIsolation: prefs.contextIsolation,
       nodeIntegration: prefs.nodeIntegration, windowCount: BrowserWindow.getAllWindows().length,
     };
@@ -54,11 +54,16 @@ async function launch() {
   const origin = new URL(page.url()).origin;
   requireCheck('anonymous backend access denied', (await fetch(`${origin}/api/desktop-health`)).status === 403);
   const children = JSON.parse(execFileSync('powershell.exe', ['-NoProfile', '-Command',
-    `@(Get-CimInstance Win32_Process -Filter "ParentProcessId=${instance.process().pid}" | Select-Object -ExpandProperty ExecutablePath) | ConvertTo-Json -Compress`],
+    `@(Get-CimInstance Win32_Process -Filter "ParentProcessId=${details.mainPid}" | Select-Object -ExpandProperty ExecutablePath) | ConvertTo-Json -Compress`],
   { encoding: 'utf8' }) || '[]');
   const images = Array.isArray(children) ? children : [children];
+  const bundledNode = path.join(qa, 'installed', 'resources', 'backend', 'node', 'node.exe');
+  fs.writeFileSync(path.join(qa, `runtime-images-${phase}.json`), JSON.stringify({
+    images, bundledNode, launcherPid: instance.process().pid, electronPid: details.mainPid,
+  }, null, 2));
+  const canonical = file => fs.realpathSync.native(file).toLowerCase();
   requireCheck('backend uses bundled Node rather than a system Node installation', images.some(image =>
-    image?.toLowerCase() === path.join(qa, 'installed', 'resources', 'backend', 'node', 'node.exe').toLowerCase()));
+    image && fs.existsSync(image) && canonical(image) === canonical(bundledNode)));
   return { origin, profile: details.userData };
 }
 

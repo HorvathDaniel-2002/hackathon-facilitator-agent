@@ -38,6 +38,20 @@ function Install-Preview {
     $process = Start-Process -FilePath $installer -ArgumentList @('/S', "/D=$installDir") -PassThru
     if (-not $process.WaitForExit(180000)) { Stop-Process -Id $process.Id; throw 'Installer timed out.' }
     if ($process.ExitCode -ne 0) { throw "Installer failed: $($process.ExitCode)" }
+    $deadline = [DateTime]::UtcNow.AddSeconds(60)
+    while ((-not (Test-Path -LiteralPath $executable)) -and [DateTime]::UtcNow -lt $deadline) {
+        Start-Sleep -Milliseconds 500
+    }
+    @{
+        expectedDirectory = $installDir
+        osArchitecture = [string][Runtime.InteropServices.RuntimeInformation]::OSArchitecture
+        powershellArchitecture = [string][Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture
+        installerExitCode = $process.ExitCode
+        executableExists = Test-Path -LiteralPath $executable
+        entries = @(Get-ChildItem -LiteralPath $installDir -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name)
+        userRegistrations = @(Find-Registration | Select-Object DisplayName, DisplayVersion, UninstallString, InstallLocation)
+        defaultInstallation = Test-Path -LiteralPath (Join-Path $env:LOCALAPPDATA 'Programs\Hackathon Facilitator\Hackathon Facilitator.exe')
+    } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $root 'installation-observation.json') -Encoding utf8
     if (-not (Test-Path -LiteralPath $executable)) { throw 'Installed executable is missing.' }
     $registration = @(Find-Registration)
     $registration | Select-Object DisplayName, DisplayVersion, UninstallString |
