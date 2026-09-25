@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
-      "sha256": "ca47d2ad8d1246b27df27c77a31e4e1033386ddada1c4f33730b56f8856cd867"
+      "sha256": "a484d12ef1b502b611d22eac3cc54a0936a08e582ef1e8382edee53562b3d872"
     },
     {
       "path": ".github/workflows/verify-app.yml",
@@ -893,7 +893,7 @@
     },
     {
       "path": "desktop/scripts/e2e-installed.cjs",
-      "sha256": "6ed3f8b9b1b1e1b0e44e8889123c5d7e79937a256ae8be950bd01a63afdc8c9a"
+      "sha256": "70535bb759d9d0bf09c19a76250d5dd1b135b5ca1c76da43a9bff16030b8fa53"
     },
     {
       "path": "desktop/scripts/prepare-app.mjs",

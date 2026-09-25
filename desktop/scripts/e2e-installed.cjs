@@ -22,6 +22,7 @@ const env = { ...process.env };
 delete env.ELECTRON_RUN_AS_NODE;
 let instance;
 let page;
+let mainWindowId;
 const errors = [];
 const checks = [];
 const hash = file => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -42,11 +43,12 @@ async function launch() {
     const w = BrowserWindow.getAllWindows()[0];
     const prefs = w.webContents.getLastWebPreferences();
     return {
-      userData: app.getPath('userData'), version: app.getVersion(), mainPid: process.pid,
+      userData: app.getPath('userData'), version: app.getVersion(), mainPid: process.pid, windowId: w.id,
       sandbox: prefs.sandbox, contextIsolation: prefs.contextIsolation,
       nodeIntegration: prefs.nodeIntegration, windowCount: BrowserWindow.getAllWindows().length,
     };
   });
+  mainWindowId = details.windowId;
   requireCheck('packaged renderer isolation', details.sandbox && details.contextIsolation && !details.nodeIntegration);
   requireCheck('installed version', details.version === expectedVersion);
   const expectedProfile = path.join(process.env.APPDATA, 'Hackathon Facilitator');
@@ -158,21 +160,23 @@ async function quit(origin) {
         p.sandbox && p.contextIsolation && !p.nodeIntegration));
     requireCheck('print-ready export opens in an isolated child window', preferences);
     await preview.close();
+    await expect.poll(() => instance.evaluate(({ BrowserWindow }) =>
+      BrowserWindow.getAllWindows().filter(w => !w.isDestroyed()).length)).toBe(1);
     const csvPath = path.join(qa, 'portfolio.csv');
-    await instance.evaluate(({ BrowserWindow }, output) => {
+    await instance.evaluate(({ BrowserWindow }, { output, windowId }) => {
       globalThis.__hfTestDownload = null;
-      BrowserWindow.getAllWindows()[0].webContents.session.once('will-download', (event, item) => {
+      BrowserWindow.fromId(windowId).webContents.session.once('will-download', (event, item) => {
         if (event.defaultPrevented) { globalThis.__hfTestDownload = { state: 'cancelled' }; return; }
         item.setSavePath(output);
         item.once('done', (_done, state) => { globalThis.__hfTestDownload = { state }; });
       });
-    }, csvPath);
+    }, { output: csvPath, windowId: mainWindowId });
     await page.getByRole('link', { name: 'Download Excel-compatible CSV', exact: true }).click();
     await expect.poll(() => instance.evaluate(() => globalThis.__hfTestDownload?.state), { timeout: 30000 }).toBe('completed');
     requireCheck('CSV export contains the saved workflow', fs.readFileSync(csvPath, 'utf8').includes('CI-CAF-REFERENCE'));
 
-    await instance.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].close());
-    await expect.poll(() => instance.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].isVisible())).toBe(false);
+    await instance.evaluate(({ BrowserWindow }, id) => BrowserWindow.fromId(id).close(), mainWindowId);
+    await expect.poll(() => instance.evaluate(({ BrowserWindow }, id) => BrowserWindow.fromId(id)?.isVisible(), mainWindowId)).toBe(false);
     requireCheck('closing to tray leaves backend running', (await fetch(`${origin}/api/desktop-health`)).status === 403);
     const second = spawn(executablePath, [], { env, stdio: 'ignore' });
     await new Promise((resolve, reject) => {
@@ -180,7 +184,7 @@ async function quit(origin) {
       second.once('error', reject);
       second.once('exit', code => { clearTimeout(timer); code === 0 ? resolve() : reject(new Error(`Second instance exited ${code}`)); });
     });
-    await expect.poll(() => instance.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].isVisible())).toBe(true);
+    await expect.poll(() => instance.evaluate(({ BrowserWindow }, id) => BrowserWindow.fromId(id)?.isVisible(), mainWindowId)).toBe(true);
     checks.push('tray hide and single-instance restore work in installed app');
     await page.screenshot({ path: path.join(qa, 'installed-desktop.png') });
     await quit(origin);

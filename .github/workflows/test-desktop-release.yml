@@ -2,6 +2,12 @@ name: Test published desktop installers
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: Published desktop version to verify
+        required: true
+        default: "0.3.1"
+        type: string
 
 permissions:
   contents: read
@@ -20,6 +26,7 @@ jobs:
     timeout-minutes: 25
     env:
       NEXT_TELEMETRY_DISABLED: "1"
+      HF_RELEASE_VERSION: ${{ inputs.version }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
@@ -32,7 +39,7 @@ jobs:
         run: npm ci --include=dev --no-audit --no-fund
       - name: Install, exercise, reinstall and uninstall published app
         shell: pwsh
-        run: .\desktop\scripts\verify-installer.ps1 -Architecture ${{ matrix.arch }}
+        run: .\desktop\scripts\verify-installer.ps1 -Architecture ${{ matrix.arch }} -Version $env:HF_RELEASE_VERSION
       - name: Retain synthetic test evidence
         if: always()
         uses: actions/upload-artifact@v4
