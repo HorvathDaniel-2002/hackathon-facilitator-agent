@@ -70,13 +70,14 @@ jobs:
         shell: pwsh
         run: .\store\verify-msix.ps1 -Directory .\store-output
       - name: Retain packaging evidence
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: msix-validation-${{ matrix.arch }}
           path: |
             desktop/store-output/package-report.json
             desktop/store-output/content/AppxManifest.xml
-          if-no-files-found: error
+          if-no-files-found: warn
       - name: Retain unsigned Store submission package for owner review
         if: inputs.purpose == 'submission'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

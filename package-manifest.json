@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/build-store-msix.yml",
-      "sha256": "62f9ee613210881c45f8768dba6d0fd6e2bfbff683ab342a49b1acbf5412c8aa"
+      "sha256": "54a61269023a2f15d559a6e3df7f185ec5bbea7ebc84988067de3671cd9d82fb"
     },
     {
       "path": ".github/workflows/sign-desktop.yml",
@@ -989,7 +989,7 @@
     },
     {
       "path": "desktop/store/verify-msix.ps1",
-      "sha256": "2b5ffa73651d62ebe88f8a48774522c915ac27237dce2d5955a6e3d38cfac297"
+      "sha256": "523b9f11f828f3d46d6bd3084ab72035ab669825a0050209b491a5bf51e70614"
     },
     {
       "path": "desktop/tests/main.test.cjs",
@@ -1017,7 +1017,7 @@
     },
     {
       "path": "desktop/tests/store-packaging.test.cjs",
-      "sha256": "bbb2637e61e4def35996de887b690e3170d99071527bcf77898409ca562145ac"
+      "sha256": "9738c96dc9297979490efdc06dd14ab18c9067b02a9685aeb459a5a5d71a2e17"
     },
     {
       "path": "docs/colleague-distribution.md",

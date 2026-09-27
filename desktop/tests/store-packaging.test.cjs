@@ -104,3 +104,47 @@ test('Store logos have exact square dimensions and use PNG format', () => {
     assert.equal(png.readUInt32BE(20), size);
   }
 });
+
+test('MSIX verifier checks logical ZIP paths and every staged byte, not just filenames', { skip: process.platform !== 'win32' }, () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'hf-msix-verifier-'));
+  const content = path.join(root, 'content');
+  const packageFile = path.join(root, 'fixture.msix');
+  const write = (relative, value = 'fixture') => {
+    const file = path.join(content, relative);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, value);
+  };
+  try {
+    write('AppxManifest.xml', manifest(storeConfig(valid()), 'arm64'));
+    for (const file of ['AppxBlockMap.xml', '[Content_Types].xml', 'app/Hackathon Facilitator.exe',
+      'app/resources/app.asar', 'app/resources/backend/node/node.exe', 'app/resources/backend/server/server.js',
+      'app/resources/backend/template.db', 'Assets/StoreLogo.png', 'Assets/Square44x44Logo.png', 'Assets/Square150x150Logo.png']) write(file);
+    const zip = spawnSync('pwsh.exe', ['-NoProfile', '-NonInteractive', '-Command', `
+      $ErrorActionPreference='Stop'
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      $content=Join-Path $env:HF_MSIX_TEST_ROOT 'content'
+      $zip=[IO.Compression.ZipFile]::Open((Join-Path $env:HF_MSIX_TEST_ROOT 'fixture.msix'), 'Create')
+      try {
+        foreach ($file in Get-ChildItem -LiteralPath $content -Recurse -File) {
+          $name=[IO.Path]::GetRelativePath($content,$file.FullName).Replace(' ', '%20')
+          [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip,$file.FullName,$name) | Out-Null
+        }
+      } finally { $zip.Dispose() }
+    `], { encoding: 'utf8', env: { ...process.env, HF_MSIX_TEST_ROOT: root } });
+    assert.equal(zip.status, 0, zip.stderr);
+    const report = {
+      packageName: 'fixture.msix', sha256: createHash('sha256').update(fs.readFileSync(packageFile)).digest('hex'),
+      identityName: valid().STORE_IDENTITY_NAME, version: '1.0.0.0', arch: 'arm64', validationOnly: false,
+    };
+    fs.writeFileSync(path.join(root, 'package-report.json'), JSON.stringify(report));
+    const verify = () => spawnSync('pwsh.exe', ['-NoProfile', '-NonInteractive', '-File',
+      path.join(__dirname, '..', 'store', 'verify-msix.ps1'), '-Directory', root], { encoding: 'utf8' });
+    const passed = verify();
+    assert.equal(passed.status, 0, passed.stderr);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'package-report.json'), 'utf8')).payloadBytesVerified, true);
+    write('app/Hackathon Facilitator.exe', 'changed');
+    const failed = verify();
+    assert.equal(failed.status, 1);
+    assert.match(failed.stderr, /Packaged file bytes differ/);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
