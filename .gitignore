@@ -18,4 +18,5 @@ next-env.d.ts
 tests/e2e/.runtime/
 desktop/payload/
 desktop/dist/
+desktop/dist-signed/
 desktop/.build/

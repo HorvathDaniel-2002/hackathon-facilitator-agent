@@ -1,0 +1,53 @@
+name: Verify signing preparation without credentials
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - desktop/signing/**
+      - desktop/tests/signing*
+      - desktop/scripts/verify-installer.ps1
+      - .github/workflows/sign-desktop.yml
+      - .github/workflows/verify-signing-preparation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  offline-verification:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - name: Run desktop and offline signing guard tests
+        working-directory: desktop
+        run: npm test
+      - name: Parse PowerShell and reject unconfigured signing
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($file in Get-ChildItem desktop/signing -Filter '*.ps1') {
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($file.FullName,[ref]$null,[ref]$errors) | Out-Null
+            if ($errors.Count) { throw ($errors.Message -join '; ') }
+          }
+          $env:SIGNING_ENABLED = ''
+          node desktop/signing/config.cjs
+          if ($LASTEXITCODE -ne 1) { throw 'Unconfigured signing did not fail closed.' }
+          $global:LASTEXITCODE = 0
+      - name: Verify pinned Microsoft module API without credentials
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Save-Module ArtifactSigning -RequiredVersion 0.1.20 -Repository PSGallery -Path "$env:RUNNER_TEMP\signing-module"
+          Import-Module "$env:RUNNER_TEMP\signing-module\ArtifactSigning\0.1.20\ArtifactSigning.psd1"
+          $parameters = (Get-Command Invoke-ArtifactSigning).Parameters
+          foreach ($name in @('Endpoint','Files','CodeSigningAccountName','CertificateProfileName','FileDigest','TimestampRfc3161','TimestampDigest','ExcludeEnvironmentCredential','ExcludeWorkloadIdentityCredential','ExcludeManagedIdentityCredential','ExcludeSharedTokenCacheCredential','ExcludeVisualStudioCredential','ExcludeVisualStudioCodeCredential','ExcludeAzureCliCredential','ExcludeAzurePowerShellCredential','ExcludeAzureDeveloperCliCredential','ExcludeInteractiveBrowserCredential')) {
+            if (-not $parameters.ContainsKey($name)) { throw "Required module parameter missing: $name" }
+          }
+          Write-Output 'Pinned module contract verified. No Azure login or signing operation was performed.'

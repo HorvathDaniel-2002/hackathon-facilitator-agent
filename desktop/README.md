@@ -22,6 +22,12 @@ Ask IT to review/sign/approve the package, or use the existing browser demo or
 Word/PowerPoint materials while approval is pending. A checksum verifies a
 download against the supplied hash; it does not replace a trusted publisher signature.
 
+The [trusted-signing workflow and administrator handoff](signing/README.md) are
+prepared but **not enabled**. The public release remains unsigned until the
+approved publisher identity, Public Trust profile, role and protected GitHub
+environment are configured. Even a valid signature does not guarantee immediate
+SmartScreen reputation. No warning-bypass or private-key export is required.
+
 **Use v0.3.1 or later on ARM64.** End-to-end testing found that the v0.3.0
 NSIS/7z path could omit ARM64 executable files during installation. The patch
 uses compatible ZIP payloads. Do not delete saved workspace data to repair a
@@ -96,6 +102,12 @@ The build is deliberately configured with Windows signing disabled for this
 unsigned preview. Production distribution requires an approved signing workflow
 and organizational review. Signing keys, tokens and private certificates must
 never be committed.
+
+`npm run signing:check` validates the required signing configuration without
+signing or provisioning anything. The separate manual **Prepare trusted-signed
+Windows candidate** workflow signs and verifies all owned executables, then runs
+the real installer lifecycle on both architectures. It does not automatically
+publish, and it fails instead of falling back to an unsigned build.
 
 ## Repeatable installer validation
 

@@ -57,6 +57,13 @@ may block it. Do not disable those protections; ask IT to review/sign/approve it
 The desktop preview is a local single-user app with mock AI, not Entra SSO or a
 corporate production deployment.
 
+**Why Edge says “isn't commonly downloaded”:** the current installer is unsigned
+and has limited download reputation. A protected trusted-signing workflow is now
+prepared, but it cannot issue a trusted signature until an authorized publisher
+and signing profile are supplied. The published files are **still unsigned**.
+[Signing prerequisites and the administrator request](desktop/signing/README.md).
+Do not disable SmartScreen or install a self-signed root to suppress this warning.
+
 ## Web app: easiest setup
 
 1. Install **Node.js 24**. Extract the ZIP into a normal writable folder.

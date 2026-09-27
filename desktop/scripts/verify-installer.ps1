@@ -3,7 +3,9 @@ param(
     [string]$Architecture = 'x64',
     [ValidatePattern('^\d+\.\d+\.\d+$')]
     [string]$Version = '0.3.0',
-    [string]$InstallerPath = ''
+    [string]$InstallerPath = '',
+    [ValidateSet('UnsignedPreview', 'TrustedPublisher')]
+    [string]$SignatureMode = 'UnsignedPreview'
 )
 $ErrorActionPreference = 'Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_OS -ne 'Windows' -or -not $env:RUNNER_TEMP) {
@@ -23,7 +25,8 @@ if ((Test-Path -LiteralPath $root) -or (Test-Path -LiteralPath $profile) -or
     throw 'A prior app/profile/shortcut/test directory exists. Refusing to modify it.'
 }
 New-Item -ItemType Directory -Path $root | Out-Null
-$installerName = "Hackathon-Facilitator-Setup-$Version-$Architecture.exe"
+$suffix = if ($SignatureMode -eq 'TrustedPublisher') { '-signed' } else { '' }
+$installerName = "Hackathon-Facilitator-Setup-$Version-$Architecture$suffix.exe"
 $installer = Join-Path $root $installerName
 if ($InstallerPath) {
     $candidate = (Resolve-Path -LiteralPath $InstallerPath).Path
@@ -49,7 +52,11 @@ $installDir = Join-Path $root 'installed'
 $installStarted = Get-Date
 $executable = Join-Path $installDir 'Hackathon Facilitator.exe'
 $signing = [string](Get-AuthenticodeSignature -LiteralPath $installer).Status
-if ($signing -ne 'NotSigned') { throw "Unexpected signing status for this unsigned preview: $signing" }
+if ($SignatureMode -eq 'TrustedPublisher') {
+    & (Join-Path $PSScriptRoot '..\signing\verify-signature.ps1') -FilePath $installer
+} elseif ($signing -ne 'NotSigned') {
+    throw "Unexpected signing status for this unsigned preview: $signing"
+}
 function Install-Preview {
     $process = Start-Process -FilePath $installer -ArgumentList @('/S', "/D=$installDir") -PassThru
     if (-not $process.WaitForExit(180000)) { Stop-Process -Id $process.Id; throw 'Installer timed out.' }
@@ -79,6 +86,12 @@ function Install-Preview {
             Select-Object -First 5 Id, Message)
     } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $root 'installation-observation.json') -Encoding utf8
     if (-not (Test-Path -LiteralPath $executable)) { throw 'Installed executable is missing.' }
+    if ($SignatureMode -eq 'TrustedPublisher') {
+        foreach ($file in @($executable, (Join-Path $installDir 'Uninstall Hackathon Facilitator.exe'))) {
+            & (Join-Path $PSScriptRoot '..\signing\verify-signature.ps1') -FilePath $file
+        }
+        & (Join-Path $PSScriptRoot '..\signing\verify-signature.ps1') -FilePath (Join-Path $installDir 'resources\backend\node\node.exe') -UpstreamNode
+    }
     $registration = @(Find-Registration)
     $registration | Select-Object DisplayName, DisplayVersion, UninstallString |
         ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root 'installation-registration.json') -Encoding utf8
@@ -129,7 +142,7 @@ $report = @{
     actualSilentInstall = $true; startMenuShortcut = $true; desktopShortcut = $true
     perUserRegistration = $true; installedAppWorkflow = $true
     reinstallPreservesData = $true; uninstallRemovesProgram = $true; uninstallPreservesData = $true
-    signing = $signing; interactiveFinishCheckbox = 'Configured; not clicked by silent automation'
+    signing = $signing; signatureMode = $SignatureMode; interactiveFinishCheckbox = 'Configured; not clicked by silent automation'
     smartScreenAndOrganizationPolicy = 'Not bypassed; interactive policy approval remains environment-dependent'
 }
 $report | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $root 'installer-lifecycle.json') -Encoding utf8

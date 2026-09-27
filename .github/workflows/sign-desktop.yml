@@ -1,0 +1,204 @@
+name: Prepare trusted-signed Windows candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      approve_signing:
+        description: I am authorized to use the verified publisher and incur signing charges
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    if: github.ref == 'refs/heads/main' && inputs.approve_signing
+    environment: release-signing
+    runs-on: windows-latest
+    timeout-minutes: 5
+    outputs:
+      publisher: ${{ steps.identity.outputs.publisher }}
+      profile_eku: ${{ steps.identity.outputs.profile_eku }}
+    env:
+      SIGNING_ENABLED: ${{ vars.SIGNING_ENABLED }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      SIGNING_ENDPOINT: ${{ vars.SIGNING_ENDPOINT }}
+      SIGNING_ACCOUNT_NAME: ${{ vars.SIGNING_ACCOUNT_NAME }}
+      SIGNING_CERTIFICATE_PROFILE: ${{ vars.SIGNING_CERTIFICATE_PROFILE }}
+      SIGNING_PUBLISHER_SUBJECT: ${{ vars.SIGNING_PUBLISHER_SUBJECT }}
+      SIGNING_PROFILE_EKU: ${{ vars.SIGNING_PROFILE_EKU }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - name: Refuse missing signing configuration before any Azure login
+        working-directory: desktop
+        run: node signing/config.cjs
+      - name: Pass public certificate identifiers to verification
+        id: identity
+        shell: pwsh
+        run: |
+          "publisher=$env:SIGNING_PUBLISHER_SUBJECT" >> $env:GITHUB_OUTPUT
+          "profile_eku=$env:SIGNING_PROFILE_EKU" >> $env:GITHUB_OUTPUT
+
+  prepare:
+    needs: preflight
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - name: Build native backend with no signing identity available
+        run: npm run prepare:app
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: payload-for-signing-${{ matrix.arch }}
+          path: desktop/payload/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+
+  sign:
+    needs: prepare
+    environment: release-signing
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    # Artifact Signing tools do not support native Windows ARM runners.
+    runs-on: windows-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      SIGNING_ENABLED: ${{ vars.SIGNING_ENABLED }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      SIGNING_ENDPOINT: ${{ vars.SIGNING_ENDPOINT }}
+      SIGNING_ACCOUNT_NAME: ${{ vars.SIGNING_ACCOUNT_NAME }}
+      SIGNING_CERTIFICATE_PROFILE: ${{ vars.SIGNING_CERTIFICATE_PROFILE }}
+      SIGNING_PUBLISHER_SUBJECT: ${{ vars.SIGNING_PUBLISHER_SUBJECT }}
+      SIGNING_PROFILE_EKU: ${{ vars.SIGNING_PROFILE_EKU }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: "8.0.x"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: payload-for-signing-${{ matrix.arch }}
+          path: desktop/payload
+      - run: node signing/config.cjs
+      - name: Install pinned builder without npm lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install pinned Microsoft signing module
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Install-Module -Name ArtifactSigning -RequiredVersion 0.1.20 -Repository PSGallery -Scope CurrentUser -Force
+          Import-Module ArtifactSigning -RequiredVersion 0.1.20 -ErrorAction Stop
+          Get-Command Invoke-ArtifactSigning -ErrorAction Stop | Select-Object Name, Source
+      - name: Federated login to approved signing identity
+        uses: azure/login@935127ca5bb3c4b02c9c2c10060028383878f33f # v3
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Build and sign app, uninstaller and installer
+        run: node signing/build-signed.cjs --arch ${{ matrix.arch }}
+      - name: Require trusted publisher, correct profile and timestamp
+        shell: pwsh
+        run: .\signing\verify-artifacts.ps1 -Architecture ${{ matrix.arch }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: signed-candidate-to-test-${{ matrix.arch }}
+          path: |
+            desktop/dist-signed/*-signed.exe
+            desktop/dist-signed/*.sha256
+            desktop/dist-signed/signing-receipts.jsonl
+          if-no-files-found: error
+          retention-days: 3
+
+  test-signed-candidate:
+    needs: [sign, preflight]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    # Public certificate identifiers only; no OIDC token or signing-role access.
+    env:
+      SIGNING_PUBLISHER_SUBJECT: ${{ needs.preflight.outputs.publisher }}
+      SIGNING_PROFILE_EKU: ${{ needs.preflight.outputs.profile_eku }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: signed-candidate-to-test-${{ matrix.arch }}
+          path: signed-candidate
+      - name: Install test driver
+        working-directory: desktop/e2e-harness
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify trusted installed files and actual lifecycle
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = (Get-Content desktop/package.json -Raw | ConvertFrom-Json).version
+          .\desktop\scripts\verify-installer.ps1 -Architecture ${{ matrix.arch }} -Version $version -SignatureMode TrustedPublisher -InstallerPath ".\signed-candidate\Hackathon-Facilitator-Setup-$version-${{ matrix.arch }}-signed.exe"
+      - name: Retain verified files for human release review (no automatic publication)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: trusted-signed-verified-${{ matrix.arch }}
+          path: |
+            signed-candidate/
+            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/installer-lifecycle.json
+          if-no-files-found: error
+          retention-days: 14

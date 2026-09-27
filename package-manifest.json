@@ -57,7 +57,11 @@
     },
     {
       "path": ".github/workflows/build-desktop.yml",
-      "sha256": "78c76eb0a54c02d1e24c90b49f9a68f2fd9ad337e1bcdc8682507d9ec92a3ca9"
+      "sha256": "9c3a726b4f5a3539f1e43412f4c356afef44dd05cd723bf8a0c8064a3ca79431"
+    },
+    {
+      "path": ".github/workflows/sign-desktop.yml",
+      "sha256": "7916d7dda99423ddcf04c1944fc688c064b49a425632aa8b79ea8e6c51f851f5"
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
@@ -68,12 +72,16 @@
       "sha256": "4deadf762d7f04054792a60678ffc23f64dcceb7a40eae6e14039909ee53e1b6"
     },
     {
+      "path": ".github/workflows/verify-signing-preparation.yml",
+      "sha256": "2dee63f3a57d5e8e3bcf5191b5f2167620b0c2ba85b973b531e41090af07af65"
+    },
+    {
       "path": ".gitignore",
-      "sha256": "6228eb497bbe8a94f9eb38822aa7c5144788089fe8db369199fd8b4310bf5c1d"
+      "sha256": "fa6fe7cf1b627505519584a33a1cbb9aa8503c038715a0a256d9a2bbb9b231e6"
     },
     {
       "path": "README.md",
-      "sha256": "fb5e72960439c8dbf1f8b3ba259d4408dfe34c664bf960b003b86d2b1e26482f"
+      "sha256": "9699f30ab0dcdba29a469b3223a58ab6e583d78f8fb23da4734f520e09ebb8d2"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -849,11 +857,11 @@
     },
     {
       "path": "desktop/.gitignore",
-      "sha256": "68d11b19935f85229fff94393ac0f49899769d9a908f5a0e83a11eb368c34b5c"
+      "sha256": "047f012a3b13edcdf608aceaead22aa72bec2f1e365a6229c60aab756cafda2f"
     },
     {
       "path": "desktop/README.md",
-      "sha256": "04fb2cfc523560876ef983c5772253e6fc6de7c5ee3e1c2c10060f128e8c234f"
+      "sha256": "9c6c6fba45523ece9972205e8971e9f1ad12f9eea23693b883ba19a80aecf2e1"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -881,7 +889,7 @@
     },
     {
       "path": "desktop/package.json",
-      "sha256": "6c1eb6c31a9c44c6965a9abc7079e10c7735a506ba62370969a3b8000df3243a"
+      "sha256": "f4829dba1ff28e1cbf737e2c574a451875928703100ef1ac5c5eef20dfd3824d"
     },
     {
       "path": "desktop/policy.cjs",
@@ -901,7 +909,35 @@
     },
     {
       "path": "desktop/scripts/verify-installer.ps1",
-      "sha256": "872ccc6cc9bca6bdaf17ef21a3b46df207f7964a78a787e27a0dc013933d52fc"
+      "sha256": "3832f27c73056fcd5e7b8fd468a972feb577acc73395210fa4fc25ec798c219f"
+    },
+    {
+      "path": "desktop/signing/README.md",
+      "sha256": "6c632e54a9a377608e8cf76a646b036e519526c2ef96aaf59b1d5e847bc74c9b"
+    },
+    {
+      "path": "desktop/signing/build-signed.cjs",
+      "sha256": "abb956601aa38ecdc61e5830f1f25ae5904988435a599d6faf30b79928c46233"
+    },
+    {
+      "path": "desktop/signing/config.cjs",
+      "sha256": "a0f01b7453235b393156d26f103be21d116689841237251fb56bf784a3e6d130"
+    },
+    {
+      "path": "desktop/signing/sign-file.ps1",
+      "sha256": "75118482a1c32a171943f54f5edd914dd6ff5c8ba874b32834ca53ca73827b5f"
+    },
+    {
+      "path": "desktop/signing/sign.cjs",
+      "sha256": "e4eee1e0b67a5faef3cdd8c59a18e49154d20ff1c65f1d9c5aa1a33456ece685"
+    },
+    {
+      "path": "desktop/signing/verify-artifacts.ps1",
+      "sha256": "c5671f103365b18ec4a039002fe5ba1d88e97d2b34f2f2607c1a0ba6c0ca22c0"
+    },
+    {
+      "path": "desktop/signing/verify-signature.ps1",
+      "sha256": "c939a145f41286f11e0aafae52b37344f8fdcc2395bb33bbb29af28e01c902b4"
     },
     {
       "path": "desktop/tests/main.test.cjs",
@@ -918,6 +954,14 @@
     {
       "path": "desktop/tests/runtime.test.cjs",
       "sha256": "235a4a828ea21227245aa8e113db699f633077fcf976228b76c6f7054e313ee9"
+    },
+    {
+      "path": "desktop/tests/signing-verification.ps1",
+      "sha256": "8ad89418d113f221c8dd6b281ecc4afa0aa2d6ee0ee358f60453835cef687e3e"
+    },
+    {
+      "path": "desktop/tests/signing.test.cjs",
+      "sha256": "a98d85153c48b5532f0fb48737fbe03cd71f43d896a2f3834fb25eca7e932d55"
     },
     {
       "path": "docs/colleague-distribution.md",

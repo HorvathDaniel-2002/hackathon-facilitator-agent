@@ -15,7 +15,9 @@
     "test": "node --test tests/*.test.cjs",
     "prepare:app": "node scripts/prepare-app.mjs",
     "pack": "electron-builder --win --dir --publish never",
-    "dist": "electron-builder --win nsis --publish never"
+    "dist": "electron-builder --win nsis --publish never",
+    "signing:check": "node signing/config.cjs",
+    "dist:signed": "node signing/build-signed.cjs"
   },
   "devDependencies": {
     "electron": "43.7.1",
