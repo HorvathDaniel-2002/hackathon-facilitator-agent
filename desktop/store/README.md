@@ -8,6 +8,20 @@ MSIX submission. Microsoft re-signs the package **after Store certification**.
 It does not make the current GitHub EXE installers signed, and an unsigned
 MSIX downloaded directly from GitHub is not a trusted public installer.
 
+## Preparation verification
+
+On 27 September 2026, the [native x64 and ARM64 workflow](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/36307079073)
+passed all 60 desktop tests, rebuilt the app, generated MSIX with Microsoft
+MakeAppx manifest validation enabled, and compared every staged file with its
+packaged bytes. These builds used **LocalValidation.HackathonFacilitator**, not
+a reserved Store identity. Only the manifests/reports are retained for that mode.
+
+The [existing EXE install/reinstall/uninstall checks](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/36306445753)
+also passed on both architectures after the Store-specific runtime change.
+Neither check validates an actual Store installation, update, file-system
+virtualization, WACK certification or Store acceptance. Those remain required
+before a Store release. The published v0.3.1 EXE binaries were not replaced.
+
 ## What the publisher needs to do once
 
 1. Start at [storedeveloper.microsoft.com](https://storedeveloper.microsoft.com).
