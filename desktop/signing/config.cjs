@@ -12,10 +12,56 @@ const REQUIRED = [
 ];
 const REGIONS = new Set(['brs', 'cus', 'eus', 'jpe', 'krc', 'ncus', 'neu', 'plc', 'scus', 'swn', 'wcus', 'weu', 'wus', 'wus2', 'wus3']);
 
+function certificateStoreSettings(env) {
+  const required = ['SIGNING_CERTIFICATE_SHA1', 'SIGNING_CERTIFICATE_ISSUER',
+    'SIGNING_PUBLISHER_SUBJECT', 'SIGNING_TIMESTAMP_URL', 'SIGNING_SIGNTOOL_PATH'];
+  const missing = required.filter(name => typeof env[name] !== 'string' || !env[name].trim());
+  if (missing.length) throw new Error(`Missing signing configuration: ${missing.join(', ')}. No signing was attempted.`);
+  if (!/^[a-f0-9]{40}$/i.test(env.SIGNING_CERTIFICATE_SHA1)) {
+    throw new Error('SIGNING_CERTIFICATE_SHA1 must be the exact certificate thumbprint; it does not choose the file-signature digest.');
+  }
+  for (const name of ['SIGNING_PUBLISHER_SUBJECT', 'SIGNING_CERTIFICATE_ISSUER']) {
+    if (!env[name].startsWith('CN=') || /[\r\n\0]/.test(env[name]) || env[name].length > 1000) {
+      throw new Error(`${name} must be the exact distinguished name from the issued certificate, starting with CN=.`);
+    }
+  }
+  if (env.SIGNING_PUBLISHER_SUBJECT === env.SIGNING_CERTIFICATE_ISSUER) {
+    throw new Error('A self-issued certificate is not a substitute for a trusted code-signing identity.');
+  }
+  if (!path.win32.isAbsolute(env.SIGNING_SIGNTOOL_PATH) ||
+      path.win32.basename(env.SIGNING_SIGNTOOL_PATH).toLowerCase() !== 'signtool.exe' ||
+      /[\r\n\0"]/.test(env.SIGNING_SIGNTOOL_PATH) || env.SIGNING_SIGNTOOL_PATH.startsWith('\\\\')) {
+    throw new Error('SIGNING_SIGNTOOL_PATH must identify a local Windows SDK signtool.exe.');
+  }
+  let timestamp;
+  try { timestamp = new URL(env.SIGNING_TIMESTAMP_URL); } catch { throw new Error('Invalid RFC3161 timestamp URL.'); }
+  if (!['https:', 'http:'].includes(timestamp.protocol) || timestamp.username || timestamp.password ||
+      timestamp.port || timestamp.search || timestamp.hash ||
+      !/^(?:[a-z0-9-]+\.)+[a-z]{2,}$/i.test(timestamp.hostname) ||
+      /(?:^|\.)(localhost|local|internal|example|test|invalid)$/i.test(timestamp.hostname)) {
+    throw new Error('Use the certificate provider-approved RFC3161 timestamp URL without credentials or local endpoints.');
+  }
+  if (['CSC_LINK', 'CSC_KEY_PASSWORD', 'WIN_CSC_LINK', 'WIN_CSC_KEY_PASSWORD',
+    'SIGNING_CERTIFICATE_PASSWORD', 'SIGNING_TOKEN_PIN'].some(name => env[name])) {
+    throw new Error('The certificate-store lane never accepts a PFX password or token PIN in environment variables.');
+  }
+  return {
+    provider: 'certificate-store',
+    publisher: env.SIGNING_PUBLISHER_SUBJECT,
+    certificateSha1: env.SIGNING_CERTIFICATE_SHA1.toUpperCase(),
+    certificateIssuer: env.SIGNING_CERTIFICATE_ISSUER,
+    timestampUrl: env.SIGNING_TIMESTAMP_URL,
+    signTool: env.SIGNING_SIGNTOOL_PATH,
+  };
+}
+
 function signingSettings(env = process.env) {
   if (env.SIGNING_ENABLED !== 'true') {
     throw new Error('Trusted signing is not enabled. Complete the approved signing setup; no unsigned fallback is allowed.');
   }
+  const provider = env.SIGNING_PROVIDER || 'artifact-signing';
+  if (provider === 'certificate-store') return certificateStoreSettings(env);
+  if (provider !== 'artifact-signing') throw new Error('Unknown signing provider. Choose artifact-signing or certificate-store explicitly.');
   const missing = REQUIRED.filter(name => typeof env[name] !== 'string' || !env[name].trim());
   if (missing.length) throw new Error(`Missing signing configuration: ${missing.join(', ')}. No signing or publication was attempted.`);
   for (const name of REQUIRED.slice(0, 3)) {
@@ -48,6 +94,7 @@ function signingSettings(env = process.env) {
     'AZURE_PASSWORD', 'CSC_LINK', 'CSC_KEY_PASSWORD', 'WIN_CSC_LINK', 'WIN_CSC_KEY_PASSWORD'];
   if (forbidden.some(name => env[name])) throw new Error('This signing lane uses OIDC/Azure CLI only; remove alternate credential variables.');
   return {
+    provider: 'artifact-signing',
     endpoint: endpoint.origin,
     account: env.SIGNING_ACCOUNT_NAME,
     profile: env.SIGNING_CERTIFICATE_PROFILE,

@@ -10,8 +10,19 @@ function main() {
   const args = process.argv.slice(2);
   if (args.length !== 2 || args[0] !== '--arch') throw new Error('Usage: node signing/build-signed.cjs --arch <x64|arm64>');
   const arch = args[1];
-  signingSettings();
-  if (process.platform !== 'win32' || process.arch !== 'x64') throw new Error('Artifact Signing tools require a Windows x64 signing runner. Build each payload natively, then sign/package it on x64.');
+  const settings = signingSettings();
+  if (process.platform !== 'win32' ||
+      (settings.provider === 'artifact-signing' && process.arch !== 'x64')) {
+    throw new Error('Signing requires Windows; Artifact Signing additionally requires an x64 signing runner.');
+  }
+  if (settings.provider === 'certificate-store') {
+    const preflight = spawnSync('pwsh.exe', ['-NoProfile', '-File',
+      path.join(__dirname, 'sign-certificate.ps1'), '-CheckOnly'], {
+      cwd: root, env: process.env, stdio: 'inherit', windowsHide: true, timeout: 120000,
+    });
+    if (preflight.error) throw preflight.error;
+    if (preflight.status !== 0) throw new Error('Certificate-store signing prerequisites are not ready. No build was started.');
+  }
   const base = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   const config = buildConfiguration(base, root, arch);
   const payload = JSON.parse(fs.readFileSync(path.join(root, 'payload', 'metadata.json'), 'utf8'));

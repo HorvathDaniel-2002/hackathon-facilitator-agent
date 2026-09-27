@@ -21,7 +21,20 @@ if (-not $env:SIGNING_PUBLISHER_SUBJECT -or $certificate.Subject -cne $env:SIGNI
 if (-not $signature.TimeStamperCertificate) { throw 'The signed artifact lacks a trusted timestamp.' }
 $ekus = @($certificate.Extensions | Where-Object { $_.Oid.Value -eq '2.5.29.37' } |
     ForEach-Object { $_.EnhancedKeyUsages } | ForEach-Object { $_.Value })
-foreach ($required in @('1.3.6.1.5.5.7.3.3', '1.3.6.1.4.1.311.97.1.0', $env:SIGNING_PROFILE_EKU)) {
-    if (-not $required -or $required -notin $ekus) { throw 'The signature is not from the approved Public Trust code-signing profile.' }
+if ('1.3.6.1.5.5.7.3.3' -notin $ekus) { throw 'The certificate is not a code-signing certificate.' }
+if ($env:SIGNING_PROVIDER -eq 'certificate-store') {
+    if ($env:SIGNING_CERTIFICATE_SHA1 -notmatch '^[a-fA-F0-9]{40}$' -or
+        $certificate.Thumbprint -ine $env:SIGNING_CERTIFICATE_SHA1 -or
+        -not $env:SIGNING_CERTIFICATE_ISSUER -or
+        $certificate.Issuer -cne $env:SIGNING_CERTIFICATE_ISSUER -or
+        $certificate.Subject -ceq $certificate.Issuer) {
+        throw 'The signature is not from the selected trusted CA-issued certificate.'
+    }
+} elseif (-not $env:SIGNING_PROVIDER -or $env:SIGNING_PROVIDER -eq 'artifact-signing') {
+    foreach ($required in @('1.3.6.1.4.1.311.97.1.0', $env:SIGNING_PROFILE_EKU)) {
+        if (-not $required -or $required -notin $ekus) { throw 'The signature is not from the approved Public Trust code-signing profile.' }
+    }
+} else {
+    throw 'Unknown signing provider.'
 }
 Write-Output "Verified trusted publisher and timestamp: $([IO.Path]::GetFileName($resolved))"

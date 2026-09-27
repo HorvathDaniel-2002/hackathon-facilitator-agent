@@ -62,6 +62,9 @@ and has limited download reputation. A protected trusted-signing workflow is now
 prepared, but it cannot issue a trusted signature until an authorized publisher
 and signing profile are supplied. The published files are **still unsigned**.
 [Signing prerequisites and the administrator request](desktop/signing/README.md).
+For an individual publisher, see the
+[personal CA certificate route](desktop/signing/individual-signing.md); it does
+not require an Azure tenant or Microsoft-internal signing access.
 Do not disable SmartScreen or install a self-signed root to suppress this warning.
 
 ## Web app: easiest setup

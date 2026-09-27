@@ -61,7 +61,7 @@
     },
     {
       "path": ".github/workflows/sign-desktop.yml",
-      "sha256": "7916d7dda99423ddcf04c1944fc688c064b49a425632aa8b79ea8e6c51f851f5"
+      "sha256": "72e5661f9d52eb6730862b75542e8b78791e7597ca1373e6f666f70425c8edb8"
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
@@ -81,7 +81,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "9699f30ab0dcdba29a469b3223a58ab6e583d78f8fb23da4734f520e09ebb8d2"
+      "sha256": "7f9da014eba810cec84831068d10e36de94c84ebe446ef3edaa271ac819e6418"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -861,7 +861,7 @@
     },
     {
       "path": "desktop/README.md",
-      "sha256": "9c6c6fba45523ece9972205e8971e9f1ad12f9eea23693b883ba19a80aecf2e1"
+      "sha256": "f1996d2ae341d916017a2a67528b1b96d33e9c958fcfd880068c0219c3d895f6"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -913,15 +913,23 @@
     },
     {
       "path": "desktop/signing/README.md",
-      "sha256": "6c632e54a9a377608e8cf76a646b036e519526c2ef96aaf59b1d5e847bc74c9b"
+      "sha256": "7ce7c77de68e0a29b03246caafabe193e378039a392218c75421196f9c4c2046"
     },
     {
       "path": "desktop/signing/build-signed.cjs",
-      "sha256": "abb956601aa38ecdc61e5830f1f25ae5904988435a599d6faf30b79928c46233"
+      "sha256": "4e5636b79e30d67919c06f5a7a0f84e51d0c0b856f2093d6a5f2377098491725"
     },
     {
       "path": "desktop/signing/config.cjs",
-      "sha256": "a0f01b7453235b393156d26f103be21d116689841237251fb56bf784a3e6d130"
+      "sha256": "13803f9cc0a393daa6454854ecabf628818161857f0c34c1d904fdce7730a266"
+    },
+    {
+      "path": "desktop/signing/individual-signing.md",
+      "sha256": "b2d76697fb7dc569e8062bfe672fa681a9290aebd6183d75fe6440e7b4897cde"
+    },
+    {
+      "path": "desktop/signing/sign-certificate.ps1",
+      "sha256": "9dde61c6c3797373b70f4000f6ddd234c52b3daab0ead2a6a381a33c716e92cb"
     },
     {
       "path": "desktop/signing/sign-file.ps1",
@@ -929,7 +937,7 @@
     },
     {
       "path": "desktop/signing/sign.cjs",
-      "sha256": "e4eee1e0b67a5faef3cdd8c59a18e49154d20ff1c65f1d9c5aa1a33456ece685"
+      "sha256": "f63b29a9b4c79498206112e2273cc51101ec11539cdea884687812662cdbf285"
     },
     {
       "path": "desktop/signing/verify-artifacts.ps1",
@@ -937,7 +945,7 @@
     },
     {
       "path": "desktop/signing/verify-signature.ps1",
-      "sha256": "c939a145f41286f11e0aafae52b37344f8fdcc2395bb33bbb29af28e01c902b4"
+      "sha256": "7947b63504ad838a9d8a0649b91474e74ccc098eb5e9eb9634191a77688e0971"
     },
     {
       "path": "desktop/tests/main.test.cjs",
@@ -957,11 +965,11 @@
     },
     {
       "path": "desktop/tests/signing-verification.ps1",
-      "sha256": "8ad89418d113f221c8dd6b281ecc4afa0aa2d6ee0ee358f60453835cef687e3e"
+      "sha256": "0a98cccb5dc04cedab5ce0ad35025796f35006e7dd50eca5b070f31f98ed2d88"
     },
     {
       "path": "desktop/tests/signing.test.cjs",
-      "sha256": "a98d85153c48b5532f0fb48737fbe03cd71f43d896a2f3834fb25eca7e932d55"
+      "sha256": "a13c14b3f10c10535a2b7c40dc9866b2329f5599af47c0d6e9eef53246d1e698"
     },
     {
       "path": "docs/colleague-distribution.md",

@@ -1,10 +1,13 @@
 $ErrorActionPreference = 'Stop'
 $verifier = Join-Path $PSScriptRoot '..\signing\verify-signature.ps1'
+$env:SIGNING_PROVIDER = 'artifact-signing'
 $env:SIGNING_PUBLISHER_SUBJECT = 'CN=Example Publisher, O=Example Publisher, C=US'
 $env:SIGNING_PROFILE_EKU = '1.3.6.1.4.1.311.97.1234.5678.9012'
 function New-Fixture {
     $certificate = [pscustomobject]@{
         Subject = $env:SIGNING_PUBLISHER_SUBJECT
+        Issuer = 'CN=Example Public CA'
+        Thumbprint = ('A' * 40)
         Extensions = @([pscustomobject]@{
             Oid = [pscustomobject]@{ Value = '2.5.29.37' }
             EnhancedKeyUsages = @('1.3.6.1.5.5.7.3.3','1.3.6.1.4.1.311.97.1.0',$env:SIGNING_PROFILE_EKU) |
@@ -35,5 +38,24 @@ $global:HFSigningTestFixture.SignerCertificate.Extensions = @()
 Assert-Rejected
 $global:HFSigningTestFixture = New-Fixture
 & $verifier -FilePath $PSCommandPath -UpstreamNode
+$env:SIGNING_PROVIDER = 'certificate-store'
+$env:SIGNING_CERTIFICATE_SHA1 = 'A' * 40
+$env:SIGNING_CERTIFICATE_ISSUER = 'CN=Example Public CA'
+$global:HFSigningTestFixture = New-Fixture
+$global:HFSigningTestFixture.SignerCertificate.Extensions[0].EnhancedKeyUsages = @([pscustomobject]@{Value='1.3.6.1.5.5.7.3.3'})
+& $verifier -FilePath $PSCommandPath
+$global:HFSigningTestFixture.SignerCertificate.Thumbprint = 'B' * 40
+Assert-Rejected
+$global:HFSigningTestFixture = New-Fixture
+$global:HFSigningTestFixture.SignerCertificate.Issuer = 'CN=Unselected CA'
+Assert-Rejected
+$global:HFSigningTestFixture = New-Fixture
+$global:HFSigningTestFixture.Status = 'NotSigned'
+Assert-Rejected
+$global:HFSigningTestFixture = New-Fixture
+$global:HFSigningTestFixture.TimeStamperCertificate = $null
+Assert-Rejected
+$env:SIGNING_PROVIDER = 'unexpected'
+Assert-Rejected
 Remove-Variable HFSigningTestFixture -Scope Global
 Write-Output 'Signature decision tests passed with mocked certificate metadata only. No certificate or key was generated.'

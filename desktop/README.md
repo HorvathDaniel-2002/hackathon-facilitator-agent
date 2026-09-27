@@ -28,6 +28,12 @@ approved publisher identity, Public Trust profile, role and protected GitHub
 environment are configured. Even a valid signature does not guarantee immediate
 SmartScreen reputation. No warning-bypass or private-key export is required.
 
+For a publisher signing as a **Hungarian private individual**, the
+[personal CA certificate route](signing/individual-signing.md) documents the
+official product/identity checks and local SignTool integration. It does not
+require corporate signing access, but certificate issuance and any purchase
+still require the applicant's confirmation.
+
 **Use v0.3.1 or later on ARM64.** End-to-end testing found that the v0.3.0
 NSIS/7z path could omit ARM64 executable files during installation. The patch
 uses compatible ZIP payloads. Do not delete saved workspace data to repair a

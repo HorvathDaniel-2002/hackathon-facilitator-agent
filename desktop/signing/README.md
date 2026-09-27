@@ -1,5 +1,10 @@
 # Trusted signing setup — administrator handoff
 
+**Personal signing from Hungary:** use the separate
+[CA-issued individual certificate guide](individual-signing.md). It supports
+Windows certificate-store signing without an Azure tenant. The remainder of this
+page describes the **Artifact Signing / organizational** route and its prerequisites.
+
 **Status: prepared, not enabled.** The published v0.3.1 installers remain
 unsigned. No signing account, paid service, certificate, new trust root or
 permission was created. No trusted-signed release has been produced.
@@ -88,7 +93,9 @@ thumbprint is not a durable substitute. Copy the DN/EKU from the profile's
 certificate details or an admin-approved sample signature, never guess them.
 
 If using another corporate signing provider, adapt the signing hook with its
-owner; the current Public Trust checks deliberately reject substitutes.
+owner. The Artifact Signing mode deliberately requires its own Public Trust
+profile checks. The explicitly selected `certificate-store` mode instead verifies
+the exact CA-issued leaf certificate, subject, issuer, trusted chain and timestamp.
 
 ## 3. What the prepared workflow does
 
@@ -119,6 +126,9 @@ The normal `npm run dist` remains an explicitly **unsigned preview** build.
 The separate `npm run dist:signed -- --arch x64` path writes to `dist-signed`
 and has **no unsigned fallback**. Running it without approved settings fails.
 Pinned `ArtifactSigning` PowerShell module version: **0.1.20**.
+Set `SIGNING_PROVIDER=artifact-signing` for this Azure route. The protected
+workflow pins that provider explicitly; it does not use a personal workstation's
+certificate or cloud-token session as a fallback.
 
 ## 4. Release and reputation follow-up
 

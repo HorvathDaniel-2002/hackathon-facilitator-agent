@@ -20,6 +20,15 @@ const valid = () => ({
   SIGNING_PUBLISHER_SUBJECT: 'CN=Example Publisher, O=Example Publisher, C=US',
   SIGNING_PROFILE_EKU: '1.3.6.1.4.1.311.97.1234.5678.9012',
 });
+const personal = () => ({
+  SIGNING_ENABLED: 'true',
+  SIGNING_PROVIDER: 'certificate-store',
+  SIGNING_CERTIFICATE_SHA1: 'A'.repeat(40),
+  SIGNING_CERTIFICATE_ISSUER: 'CN=Example Public CA, O=Example CA, C=US',
+  SIGNING_PUBLISHER_SUBJECT: 'CN=Example Developer, C=HU',
+  SIGNING_TIMESTAMP_URL: 'https://timestamp.example-ca.com/',
+  SIGNING_SIGNTOOL_PATH: 'C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\signtool.exe',
+});
 const temp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'hf-signing-test-'));
 
 test('signing never defaults to enabled or silently uses the unsigned build', () => {
@@ -50,6 +59,37 @@ test('private trust and alternate credentials cannot substitute for the approved
   for (const key of ['AZURE_CLIENT_SECRET', 'CSC_LINK', 'WIN_CSC_KEY_PASSWORD', 'AZURE_PASSWORD']) {
     assert.throws(() => signingSettings({ ...valid(), [key]: 'synthetic-not-a-secret' }), /OIDC/);
   }
+});
+test('CA certificate-store signing does not require an Azure tenant or Artifact Signing profile', () => {
+  const result = signingSettings(personal());
+  assert.equal(result.provider, 'certificate-store');
+  assert.equal(result.certificateSha1, 'A'.repeat(40));
+  assert.equal(result.publisher, 'CN=Example Developer, C=HU');
+  assert.equal(result.profileEku, undefined);
+  assert.equal(result.endpoint, undefined);
+  const configuration = buildConfiguration(base, __dirname, 'arm64', personal());
+  assert.equal(configuration.forceCodeSigning, true);
+  assert.equal(configuration.win.signExecutable, true);
+  assert.deepEqual(configuration.win.signtoolOptions.signingHashAlgorithms, ['sha256']);
+});
+test('certificate-store configuration requires exact identity and local official tool selection', () => {
+  for (const key of ['SIGNING_CERTIFICATE_SHA1', 'SIGNING_CERTIFICATE_ISSUER',
+    'SIGNING_PUBLISHER_SUBJECT', 'SIGNING_TIMESTAMP_URL', 'SIGNING_SIGNTOOL_PATH']) {
+    assert.throws(() => signingSettings({ ...personal(), [key]: '' }), /Missing signing/);
+  }
+  assert.throws(() => signingSettings({ ...personal(), SIGNING_PROVIDER: 'anything' }), /Unknown signing/);
+  assert.throws(() => signingSettings({ ...personal(), SIGNING_CERTIFICATE_SHA1: 'all certificates' }), /thumbprint/);
+  assert.throws(() => signingSettings({ ...personal(), SIGNING_CERTIFICATE_ISSUER: personal().SIGNING_PUBLISHER_SUBJECT }), /self-issued/);
+  assert.throws(() => signingSettings({ ...personal(), SIGNING_CERTIFICATE_ISSUER: 'CN=CA\ncommand' }), /distinguished name/);
+  for (const tool of ['signtool.exe', 'C:\\tools\\fake.exe', '\\\\host\\share\\signtool.exe']) {
+    assert.throws(() => signingSettings({ ...personal(), SIGNING_SIGNTOOL_PATH: tool }), /local Windows SDK/);
+  }
+  for (const url of ['https://user:pass@timestamp.example.test', 'file:///C:/clock', 'http://127.0.0.1',
+    'http://signing.internal', 'https://timestamp.example-ca.com/?token=x']) {
+    assert.throws(() => signingSettings({ ...personal(), SIGNING_TIMESTAMP_URL: url }), /timestamp/);
+  }
+  assert.throws(() => signingSettings({ ...personal(), SIGNING_TOKEN_PIN: 'not-a-real-pin' }), /PIN/);
+  assert.throws(() => signingSettings({ ...personal(), CSC_LINK: 'not-a-pfx' }), /PFX/);
 });
 test('signed config preserves unsigned preview and ARM64 extraction fix without reusing output', () => {
   const before = JSON.stringify(base);

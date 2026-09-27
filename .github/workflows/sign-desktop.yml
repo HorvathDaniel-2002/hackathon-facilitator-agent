@@ -23,6 +23,7 @@ jobs:
       profile_eku: ${{ steps.identity.outputs.profile_eku }}
     env:
       SIGNING_ENABLED: ${{ vars.SIGNING_ENABLED }}
+      SIGNING_PROVIDER: artifact-signing
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
@@ -104,6 +105,7 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
       CSC_IDENTITY_AUTO_DISCOVERY: "false"
       SIGNING_ENABLED: ${{ vars.SIGNING_ENABLED }}
+      SIGNING_PROVIDER: artifact-signing
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
@@ -172,6 +174,7 @@ jobs:
     # Public certificate identifiers only; no OIDC token or signing-role access.
     env:
       SIGNING_PUBLISHER_SUBJECT: ${{ needs.preflight.outputs.publisher }}
+      SIGNING_PROVIDER: artifact-signing
       SIGNING_PROFILE_EKU: ${{ needs.preflight.outputs.profile_eku }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
