@@ -44,6 +44,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Path "$env:RUNNER_TEMP\signing-module" -Force | Out-Null
           Save-Module ArtifactSigning -RequiredVersion 0.1.20 -Repository PSGallery -Path "$env:RUNNER_TEMP\signing-module"
           Import-Module "$env:RUNNER_TEMP\signing-module\ArtifactSigning\0.1.20\ArtifactSigning.psd1"
           $parameters = (Get-Command Invoke-ArtifactSigning).Parameters

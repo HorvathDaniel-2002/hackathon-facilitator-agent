@@ -73,7 +73,7 @@
     },
     {
       "path": ".github/workflows/verify-signing-preparation.yml",
-      "sha256": "2dee63f3a57d5e8e3bcf5191b5f2167620b0c2ba85b973b531e41090af07af65"
+      "sha256": "6b3af08e9712c78f59d85a3f023479fc3ac2f8feca23d316d4673bcbf8416460"
     },
     {
       "path": ".gitignore",
