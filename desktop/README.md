@@ -6,7 +6,18 @@ An installable, single-user desktop preview with its own window and notification
 icon. It bundles the browser shell, Node.js runtime and local app: **users do not
 need to install Node.js, npm, VS Code or GitHub Copilot**.
 
-## Install and open
+## Microsoft Store route (in preparation)
+
+[MSIX packaging and onboarding guide](store/README.md) is available for a future
+Microsoft Store release. No Store account/product identity has been supplied;
+there is no Store download yet. Store MSIX submission does not require buying
+a CA-trusted signing certificate: Microsoft re-signs after certification.
+The EXE preview below remains unsigned and unchanged.
+
+Store packaging uses a separate data profile, and uninstall/reset can remove
+that profile. The EXE data-retention instructions below apply only to NSIS.
+
+## Install and open the EXE preview
 
 1. Download the Windows installer that matches your device: **x64** for Intel/AMD
    PCs, **ARM64** for Windows on Arm. Check **Settings > System > About > System type**

@@ -1,0 +1,89 @@
+name: Prepare Microsoft Store MSIX
+
+on:
+  workflow_dispatch:
+    inputs:
+      purpose:
+        description: Validate packaging only, or use confirmed Partner Center identity
+        type: choice
+        required: true
+        default: validation
+        options:
+          - validation
+          - submission
+
+permissions:
+  contents: read
+
+jobs:
+  msix:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      STORE_IDENTITY_CONFIRMED: ${{ vars.STORE_IDENTITY_CONFIRMED }}
+      STORE_IDENTITY_NAME: ${{ vars.STORE_IDENTITY_NAME }}
+      STORE_PUBLISHER: ${{ vars.STORE_PUBLISHER }}
+      STORE_PUBLISHER_DISPLAY_NAME: ${{ vars.STORE_PUBLISHER_DISPLAY_NAME }}
+      STORE_DISPLAY_NAME: ${{ vars.STORE_DISPLAY_NAME }}
+      STORE_PACKAGE_VERSION: ${{ vars.STORE_PACKAGE_VERSION }}
+      STORE_PURPOSE: ${{ inputs.purpose }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: |
+            desktop/package-lock.json
+            app/package-lock.json
+      - name: Refuse a submission without confirmed identity
+        if: inputs.purpose == 'submission'
+        run: npm run store:check
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run prepare:app
+      - run: npm run store:pack -- --${{ matrix.arch }}
+      - name: Package with Microsoft MakeAppx validation enabled
+        shell: pwsh
+        run: |
+          $folder = if ('${{ matrix.arch }}' -eq 'x64') { 'win-unpacked' } else { 'win-arm64-unpacked' }
+          $parameters = @('store/package.cjs', '--arch', '${{ matrix.arch }}', '--input', "dist-store\$folder", '--output', 'store-output')
+          if ($env:STORE_PURPOSE -eq 'validation') { $parameters += '--validation-only' }
+          node @parameters
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate package contents, identity and unsigned submission boundary
+        shell: pwsh
+        run: .\store\verify-msix.ps1 -Directory .\store-output
+      - name: Retain packaging evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: msix-validation-${{ matrix.arch }}
+          path: |
+            desktop/store-output/package-report.json
+            desktop/store-output/content/AppxManifest.xml
+          if-no-files-found: error
+      - name: Retain unsigned Store submission package for owner review
+        if: inputs.purpose == 'submission'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: store-submission-${{ matrix.arch }}
+          path: |
+            desktop/store-output/*.msix
+            desktop/store-output/*.sha256
+          if-no-files-found: error
+          retention-days: 14

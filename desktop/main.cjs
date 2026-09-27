@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('node:path');
+const fs = require('node:fs');
 const { randomBytes } = require('node:crypto');
 const { app, BrowserWindow, Tray, Menu, dialog, shell, session } = require('electron');
 const {
@@ -10,7 +11,22 @@ const {
 const { DesktopRuntimeError, payloadDirectory, startDesktopRuntime } = require('./runtime.cjs');
 
 app.setName(APP_NAME);
-app.setAppUserModelId(APP_ID);
+let profileError;
+if (process.windowsStore) {
+  try {
+    const profile = path.join(app.getPath('appData'), 'Hackathon Facilitator Store');
+    fs.mkdirSync(profile, { recursive: true });
+    // Resolve the redirected directory for both the child backend and Explorer backups.
+    const physicalProfile = fs.realpathSync.native(profile);
+    app.setPath('userData', physicalProfile);
+    app.setPath('sessionData', physicalProfile);
+  } catch {
+    profileError = new DesktopRuntimeError('STORE_PROFILE_FAILED',
+      'The Store application data folder could not be opened. No existing desktop workspace was migrated or reset. Check folder permissions or contact support.');
+  }
+} else {
+  app.setAppUserModelId(APP_ID);
+}
 
 let mainWindow;
 let tray;
@@ -191,6 +207,7 @@ function createTray() {
 }
 
 async function start() {
+  if (profileError) throw profileError;
   runtime = await startDesktopRuntime({
     directory: payloadDirectory({
       isPackaged: app.isPackaged,

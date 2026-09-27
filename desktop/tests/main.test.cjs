@@ -18,8 +18,8 @@ function event(extra = {}) {
   return { prevented: false, preventDefault() { this.prevented = true; }, ...extra };
 }
 
-async function launch({ hasLock = true, startupError, startImpl } = {}) {
-  const calls = { dialogs: [], external: [], folders: [], windows: [], logs: [], stops: 0, quit: 0 };
+async function launch({ hasLock = true, startupError, startImpl, windowsStore = false, profileFailure = false } = {}) {
+  const calls = { dialogs: [], external: [], folders: [], windows: [], logs: [], paths: {}, stops: 0, quit: 0 };
   const app = new EventEmitter();
   const isolatedSession = new EventEmitter();
   const runtime = {
@@ -30,8 +30,9 @@ async function launch({ hasLock = true, startupError, startImpl } = {}) {
     isPackaged: true,
     setName: (name) => { calls.name = name; },
     setAppUserModelId: (id) => { calls.appId = id; },
+    setPath: (name, value) => { calls.paths[name] = value; },
     requestSingleInstanceLock: () => hasLock,
-    getPath: (name) => path.resolve('tests', 'owned-workspace', name),
+    getPath: (name) => calls.paths[name] || path.resolve('tests', 'owned-workspace', name),
     whenReady: async () => {},
     quit: () => { calls.quit += 1; app.emit('before-quit', event()); },
   });
@@ -91,6 +92,13 @@ async function launch({ hasLock = true, startupError, startImpl } = {}) {
   vm.runInNewContext(source, {
     require(name) {
       if (name === 'electron') return electron;
+      if (name === 'node:fs') return {
+        mkdirSync(directory) {
+          if (profileFailure) throw new Error('Access denied');
+          calls.createdDirectory = directory;
+        },
+        realpathSync: { native: () => path.resolve('tests', 'package-redirected-profile') },
+      };
       if (name === './policy.cjs') return policy;
       if (name === './runtime.cjs') {
         return {
@@ -106,7 +114,7 @@ async function launch({ hasLock = true, startupError, startImpl } = {}) {
       return require(name);
     },
     __dirname: path.join(__dirname, '..'),
-    process: { resourcesPath: path.resolve('tests', 'resources') },
+    process: { resourcesPath: path.resolve('tests', 'resources'), windowsStore },
     AbortController,
     console: { log: (message) => calls.logs.push(message) },
   }, { filename: 'main.cjs' });
@@ -147,9 +155,29 @@ test('session request hook authenticates only its backend and strips tokens from
   calls.headers({ url: `${origin}/api`, requestHeaders: { 'X-HF-Desktop-Token': 'forged' } }, ({ requestHeaders }) => {
     assert.deepEqual(requestHeaders, { [policy.TOKEN_HEADER]: token });
   });
+
   calls.headers({ url: 'https://example.com', requestHeaders: { [policy.TOKEN_HEADER]: token } }, ({ requestHeaders }) => {
     assert.deepEqual(requestHeaders, {});
   });
+});
+
+test('MSIX keeps Windows package identity and uses the physical, separate profile for backend and session', async () => {
+  const { calls } = await launch({ windowsStore: true });
+  assert.equal(calls.appId, undefined);
+  assert.equal(calls.createdDirectory, path.join(path.resolve('tests', 'owned-workspace', 'appData'), 'Hackathon Facilitator Store'));
+  assert.equal(calls.paths.userData, path.resolve('tests', 'package-redirected-profile'));
+  assert.equal(calls.paths.sessionData, calls.paths.userData);
+  assert.equal(calls.startOptions.userDataPath, calls.paths.userData);
+  assert.equal(calls.windows.length, 1);
+  assert.equal(calls.windows[0].options.webPreferences.sandbox, true);
+});
+
+test('an inaccessible MSIX profile fails visibly without starting a backend or using the NSIS profile', async () => {
+  const { calls } = await launch({ windowsStore: true, profileFailure: true });
+  assert.equal(calls.windows.length, 0);
+  assert.equal(calls.startOptions, undefined);
+  assert.equal(calls.paths.userData, undefined);
+  assert.match(calls.dialogs[0].message, /Store application data folder/);
 });
 
 test('close hides to tray, second instance restores, and minimization does not hide', async () => {

@@ -43,6 +43,12 @@ with saved data retained.
 
 ## Windows desktop preview
 
+**Microsoft Store version: in preparation, not yet available.**
+[MSIX onboarding, packaging and submission guide](desktop/store/README.md).
+This route avoids buying a CA-trusted certificate for the Store submission;
+Microsoft re-signs MSIX packages after certification. No Store account/product
+identity has been supplied yet. The current EXE downloads remain unsigned.
+
 The desktop installer includes its own runtime and opens a dedicated application
 window. It adds a Start menu entry and optional desktop shortcut. Closing the
 window keeps it in the notification area; use **Open** to restore or **Quit** to

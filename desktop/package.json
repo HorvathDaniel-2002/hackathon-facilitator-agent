@@ -17,7 +17,10 @@
     "pack": "electron-builder --win --dir --publish never",
     "dist": "electron-builder --win nsis --publish never",
     "signing:check": "node signing/config.cjs",
-    "dist:signed": "node signing/build-signed.cjs"
+    "dist:signed": "node signing/build-signed.cjs",
+    "store:check": "node store/config.cjs",
+    "store:pack": "electron-builder --win --dir --publish never -c.directories.output=dist-store -c.nsis.packElevateHelper=false",
+    "store:package": "node store/package.cjs"
   },
   "devDependencies": {
     "electron": "43.7.1",

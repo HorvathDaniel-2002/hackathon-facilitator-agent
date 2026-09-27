@@ -60,6 +60,10 @@
       "sha256": "9c3a726b4f5a3539f1e43412f4c356afef44dd05cd723bf8a0c8064a3ca79431"
     },
     {
+      "path": ".github/workflows/build-store-msix.yml",
+      "sha256": "62f9ee613210881c45f8768dba6d0fd6e2bfbff683ab342a49b1acbf5412c8aa"
+    },
+    {
       "path": ".github/workflows/sign-desktop.yml",
       "sha256": "72e5661f9d52eb6730862b75542e8b78791e7597ca1373e6f666f70425c8edb8"
     },
@@ -81,7 +85,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "7f9da014eba810cec84831068d10e36de94c84ebe446ef3edaa271ac819e6418"
+      "sha256": "99b5caf082711f70d689dea0eb6e4fabf256c7f26700fb87f044474f3ab9fb30"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -857,11 +861,11 @@
     },
     {
       "path": "desktop/.gitignore",
-      "sha256": "047f012a3b13edcdf608aceaead22aa72bec2f1e365a6229c60aab756cafda2f"
+      "sha256": "00bea210f15555936574cbc202835aa0e15e2555a6dcb80e5cf7371af62a26b5"
     },
     {
       "path": "desktop/README.md",
-      "sha256": "f1996d2ae341d916017a2a67528b1b96d33e9c958fcfd880068c0219c3d895f6"
+      "sha256": "b1622a682ecd39a5dde876b75c060a9a15d15eda69d990a65ea2c0acf19fc2dd"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -881,7 +885,7 @@
     },
     {
       "path": "desktop/main.cjs",
-      "sha256": "ea86921b7c9fc9e3ea4f70c58d74c965d1a52767fd4ff43787720b00439ce9f9"
+      "sha256": "a1e2f67c1c4cf23796638d2224ffb888786c2bf3b656e475d6d3f4097d6150de"
     },
     {
       "path": "desktop/package-lock.json",
@@ -889,7 +893,7 @@
     },
     {
       "path": "desktop/package.json",
-      "sha256": "f4829dba1ff28e1cbf737e2c574a451875928703100ef1ac5c5eef20dfd3824d"
+      "sha256": "566cf8c3d2ce925deb0dbb1e456fa0481948ceb034d45aba7430ae3ec5aafcc7"
     },
     {
       "path": "desktop/policy.cjs",
@@ -948,8 +952,48 @@
       "sha256": "7947b63504ad838a9d8a0649b91474e74ccc098eb5e9eb9634191a77688e0971"
     },
     {
+      "path": "desktop/store/README.md",
+      "sha256": "c90d5885e68fb9539f24a41082f78550a058a1524cc41d8d033ad1fff78d402c"
+    },
+    {
+      "path": "desktop/store/assets/Square150x150Logo.png",
+      "sha256": "57c455f4992b4cd7b0941cf6b46a11639925a0d5e9950a453f18628db5afd740"
+    },
+    {
+      "path": "desktop/store/assets/Square44x44Logo.png",
+      "sha256": "8cac6b7e9d87ab38d2932f0f1c892b37824e9f11738341daa9cbe3f622b71701"
+    },
+    {
+      "path": "desktop/store/assets/StoreLogo.png",
+      "sha256": "c0b3e4c8f49d051cc320d5da66e68e3e884a618bf6bddba533a19503236090cc"
+    },
+    {
+      "path": "desktop/store/config.cjs",
+      "sha256": "11394bf1cda84bcf776215e49fdd8e95df1eb93a7f932f66bd64cfeed9ceb9bf"
+    },
+    {
+      "path": "desktop/store/generate-assets.ps1",
+      "sha256": "150be8a4d7b84c0d6ae8fe3d12f0e63b2c52a915b5b4c1b1b6162e43ae991884"
+    },
+    {
+      "path": "desktop/store/make-msix.ps1",
+      "sha256": "4e76e5296b20e2a7e0f642468f23b10e8a97650dd09427949c557535b9a4c654"
+    },
+    {
+      "path": "desktop/store/package.cjs",
+      "sha256": "45848376bc6903a3ad0b6fdfe224bd6377aae0b7cc1875b39c57985497ba3355"
+    },
+    {
+      "path": "desktop/store/submission-draft.md",
+      "sha256": "87f84a898d0761b4607c15f60e33582117160ccdbb0dc65cc45600e14f2a5b7f"
+    },
+    {
+      "path": "desktop/store/verify-msix.ps1",
+      "sha256": "2b5ffa73651d62ebe88f8a48774522c915ac27237dce2d5955a6e3d38cfac297"
+    },
+    {
       "path": "desktop/tests/main.test.cjs",
-      "sha256": "3bff2136145d5037be4524ac94c2fa8ac69e13f2d1b87a4b16530883da99210a"
+      "sha256": "fe60ea63c57b28c12641faae3021f7ae9a840904ef22de6ef4527cbad2c34b1d"
     },
     {
       "path": "desktop/tests/packaging.test.cjs",
@@ -972,12 +1016,20 @@
       "sha256": "a13c14b3f10c10535a2b7c40dc9866b2329f5599af47c0d6e9eef53246d1e698"
     },
     {
+      "path": "desktop/tests/store-packaging.test.cjs",
+      "sha256": "bbb2637e61e4def35996de887b690e3170d99071527bcf77898409ca562145ac"
+    },
+    {
       "path": "docs/colleague-distribution.md",
       "sha256": "17e76851408dca6b3281534f3345e29c8d060425b570da3e7e695c912f9c2bbf"
     },
     {
       "path": "docs/copilot-agent-installation.md",
       "sha256": "ce6dde5f926ef62c538234d67077ecf1bdeda73fc4c7028b97477f312bf8457d"
+    },
+    {
+      "path": "docs/desktop-privacy.md",
+      "sha256": "d57b893b4d68d8508b2b3cf62ae39a542b1afd738ee51a88b426725596b2fd92"
     },
     {
       "path": "docs/end-to-end-validation.md",

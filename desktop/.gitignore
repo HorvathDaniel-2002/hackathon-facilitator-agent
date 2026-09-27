@@ -3,4 +3,6 @@ payload/
 dist/
 dist-signed/
 .build/
+store-output/
+dist-store/
 *.log
