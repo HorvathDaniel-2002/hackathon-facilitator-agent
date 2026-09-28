@@ -1,4 +1,4 @@
-name: Build Windows desktop preview
+name: Build one-click Windows desktop
 
 on:
   workflow_dispatch:
@@ -6,11 +6,8 @@ on:
     paths:
       - desktop/**
       - '!desktop/README.md'
-      - '!desktop/tests/**'
       - '!desktop/signing/**'
-      - '!desktop/e2e-harness/**'
-      - '!desktop/scripts/e2e-installed.cjs'
-      - '!desktop/scripts/verify-installer.ps1'
+      - '!desktop/store/**'
       - app/src/lib/auth/**
       - app/src/app/api/desktop-health/**
       - .github/workflows/build-desktop.yml
@@ -19,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  native-payload:
     strategy:
       fail-fast: false
       matrix:
@@ -35,39 +32,107 @@ jobs:
         working-directory: desktop
     env:
       NEXT_TELEMETRY_DISABLED: "1"
-      CSC_IDENTITY_AUTO_DISCOVERY: "false"
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24"
-          cache: npm
-          cache-dependency-path: |
-            desktop/package-lock.json
-            app/package-lock.json
-      - run: npm ci
+      - run: npm ci --no-audit --no-fund
       - run: npm test
       - run: npm run prepare:app
-      - run: npm run dist -- --${{ matrix.arch }}
-      - name: Install minimal desktop test driver
-        run: npm ci --prefix e2e-harness --include=dev --no-audit --no-fund
-      - name: Test actual candidate installation and data preservation
-        shell: pwsh
-        run: .\scripts\verify-installer.ps1 -Architecture ${{ matrix.arch }} -Version 0.3.1 -InstallerPath .\dist\Hackathon-Facilitator-Setup-0.3.1-${{ matrix.arch }}.exe
-      - name: Retain candidate lifecycle evidence
-        if: always()
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: candidate-e2e-${{ matrix.arch }}
+          name: native-payload-${{ matrix.arch }}
+          path: desktop/payload/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+  package:
+    needs: native-payload
+    runs-on: windows-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: native-payload-x64
+          path: desktop/payload-x64
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: native-payload-arm64
+          path: desktop/payload-arm64
+      - run: npm ci --no-audit --no-fund
+      - run: npm run dist:universal
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: oneclick-candidate
           path: |
-            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/*.json
-            ${{ runner.temp }}/hf-desktop-e2e-${{ matrix.arch }}/*.png
+            desktop/dist-oneclick/*.exe
+            desktop/dist-oneclick/*.sha256
+          if-no-files-found: error
+          retention-days: 3
+  native-lifecycle:
+    needs: package
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, windows-11-arm]
+        scenario: [fresh, upgrade]
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: oneclick-candidate
+          path: candidate
+      - run: npm ci --prefix desktop/e2e-harness --no-audit --no-fund
+      - name: Install without arguments, verify automatic launch and full app lifecycle
+        shell: pwsh
+        run: |
+          $version = (Get-Content desktop/package.json -Raw | ConvertFrom-Json).version
+          $parameters = @{
+            Architecture = '${{ matrix.arch }}'
+            Version = $version
+            InstallerPath = ".\candidate\Hackathon-Facilitator-Setup-$version.exe"
+          }
+          if ('${{ matrix.scenario }}' -eq 'upgrade') { $parameters.UpgradeFromPrevious = $true }
+          .\desktop\scripts\verify-oneclick.ps1 @parameters
+      - name: Retain synthetic lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: oneclick-evidence-${{ matrix.arch }}-${{ matrix.scenario }}
+          path: |
+            ${{ runner.temp }}/hf-oneclick-${{ matrix.arch }}-${{ matrix.scenario }}/*.json
+            ${{ runner.temp }}/hf-oneclick-${{ matrix.arch }}-${{ matrix.scenario }}/*.png
           if-no-files-found: warn
           retention-days: 14
-      - name: Retain unsigned preview installer
-        uses: actions/upload-artifact@v4
+  verified-installer:
+    needs: native-lifecycle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          name: windows-${{ matrix.arch }}-installer
-          path: desktop/dist/Hackathon-Facilitator-Setup-*-${{ matrix.arch }}.exe
+          name: oneclick-candidate
+          path: verified
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: oneclick-verified-installer
+          path: verified/
           if-no-files-found: error
           retention-days: 14

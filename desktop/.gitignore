@@ -5,4 +5,7 @@ dist-signed/
 .build/
 store-output/
 dist-store/
+dist-oneclick/
+payload-x64/
+payload-arm64/
 *.log

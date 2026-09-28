@@ -15,7 +15,12 @@ if (!['first', 'reinstalled'].includes(phase) || !path.isAbsolute(directory || '
 const qa = path.resolve(directory);
 const relative = path.relative(path.resolve(process.env.RUNNER_TEMP), qa);
 if (relative.startsWith('..') || path.isAbsolute(relative)) throw new Error('Test output must be inside RUNNER_TEMP.');
-const executablePath = path.join(qa, 'installed', 'Hackathon Facilitator.exe');
+const installDir = process.env.HF_E2E_INSTALL_DIR ? path.resolve(process.env.HF_E2E_INSTALL_DIR) : path.join(qa, 'installed');
+if (installDir !== path.join(qa, 'installed') &&
+    installDir.toLowerCase() !== path.join(process.env.LOCALAPPDATA, 'Programs', 'hackathon-facilitator-desktop').toLowerCase()) {
+  throw new Error('Only the explicit disposable CI install locations are permitted.');
+}
+const executablePath = path.join(installDir, 'Hackathon Facilitator.exe');
 const stateFile = path.join(qa, 'workflow-state.json');
 const reportPath = path.join(qa, `desktop-${phase}.json`);
 const env = { ...process.env };
@@ -59,7 +64,7 @@ async function launch() {
     `@(Get-CimInstance Win32_Process -Filter "ParentProcessId=${details.mainPid}" | Select-Object -ExpandProperty ExecutablePath) | ConvertTo-Json -Compress`],
   { encoding: 'utf8' }) || '[]');
   const images = Array.isArray(children) ? children : [children];
-  const bundledNode = path.join(qa, 'installed', 'resources', 'backend', 'node', 'node.exe');
+  const bundledNode = path.join(installDir, 'resources', 'backend', 'node', 'node.exe');
   fs.writeFileSync(path.join(qa, `runtime-images-${phase}.json`), JSON.stringify({
     images, bundledNode, launcherPid: instance.process().pid, electronPid: details.mainPid,
   }, null, 2));

@@ -1,13 +1,13 @@
 {
   "name": "hackathon-facilitator",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "status": "public-toolkit",
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
   "creator": {
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "No-install local-only browser edition, Windows desktop preview, full local web app, optional Copilot agent and workshop materials. Desktop EXE is unsigned; Store certification and official hackathon submission remain pending.",
+  "publication": "Full Windows desktop app with one-click installer preparation, full local web app, optional lightweight browser edition, Copilot agent and workshop materials. Desktop EXE is unsigned; Store certification and official hackathon submission remain pending.",
   "exclusions": [
     "customer records",
     "databases",
@@ -57,7 +57,7 @@
     },
     {
       "path": ".github/workflows/build-desktop.yml",
-      "sha256": "9c3a726b4f5a3539f1e43412f4c356afef44dd05cd723bf8a0c8064a3ca79431"
+      "sha256": "7aa9fbb49dd58dabb862d0753ac6193e6198f44217640dc19de93370b3ba39bc"
     },
     {
       "path": ".github/workflows/build-store-msix.yml",
@@ -73,7 +73,7 @@
     },
     {
       "path": ".github/workflows/test-desktop-release.yml",
-      "sha256": "5e798b83dcb35e6dc7cf1a6791556cd2e162dc65e3c83629f2836e7c5583796e"
+      "sha256": "4e0c4d0b67b5e01de8e62e359243f09ce1622a8e52c793a5b3355dad1b886ca0"
     },
     {
       "path": ".github/workflows/verify-app.yml",
@@ -917,7 +917,7 @@
     },
     {
       "path": "desktop/.gitignore",
-      "sha256": "00bea210f15555936574cbc202835aa0e15e2555a6dcb80e5cf7371af62a26b5"
+      "sha256": "beaf358b0f4b0676ab9a3d77619f4a66db12c9a1527bb6d15061668105020190"
     },
     {
       "path": "desktop/README.md",
@@ -945,11 +945,11 @@
     },
     {
       "path": "desktop/package-lock.json",
-      "sha256": "d2a48462592e087490d3ebaa1c2716c8101dd664bbe0842a8ba2da2a76e4dd0d"
+      "sha256": "a50f995068c1685e378a6f84677d8ec0e8091f186ff964fabd48a50567c5ab28"
     },
     {
       "path": "desktop/package.json",
-      "sha256": "566cf8c3d2ce925deb0dbb1e456fa0481948ceb034d45aba7430ae3ec5aafcc7"
+      "sha256": "e71190b235320ba02ae6b98700e94c4cec3681d10d9c941662580c9c636aabe1"
     },
     {
       "path": "desktop/policy.cjs",
@@ -960,8 +960,12 @@
       "sha256": "b77d4b39f78c1e81a0b38dddce91215f707c8e06a92da1076ff78dc4a5031865"
     },
     {
+      "path": "desktop/scripts/build-universal.cjs",
+      "sha256": "9f09ebe56c17f28787b1c422daf186cd1b6492b6b65df7ae9f270415f960a0e0"
+    },
+    {
       "path": "desktop/scripts/e2e-installed.cjs",
-      "sha256": "70535bb759d9d0bf09c19a76250d5dd1b135b5ca1c76da43a9bff16030b8fa53"
+      "sha256": "4a26d15ee10ff8c8d9e66533899a59f6faf55e30a23bb272039d99596003556f"
     },
     {
       "path": "desktop/scripts/prepare-app.mjs",
@@ -970,6 +974,10 @@
     {
       "path": "desktop/scripts/verify-installer.ps1",
       "sha256": "3832f27c73056fcd5e7b8fd468a972feb577acc73395210fa4fc25ec798c219f"
+    },
+    {
+      "path": "desktop/scripts/verify-oneclick.ps1",
+      "sha256": "c5a180ed24d52ea3bde6b629cf1b2253c4541f762d9f77bf5d152713a77f5b06"
     },
     {
       "path": "desktop/signing/README.md",
@@ -1053,7 +1061,7 @@
     },
     {
       "path": "desktop/tests/packaging.test.cjs",
-      "sha256": "75ce79939e1b5c17f0affebe76f9fe6d4bd9c65374278188819b4899f9f9f307"
+      "sha256": "af97ac95763962fb77e97f2b856b352c50716603961251aecf68275cf0bea7eb"
     },
     {
       "path": "desktop/tests/policy.test.cjs",
