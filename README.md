@@ -9,36 +9,37 @@ are now in one public repository.
 
 **Experimental local MVP, not an official Microsoft product or production service.**
 
-## Open and use it now — no installation
+## Full application — one-click Windows setup
 
-### **[Launch Hackathon Facilitator in your browser](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
+### **[Download Hackathon Facilitator for Windows](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2/Hackathon-Facilitator-Setup-0.3.2.exe)**
 
-**No installer, Node.js, login, subscription or Azure account.** Choose an empty
-workspace or the fictional sample and start using the Kanban board. Includes
-shared handoffs, dashboard, readiness notes and JSON/CSV exports.
+**This is the original full app, not the lightweight Browser Edition.**
+Download the EXE and open it. Setup automatically selects **Intel/AMD x64 or
+Windows ARM64**, installs for your Windows account and opens the application.
+There is no setup wizard, architecture choice or separate Node.js/npm installation.
+No Copilot subscription or Azure account is needed for the local mock-AI preview.
 
-**Your records stay in this browser on this device.** This is a single-user,
-local-only companion, not a shared cloud workspace or the entire desktop app.
-Download a **JSON backup** regularly: clearing browser data can erase your work.
-Use approved, non-sensitive information. [Browser guide and privacy details](browser/README.md).
+The full Kanban, use-case intake, mock evaluator/build guides, contacts, readiness,
+handoffs, dashboard and exports are retained. Existing compatible desktop
+workspaces stay in `%APPDATA%\Hackathon Facilitator\data`.
+[Install, update and backup instructions](desktop/README.md).
 
-> **For the Windows EXE, use v0.3.1 or later.** End-to-end testing found and fixed an ARM64 extraction
-> issue in v0.3.0. Both replacement installers passed real install, application
-> workflow, reinstall and data-preserving uninstall checks. Do not delete your
-> saved workspace to repair the old installer.
+**The EXE is still unsigned.** Windows or organizational policy may show a warning
+or block it. One-click setup simplifies installation; it does not remove those
+protections. Store signing remains a separate, pending route.
 
-![No-install Browser Edition with all six Kanban progress columns visible](media/browser-edition.png)
+![Original full app with every Kanban progress column visible](media/kanban-progress.png)
 
-*Fictional sample workspace in Browser Edition. No live AI; statuses do not imply
+*Fictional sample workspace. Mock AI; statuses do not imply
 approval, deployment or a CAF submission.*
 
 ## Choose how to try it
 
 | I want to… | Start here | Required |
 | --- | --- | --- |
-| **Use it immediately, without installing** | **[Open Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)** | A current browser; no login or setup |
-| **Install the Windows desktop app** | **[Intel/AMD x64](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/Hackathon-Facilitator-Setup-0.3.1-x64.exe)** · **[Windows on Arm ARM64](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/Hackathon-Facilitator-Setup-0.3.1-arm64.exe)** | Windows; no separate Node.js or Copilot installation |
-| **Try the web app** | Download the [verified source ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/hackathon-facilitator-0.3.1-source-r2.zip), extract it and run **Start-Hackathon.cmd** on Windows | [Node.js 24](https://nodejs.org/en/download), a browser and internet for first-run dependencies |
+| **Use the original full application** | **[One-click Windows installer](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2/Hackathon-Facilitator-Setup-0.3.2.exe)** | Windows x64/ARM64; no separate runtime or subscription |
+| **Run the full app from source** | Download the [source ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2/hackathon-facilitator-0.3.2-source.zip), extract it and run **Start-Hackathon.cmd** on Windows | [Node.js 24](https://nodejs.org/en/download), a browser and internet for first-run dependencies |
+| **Try the optional, reduced browser companion** | [Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/) · [scope and backups](browser/README.md) | Browser-local data; not the full application and no desktop-data migration |
 | **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
 | **Use the Copilot agent** | Open the extracted repository in VS Code, then select **hackathon-facilitator** in Copilot Chat | Permitted GitHub Copilot access |
 
@@ -46,6 +47,10 @@ The local demo and the materials **do not require a Copilot subscription or an
 Azure API key**. Copilot access is needed only for the separate agent.
 
 ## End-to-end checked
+
+**28 September 2026, v0.3.2:** the same universal installer passed native x64 and
+ARM64 fresh-install and v0.3.1-upgrade scenarios, with no installer arguments or
+wizard clicks, automatic launch, the full app workflow and saved-data preservation.
 
 **25 September 2026:** 495 unit/API tests, 69 browser E2E tests and 40 desktop
 policy/runtime tests passed. The Windows x64 and native ARM64 installers were
@@ -64,7 +69,7 @@ Microsoft re-signs MSIX packages after certification. No Store account/product
 identity has been supplied yet. The current EXE downloads remain unsigned.
 
 The desktop installer includes its own runtime and opens a dedicated application
-window. It adds a Start menu entry and optional desktop shortcut. Closing the
+window. It adds a Start menu entry and desktop shortcut. Closing the
 window keeps it in the notification area; use **Open** to restore or **Quit** to
 exit fully. You can pin the running app to the taskbar yourself.
 

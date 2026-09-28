@@ -2,13 +2,13 @@
 
 **Created by Daniel Horvath** · [dahorvath@microsoft.com](mailto:dahorvath@microsoft.com)
 
-An installable, single-user desktop preview with its own window and notification-area
+The original full app in an installable, single-user desktop preview with its own window and notification-area
 icon. It bundles the browser shell, Node.js runtime and local app: **users do not
 need to install Node.js, npm, VS Code or GitHub Copilot**.
 
-**Cannot install an EXE?** Use the
+**Optional reduced companion, not a replacement for the full app:** the
 [no-install Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)
-now. It has Kanban, handoffs, readiness and exports; it stores data separately
+has only Kanban, handoffs, compact readiness and exports; it stores data separately
 in your browser and does not import your desktop database. [Scope and backups](../browser/README.md).
 
 ## Microsoft Store route (in preparation)
@@ -22,15 +22,25 @@ The EXE preview below remains unsigned and unchanged.
 Store packaging uses a separate data profile, and uninstall/reset can remove
 that profile. The EXE data-retention instructions below apply only to NSIS.
 
-## Install and open the EXE preview
+## Install and open — one EXE, no setup wizard
 
-1. Download the Windows installer that matches your device: **x64** for Intel/AMD
-   PCs, **ARM64** for Windows on Arm. Check **Settings > System > About > System type**
-   if unsure.
-2. Run `Hackathon-Facilitator-Setup-0.3.1-<architecture>.exe`. It installs for your
-   current Windows account without requesting administrator access.
-3. Keep **Run Hackathon Facilitator** selected at the end of setup.
-4. Open it later from the **Start menu** or the desktop shortcut.
+1. [Download **Hackathon-Facilitator-Setup-0.3.2.exe**](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2/Hackathon-Facilitator-Setup-0.3.2.exe).
+2. Open the downloaded EXE. It selects x64/ARM64, installs for your Windows account
+   and **opens the full app automatically**. No Next/Finish pages, destination
+   choice, admin request or separate dependency installation.
+3. Open it later from **Start > Hackathon Facilitator** or the desktop shortcut.
+
+The single download includes both native architectures and all app dependencies,
+so it is larger than the old architecture-specific EXEs. It is not a web installer:
+setup does not download Node.js or app packages. No Copilot subscription or
+Azure account is needed. Windows 32-bit, macOS and Linux are not supported by this EXE.
+
+**Updating from v0.3.1:** save your work and choose **Quit** from the tray first,
+then open the new installer. It reuses the existing installation location and
+compatible data profile. A fresh installation uses
+`%LOCALAPPDATA%\Programs\hackathon-facilitator-desktop`.
+The app's user-data folder is unchanged. Do not uninstall or delete your database
+just to upgrade. Browser Edition data remains separate.
 
 This first preview is **unsigned**. Windows SmartScreen or organizational
 application-control policy may block it. Do not disable those protections.
@@ -133,14 +143,31 @@ publish, and it fails instead of falling back to an unsigned build.
 
 ## Repeatable installer validation
 
+The primary workflow now builds both native payloads, packages them into one EXE,
+then tests that **same file** on native x64 and ARM64 runners. It runs without
+installer arguments or UI clicks, confirms the automatically opened window and
+bundled loopback backend, then exercises the full app. Separate scenarios verify
+a fresh default install and upgrade over the actual published v0.3.1 installation,
+including a custom old installation directory.
+
+`scripts/verify-oneclick.ps1` is restricted to disposable Windows CI. It also
+verifies architecture selection, original Node signature, shortcuts, registration,
+reinstall and data-preserving uninstall. Its initial auto-launched test instance
+is stopped by exact owned PIDs; normal graceful Quit is checked separately in the
+existing full app workflow. SmartScreen/enterprise approval is not bypassed.
+
 `scripts/verify-installer.ps1` and `scripts/e2e-installed.cjs` are restricted to
 disposable Windows GitHub Actions runners. They test the real installer,
 shortcuts, per-user registration, installed app workflows, bundled runtime,
 tray behavior, same-version reinstall and data-preserving uninstall.
 They refuse to run against an existing local user's profile.
 
-The `Build Windows desktop preview` workflow runs this check on both x64 and
-ARM64 before retaining a release candidate. `Test published desktop installers`
-can repeat the checks against a named public release and its checksum file.
-Interactive SmartScreen decisions, the finish-page checkbox and native
-save/print dialog interaction remain separate manual/policy checks.
+`npm run dist:universal` requires clean `payload-x64` and `payload-arm64`
+directories produced by `prepare:app` on the matching native machines. The
+`Build one-click Windows desktop` workflow assembles these and retains a verified
+candidate only after all four native fresh/upgrade scenarios pass.
+`Test published desktop installers` repeats the check from a named public release.
+For old releases, disable its `universal` option to use the earlier per-architecture
+installer check. Interactive SmartScreen decisions and native save/print dialog
+interaction remain separate manual/policy checks. There is no Finish checkbox
+in the new one-click installer.

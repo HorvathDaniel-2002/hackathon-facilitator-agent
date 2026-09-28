@@ -1,10 +1,49 @@
-# End-to-end validation — 25 September 2026
+# End-to-end validation
 
 This report separates software checks from corporate approval and AI quality.
 All modifying tests use fictional data in isolated directories or disposable
 GitHub-hosted Windows runners. No existing customer database is reset or seeded.
 
-## Web application
+## One-click full desktop app — 28 September 2026
+
+Version **0.3.2** changes packaging, not the original application's functionality.
+The `app/` source, Electron main process, runtime and security policy are unchanged
+from the preceding source revision. The browser companion is not bundled in place
+of the full app.
+
+One offline EXE contains the native x64 and ARM64 payloads. It installs with
+**no command-line arguments and no wizard clicks**, then automatically opens the
+full app. The same exact EXE passed all four
+[native lifecycle scenarios](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/36470901171):
+
+| Scenario | x64 | Native ARM64 |
+| --- | --- | --- |
+| Fresh, default per-user installation and automatic full-app launch | Passed | Passed |
+| Upgrade over the published v0.3.1 app in an existing custom directory | Passed | Passed |
+| Full workflow, mock evaluation/build guide, CAF/production guards, handoff and readiness | Passed | Passed |
+| Print-ready view, CSV, tray restore, single instance and graceful Quit | Passed | Passed |
+| One-click reinstall, automatic relaunch and saved-data preservation | Passed | Passed |
+| Uninstall removes program/shortcuts/registration but retains data | Passed | Passed |
+
+Both native payload jobs also passed **62 desktop tests**. The automatically
+launched instance was observed through its real visible window, native bundled
+Node child and loopback listener; unauthenticated health requests were rejected.
+Only observed test-owned PIDs were stopped before the separate full UI workflow,
+which verifies normal graceful Quit.
+
+Installer: `Hackathon-Facilitator-Setup-0.3.2.exe`, **429,427,789 bytes**.
+SHA-256:
+
+```text
+e9dce7e06329fee81db78cd92b8778ae3ceb38ce2aa03a8259f7bac56bc58212
+```
+
+The installer is **NotSigned**, not Store-approved. Interactive SmartScreen,
+corporate policy, manual print/save dialogs and arbitrary future schema migrations
+remain outside this result. No security setting, trust root, Defender exclusion
+or organizational policy was changed.
+
+## Earlier full web application baseline — 25 September 2026
 
 | Check | Result |
 | --- | --- |
@@ -22,7 +61,7 @@ desktop/tablet/mobile layouts, shared handoff deep links, required production/CA
 references, unsaved drafts, stale-tab conflicts, readiness evidence, mock
 evaluations/guides, exports, frozen-workspace rules and sign-in recovery.
 
-## Desktop and installer
+## Earlier v0.3.1 desktop and installer baseline
 
 The desktop policy/runtime suite has **40 passing tests**, including session-token
 isolation, restricted navigation, sandbox preferences, tray/single-instance
@@ -96,8 +135,9 @@ change. The checksum file names the corrected source archive explicitly.
 - The installers remain **unsigned**. SmartScreen, endpoint protection and
   organizational application-control approval remain environment-dependent;
   no protections were disabled.
-- Installer automation uses silent installation. The interactive finish-page
-  launch checkbox is configured, not manually clicked by this test.
+- The earlier v0.3.1 installer automation used silent installation and did not
+  click its Finish checkbox. The new v0.3.2 check above verifies no-argument
+  installation and automatic launch; that installer has no Finish checkbox.
 - The native export Save dialog is approved to a temporary file by the test
   driver; manual save/print dialogs and taskbar pinning are not automated.
 - Same-version reinstallation and schema-preservation/refusal rules are tested;

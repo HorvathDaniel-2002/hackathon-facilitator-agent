@@ -1,5 +1,11 @@
 # Browser Edition: open the link and start
 
+**This is a reduced companion, not the original full app.**
+For the complete experience, use the
+[one-click Windows installer](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2/Hackathon-Facilitator-Setup-0.3.2.exe).
+It includes the runtime, selects x64/ARM64 automatically and opens after setup.
+Its data is separate from this browser workspace.
+
 **[Open Hackathon Facilitator](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
 
 No installer, Node.js, GitHub/Copilot account, Azure key, subscription or admin

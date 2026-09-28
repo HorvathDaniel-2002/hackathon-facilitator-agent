@@ -329,6 +329,8 @@ function renderWelcome() {
     el("p", { className: "eyebrow" }, "Open. Organize. Follow through."),
     el("h1", {}, "From hackathon idea", el("br"), "to an owned next step."),
     el("p", { className: "lead" }, "Your Kanban board, readiness checks and handoffs. No installer, login, subscription or setup."),
+    el("p", { className: "hint" }, "This is a lightweight companion, not the original full app. ",
+      link("Download the full Windows application", `${REPO}/releases/latest`)),
     el("div", { className: "choices" },
       el("section", { className: "panel stack" }, el("h2", {}, "Start your own workspace"), name, button("Create empty workspace", () => start(false), "primary")),
       el("section", { className: "panel stack" }, el("h2", {}, "Take a quick look"), el("p", { className: "muted" }, "Start with three fictional use cases. Edit them, move cards and explore the shared handoff."),
@@ -349,7 +351,8 @@ function render() {
     el("nav", { "aria-label": "Workspace" }, Object.entries(PAGES).map(([id, [title]]) =>
       button(title, () => { page = id; render(); }, "", { "aria-current": page === id ? "page" : undefined }))),
     el("footer", {}, el("strong", {}, "Created by Daniel Horvath"), link("dahorvath@microsoft.com", "mailto:dahorvath@microsoft.com"),
-      link("GitHub & materials", REPO), el("span", {}, "Local-only · No live AI"), el("span", {}, "Not an official Microsoft product.")));
+      link("Full Windows application", `${REPO}/releases/latest`), link("GitHub & materials", REPO),
+      el("span", {}, "Local-only companion · No live AI"), el("span", {}, "Not an official Microsoft product.")));
   const main = el("main", { id: "main", className: page === "board" ? "board-view" : "" },
     el("div", { className: "topbar row spread" }, el("span", {}, record.workspace.name),
       el("div", { className: "row" }, el("span", { className: "badge", id: "save-state" }, "Saved locally"), button("Backup", () => backupDownload()))),

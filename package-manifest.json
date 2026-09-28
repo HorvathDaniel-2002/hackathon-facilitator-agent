@@ -7,7 +7,7 @@
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "Full Windows desktop app with one-click installer preparation, full local web app, optional lightweight browser edition, Copilot agent and workshop materials. Desktop EXE is unsigned; Store certification and official hackathon submission remain pending.",
+  "publication": "Full Windows desktop app with a native x64/ARM64 one-click installer, full local web app, optional lightweight browser edition, Copilot agent and workshop materials. Desktop EXE is unsigned; Store certification and official hackathon submission remain pending.",
   "exclusions": [
     "customer records",
     "databases",
@@ -89,7 +89,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "d2905c8b567834ed98dd91d98a40c3ee6c29b3392e83e92bc50359717cf3db90"
+      "sha256": "835410d92949e03ee3a43ad8bb47c4513596d55344df82b0764c96d6c53356fb"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -865,11 +865,11 @@
     },
     {
       "path": "browser/README.md",
-      "sha256": "47ab0b34472d3f59af252f07d9be15e361670eebbd804d63f9f9c293405ae42f"
+      "sha256": "127c3aeb99a614e0210e30a46e8ddee4db9c3f089450c30689b17cb7544fa984"
     },
     {
       "path": "browser/app.mjs",
-      "sha256": "5cf46e9c72fe9fb168e68543a0bde9d632f95a04d4b665e45edc33d89d23c275"
+      "sha256": "81d11a27316236a85b8cf8baa3c507894fa2a7f7a76e1c0fa41d672d03048090"
     },
     {
       "path": "browser/icon.png",
@@ -921,7 +921,7 @@
     },
     {
       "path": "desktop/README.md",
-      "sha256": "b74efe3b3e544bc2decd3de4cbc936e9b77d0af8d5f80fb98e57325bccb746f7"
+      "sha256": "23b49f84a182c454fc4777e4765bc6dc32073c0885f36eaf6baaea08a09cc026"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -1097,7 +1097,7 @@
     },
     {
       "path": "docs/end-to-end-validation.md",
-      "sha256": "20fb3eca380766fa7db3f7ee15bcf95b87d850f87a8017aa24acab553e3e0599"
+      "sha256": "b967b9c2029738fd1e6eb01c5bb696ba3c999a387338ad84aa149cfacbf8dfce"
     },
     {
       "path": "docs/official-hackathon-submission.md",
