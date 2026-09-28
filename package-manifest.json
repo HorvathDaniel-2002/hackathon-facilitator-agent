@@ -7,7 +7,7 @@
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "Windows desktop preview, local web app, optional Copilot agent and no-install materials. Desktop installer is unsigned; official hackathon submission remains pending.",
+  "publication": "No-install local-only browser edition, Windows desktop preview, full local web app, optional Copilot agent and workshop materials. Desktop EXE is unsigned; Store certification and official hackathon submission remain pending.",
   "exclusions": [
     "customer records",
     "databases",
@@ -64,6 +64,10 @@
       "sha256": "54a61269023a2f15d559a6e3df7f185ec5bbea7ebc84988067de3671cd9d82fb"
     },
     {
+      "path": ".github/workflows/deploy-browser.yml",
+      "sha256": "02f6eec43fcb019acd4ba7b3a81fb539ce0d0e6b28bbf539acfc585799987ca3"
+    },
+    {
       "path": ".github/workflows/sign-desktop.yml",
       "sha256": "72e5661f9d52eb6730862b75542e8b78791e7597ca1373e6f666f70425c8edb8"
     },
@@ -85,7 +89,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "99b5caf082711f70d689dea0eb6e4fabf256c7f26700fb87f044474f3ab9fb30"
+      "sha256": "d2905c8b567834ed98dd91d98a40c3ee6c29b3392e83e92bc50359717cf3db90"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -860,12 +864,64 @@
       "sha256": "2676e4120f8fba9b07470d58bc9a27fd5bc097960ce70119d3db1362143b5f07"
     },
     {
+      "path": "browser/README.md",
+      "sha256": "2c4e43c5dc70d3a1ad796bf23b7e159cec930329d4b1969b34257eb065e98d16"
+    },
+    {
+      "path": "browser/app.mjs",
+      "sha256": "5cf46e9c72fe9fb168e68543a0bde9d632f95a04d4b665e45edc33d89d23c275"
+    },
+    {
+      "path": "browser/icon.png",
+      "sha256": "0ff3e75d1a1c89eb6f11d65a204327e80491859ce21209887d565427450b9e74"
+    },
+    {
+      "path": "browser/index.html",
+      "sha256": "62c36e9021ccec2ecee2c42de522910a1ffe23a62a62cc94697604afcc6b54d8"
+    },
+    {
+      "path": "browser/model.mjs",
+      "sha256": "f0c6500187a6568ac3cd46b4b4644b603961ef4f5ff5ebf192389c61001c7eb6"
+    },
+    {
+      "path": "browser/startup.js",
+      "sha256": "25e67a02ae0b6f0d54f2d9800b4c44ec7c042deb50bfec0c63eb4ae16d6e4056"
+    },
+    {
+      "path": "browser/storage.mjs",
+      "sha256": "9cf9592406ccc8c9aac73b10eb8ecdab031bb48179f53a44a2a2b5356283d3e6"
+    },
+    {
+      "path": "browser/styles.css",
+      "sha256": "b819faba1946412b8c864015b5255b06f1a0cf8b69b4d7f48cc672181bb6cce6"
+    },
+    {
+      "path": "browser/tests/e2e.cjs",
+      "sha256": "b610d265cd8fdf658c815e8e6b96842b2a69757091c132d2d3b52eb71031c6ce"
+    },
+    {
+      "path": "browser/tests/model.test.mjs",
+      "sha256": "bce69c1011ea302a303f3e3f7e616116739cc3583bdfc2d001c1ac75c9295d7e"
+    },
+    {
+      "path": "browser/theme.js",
+      "sha256": "0afa4125c2501cd32baa07c7d66bdf85f324ca1c08222efe1ffab079b1ea5eaa"
+    },
+    {
+      "path": "browser/tools/build.mjs",
+      "sha256": "7a4c6d300dd3e4b848928bd9b2813bcf3835100dc8855fb1dfd9fca005f46e49"
+    },
+    {
+      "path": "browser/tools/serve.mjs",
+      "sha256": "1cb01aeec6a142f7584e0c0408e4c91d860ab4eb31c1369638c09ac601934d57"
+    },
+    {
       "path": "desktop/.gitignore",
       "sha256": "00bea210f15555936574cbc202835aa0e15e2555a6dcb80e5cf7371af62a26b5"
     },
     {
       "path": "desktop/README.md",
-      "sha256": "b1622a682ecd39a5dde876b75c060a9a15d15eda69d990a65ea2c0acf19fc2dd"
+      "sha256": "b74efe3b3e544bc2decd3de4cbc936e9b77d0af8d5f80fb98e57325bccb746f7"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -1058,6 +1114,10 @@
     {
       "path": "materials/README.md",
       "sha256": "9165791abf1b6fd796839922e54ed88b2e4e70520481f5424cf5b1d4effa0ec2"
+    },
+    {
+      "path": "media/browser-edition.png",
+      "sha256": "848d3ec0f53017185b347c27b2e2ce1f138d184b1f3d009ab773407f29e9b425"
     },
     {
       "path": "media/handoff-panel.png",

@@ -6,6 +6,11 @@ An installable, single-user desktop preview with its own window and notification
 icon. It bundles the browser shell, Node.js runtime and local app: **users do not
 need to install Node.js, npm, VS Code or GitHub Copilot**.
 
+**Cannot install an EXE?** Use the
+[no-install Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)
+now. It has Kanban, handoffs, readiness and exports; it stores data separately
+in your browser and does not import your desktop database. [Scope and backups](../browser/README.md).
+
 ## Microsoft Store route (in preparation)
 
 [MSIX packaging and onboarding guide](store/README.md) is available for a future

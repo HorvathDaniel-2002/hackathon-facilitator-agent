@@ -1,0 +1,70 @@
+name: Publish no-install browser app
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - browser/**
+      - .github/workflows/deploy-browser.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-pages
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - run: node --test browser/tests/model.test.mjs
+      - name: Install existing browser test driver (build machine only)
+        run: npm ci --prefix desktop/e2e-harness --no-audit --no-fund
+      - run: node desktop/e2e-harness/node_modules/@playwright/test/cli.js install --with-deps chromium firefox
+      - name: Browser workflows on Chromium
+        run: node browser/tests/e2e.cjs
+        env:
+          HF_BROWSER_EVIDENCE: ${{ runner.temp }}/browser-chromium
+      - name: Browser workflows on Firefox
+        run: node browser/tests/e2e.cjs
+        env:
+          BROWSER: firefox
+          HF_BROWSER_EVIDENCE: ${{ runner.temp }}/browser-firefox
+      - name: Retain synthetic validation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: browser-validation
+          path: |
+            ${{ runner.temp }}/browser-chromium/
+            ${{ runner.temp }}/browser-firefox/
+          retention-days: 14
+      - name: Stage only allowlisted public static assets
+        run: node browser/tools/build.mjs "$RUNNER_TEMP/browser-site"
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: ${{ runner.temp }}/browser-site
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Deploy reviewed browser edition
+        id: publish
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

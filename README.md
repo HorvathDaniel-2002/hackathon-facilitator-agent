@@ -9,20 +9,34 @@ are now in one public repository.
 
 **Experimental local MVP, not an official Microsoft product or production service.**
 
-> **Use v0.3.1 or later.** End-to-end testing found and fixed an ARM64 extraction
+## Open and use it now — no installation
+
+### **[Launch Hackathon Facilitator in your browser](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
+
+**No installer, Node.js, login, subscription or Azure account.** Choose an empty
+workspace or the fictional sample and start using the Kanban board. Includes
+shared handoffs, dashboard, readiness notes and JSON/CSV exports.
+
+**Your records stay in this browser on this device.** This is a single-user,
+local-only companion, not a shared cloud workspace or the entire desktop app.
+Download a **JSON backup** regularly: clearing browser data can erase your work.
+Use approved, non-sensitive information. [Browser guide and privacy details](browser/README.md).
+
+> **For the Windows EXE, use v0.3.1 or later.** End-to-end testing found and fixed an ARM64 extraction
 > issue in v0.3.0. Both replacement installers passed real install, application
 > workflow, reinstall and data-preserving uninstall checks. Do not delete your
 > saved workspace to repair the old installer.
 
-![Blue Kanban board with every progress column visible](media/kanban-progress.png)
+![No-install Browser Edition with all six Kanban progress columns visible](media/browser-edition.png)
 
-*Fictional sample workspace. Mock evaluations are labeled; statuses do not imply
+*Fictional sample workspace in Browser Edition. No live AI; statuses do not imply
 approval, deployment or a CAF submission.*
 
 ## Choose how to try it
 
 | I want to… | Start here | Required |
 | --- | --- | --- |
+| **Use it immediately, without installing** | **[Open Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)** | A current browser; no login or setup |
 | **Install the Windows desktop app** | **[Intel/AMD x64](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/Hackathon-Facilitator-Setup-0.3.1-x64.exe)** · **[Windows on Arm ARM64](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/Hackathon-Facilitator-Setup-0.3.1-arm64.exe)** | Windows; no separate Node.js or Copilot installation |
 | **Try the web app** | Download the [verified source ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.1/hackathon-facilitator-0.3.1-source-r2.zip), extract it and run **Start-Hackathon.cmd** on Windows | [Node.js 24](https://nodejs.org/en/download), a browser and internet for first-run dependencies |
 | **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
@@ -73,7 +87,7 @@ For an individual publisher, see the
 not require an Azure tenant or Microsoft-internal signing access.
 Do not disable SmartScreen or install a self-signed root to suppress this warning.
 
-## Web app: easiest setup
+## Full local web app: developer setup
 
 1. Install **Node.js 24**. Extract the ZIP into a normal writable folder.
 2. **Windows:** double-click `Start-Hackathon.cmd` in the extracted root.
