@@ -89,7 +89,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "835410d92949e03ee3a43ad8bb47c4513596d55344df82b0764c96d6c53356fb"
+      "sha256": "1c3e67fd88a9b9cdf4359fc82bb53da295f9a6c3128abc895787f05f82c4252e"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -977,7 +977,7 @@
     },
     {
       "path": "desktop/scripts/verify-oneclick.ps1",
-      "sha256": "c5a180ed24d52ea3bde6b629cf1b2253c4541f762d9f77bf5d152713a77f5b06"
+      "sha256": "b4f23c9c05c08b8ae59eeee112bbce5b07408674f20b25981cc89aeac3790a4e"
     },
     {
       "path": "desktop/signing/README.md",
