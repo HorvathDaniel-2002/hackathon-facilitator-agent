@@ -93,3 +93,7 @@ multi-tab conflicts, failed writes, untrusted text, keyboard cancellation,
 320–1920 px layouts, dark mode, profile isolation and unavailable/corrupt storage.
 Both Chromium and Firefox run these checks before deployment. This is not a claim
 of corporate certification, long-term storage durability or Safari-specific testing.
+
+**28 September 2026:** [deployment and browser checks passed](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/36469388566).
+The same 18 workflows were also repeated successfully against the public HTTPS
+site in both browsers, using disposable profiles and fictional data only.
