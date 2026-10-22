@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Hackathon Facilitator",
-  "short_name": "Facilitator",
-  "description": "A no-install, local-first Kanban workspace for hackathon use cases, readiness and handoffs.",
+  "name": "Hackathon Facilitator Light",
+  "short_name": "Facilitator Light",
+  "description": "A reduced no-install Kanban companion. The full portable Hackathon Facilitator application is available separately.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",

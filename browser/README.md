@@ -1,14 +1,18 @@
-# Browser Edition: open the link and start
+# Light Browser Edition: optional quick companion
 
-**[Open Hackathon Facilitator](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
+**This is not the complete application shown in the product walkthrough.**
+For the evaluator, build guides, contacts, dashboard and full workflow, download
+the [full portable application](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.1).
+
+**[Open the light browser companion](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
 
 No installer, Node.js, GitHub/Copilot account, Azure key, subscription or admin
 rights are needed. Open the link in a current desktop or mobile browser with
 JavaScript and site storage enabled. Bookmark it, or choose **Install app** /
 **Add to Home Screen** in a supported browser for an app-like shortcut and window.
 
-This is the primary public edition. Windows installer and Store distribution are
-paused because no authorized Windows publisher has approved that release path.
+This companion remains useful for a fast Kanban-only preview or mobile access,
+but it is not the recommended route for running the full product.
 
 ## Getting started
 
@@ -61,7 +65,7 @@ block access; do not disable organizational protections.
 
 ## Scope
 
-This public edition includes Kanban, use-case editing, shared handoffs, dashboard
+This light edition includes Kanban, use-case editing, shared handoffs, dashboard
 counts, readiness notes and JSON/CSV exports. No AI scoring, build-guide
 generation, Entra SSO, audit history, team permissions, server integrations or
 desktop-data migration is claimed.

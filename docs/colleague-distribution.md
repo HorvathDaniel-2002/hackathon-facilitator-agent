@@ -1,8 +1,8 @@
 # Distribute Hackathon Facilitator to colleagues
 
-**Current state:** public no-install browser app at
-https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/ ,
-with source, agent and materials at
+**Current state:** verified full portable application at
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.1 ,
+with source, optional light browser companion, agent and materials at
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
 No colleague access grant, announcement or official hackathon submission has been performed.
 
@@ -10,7 +10,8 @@ No colleague access grant, announcement or official hackathon submission has bee
 
 | Route | Who acts | What colleagues need |
 | --- | --- | --- |
-| Public Browser Edition | Anyone with the link | Current desktop/mobile browser; no install, account, subscription or Azure key |
+| Full portable local application | Anyone can download | Windows x64/ARM64; extract ZIP and open one CMD file |
+| Optional light Browser Edition | Anyone with the link | Current browser; reduced Kanban/readiness scope only |
 | Public agent repository / latest release | Anyone can download | Permitted Copilot access; no repository invitation or Azure key |
 | Approved private/internal GitHub repository | Repository owner | Repository access, Copilot entitlement/policy, profile on the default branch |
 | Reviewed agent-only ZIP via an approved internal channel | Owner of the artifact and channel | ZIP, installation guide, a permitted Copilot host |
@@ -27,7 +28,8 @@ the author's complete working folder, databases or original git history.
 2. Review `.github\agents\hackathon-facilitator.agent.md`, the references and the
    package manifest. Compare the ZIP SHA-256 with the hash supplied by its owner.
 3. Pilot with a small group of colleagues using **synthetic cases only**.
-4. Have participants install, select the agent and run the same starter prompt.
+4. Have participants extract the portable app, run the same fictional workflow
+   and optionally try the separate Copilot agent with the same starter prompt.
 5. Capture installation failures, unsupported/overconfident recommendations,
    missing requirements and usefulness ratings. Do not publish customer examples
    or raw prompt logs as feedback.
@@ -36,23 +38,28 @@ the author's complete working folder, databases or original git history.
 
 ## Copy-ready Teams / email announcement
 
-**Subject:** Try Hackathon Facilitator in your browser
+**Subject:** Try the full Hackathon Facilitator locally
 
 Hi colleagues,
 
-I have built **Hackathon Facilitator**, a local-first Kanban workspace for use-case
-progress, delivery routes, readiness and accountable handoffs. It opens directly
-in a desktop or mobile browser and can optionally be installed from the browser
-menu for an app-like window.
+I have built **Hackathon Facilitator**, a full local workspace for use-case intake,
+mock evaluation and build guides, Kanban progress, delivery routes, readiness,
+contacts and accountable handoffs.
 
 I am looking for a small pilot group to try it with synthetic scenarios and
 provide feedback on first-use clarity, planning completeness and usefulness.
 
-**Open the app:** https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/
+**Download the full application:**
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip
 
-No download, installer, account, admin rights, Copilot subscription or Azure key
-is needed. Work is stored in that browser profile, not uploaded to an application
-server. Use **Backup** regularly and use only approved, non-sensitive information.
+1. Extract the complete ZIP into a normal writable folder.
+2. Open `Start-Hackathon-Facilitator.cmd`.
+3. Keep the launcher window open while using the app in your browser.
+
+There is no Store installation, admin requirement, separate Node.js/npm, Copilot
+subscription or Azure key. Data stays under
+`%APPDATA%\Hackathon Facilitator Portable\data`. Stop the app before using the
+included backup command. Use only approved, non-sensitive information.
 
 **No technical setup needed:** download the Word playbook, PowerPoint workshop or
 PDFs from https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/tree/main/materials .
@@ -62,17 +69,21 @@ subscription is needed for that route.
 The repository is public; no invitation is needed:
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
 
-**Install guide:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/blob/main/docs/copilot-agent-installation.md
+**Full app start/backup guide:**
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/blob/main/portable/README.md
+
+**Optional Copilot agent install guide:**
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/blob/main/docs/copilot-agent-installation.md
 
 Open the reviewed folder in VS Code and select `hackathon-facilitator`, or run
 the included installer against an existing workspace and use Copilot CLI `/agent`.
 Opening the extracted folder in VS Code requires no Node.js, Azure key or app
 dependencies; you still need GitHub Copilot access and applicable policy permission.
 
-This is an experimental planning aid, not an official Microsoft policy authority
-or production service. The public browser edition has no live AI, login or cloud
-workspace. Do not supply unapproved customer data. Corporate approvals are not
-bundled.
+This is an experimental local planning aid with fictional starter data and mock
+AI, not an official Microsoft policy authority or production service. It has no
+live AI, Entra SSO or cloud synchronization. Do not supply unapproved customer
+data. Corporate approvals are not bundled.
 
 Please send sanitized feedback through
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues , covering:
@@ -85,7 +96,7 @@ dahorvath@microsoft.com
 
 ## Short project description
 
-Hackathon Facilitator is a local-first browser workspace and optional GitHub
+Hackathon Facilitator is a full portable local workspace and optional GitHub
 Copilot custom agent for AI hackathons. It structures sponsorship, use-case
 intake, evidence-based scoping, technical readiness, event agendas, demos and
 ownership handoffs. It distinguishes project defaults from verified Microsoft

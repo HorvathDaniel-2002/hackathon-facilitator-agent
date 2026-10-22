@@ -2,6 +2,7 @@ import { STAGES, ROUTES, CAF, CHECKS, TEXT_LIMITS, LIMIT, newCard, newWorkspace,
 import { openStore } from "./storage.mjs";
 
 const REPO = "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent";
+const FULL_RELEASE = `${REPO}/releases/tag/v0.3.2-portable.1`;
 const root = document.querySelector("#app"), dialog = document.querySelector("#editor");
 let store, record = null, page = "board", grouping = "stage", query = "", routeFilter = "All routes";
 let busy = false, dirty = false, draftReader, toastTimer;
@@ -335,9 +336,10 @@ function dataView() {
     el("section", { className: "panel stack" }, el("h2", {}, "Privacy and scope"),
       el("p", {}, "This app has no analytics, no live AI and no workspace upload. GitHub Pages serves the public app files and can process normal web request metadata. External links open only when you select them."),
       el("p", {}, "Browser storage is not an access-control or encryption boundary. Other scripts on the same GitHub Pages origin and anyone using this browser profile can potentially access it. Use only approved, non-sensitive information. Do not enter credentials, regulated data or confidential customer records."),
-      el("p", {}, "This public browser edition includes Kanban, shared handoffs, a compact readiness checklist and exports. It does not include AI evaluation, accounts, audit history, server integrations or automatic migration from older desktop data."),
+      el("p", {}, "This lightweight browser companion includes Kanban, shared handoffs, a compact readiness checklist and exports. It does not include the full app's AI evaluation, build guides, contacts, audit history or server-backed workspace."),
       el("p", {}, "No corporate approval is implied. Network/browser policies can still restrict access; do not disable them."),
-      el("div", { className: "row" }, link("Source and materials", REPO), link("Browser guide", `${REPO}/blob/main/browser/README.md`))),
+      el("div", { className: "row" }, link("Download the full original app", FULL_RELEASE),
+        link("Source and materials", REPO), link("Browser guide", `${REPO}/blob/main/browser/README.md`))),
   );
 }
 function renderWelcome() {
@@ -348,10 +350,12 @@ function renderWelcome() {
     await commit(workspace, 0); render();
   };
   root.replaceChildren(el("main", { id: "main", className: "onboarding stack" },
-    el("div", { className: "brand" }, el("img", { src: "./icon.png", alt: "" }), "Hackathon Facilitator", badge("Browser Edition", "edition")),
+    el("div", { className: "brand" }, el("img", { src: "./icon.png", alt: "" }), "Hackathon Facilitator", badge("Light Browser Edition", "edition")),
     el("p", { className: "eyebrow" }, "Open. Organize. Follow through."),
     el("h1", {}, "From hackathon idea", el("br"), "to an owned next step."),
-    el("p", { className: "lead" }, "Your Kanban board, readiness checks and handoffs. No installer, login, subscription or setup."),
+    el("p", { className: "lead" }, "A lightweight Kanban, readiness and handoff companion. No installer, login, subscription or setup."),
+    el("p", { className: "hint" }, "Need the evaluator, build guides, contacts, dashboard and complete workflow? ",
+      link("Download the full original portable app", FULL_RELEASE), "."),
     el("div", { className: "row" }, installControl()),
     el("p", { className: "hint", id: "offline-detail" }, offlineReady
       ? "Ready to reopen offline on this device after the first successful load."
@@ -372,12 +376,12 @@ function render() {
   if (!record) { renderWelcome(); return; }
   const sidebar = el("aside", { className: "sidebar" },
     el("div", { className: "brand" }, el("img", { src: "./icon.png", alt: "" }), el("span", {}, "Hackathon", el("br"), "Facilitator")),
-    el("div", {}, badge("Browser Edition", "edition")),
+    el("div", {}, badge("Light Browser Edition", "edition")),
     el("nav", { "aria-label": "Workspace" }, Object.entries(PAGES).map(([id, [title]]) =>
       button(title, () => { page = id; render(); }, "", { "aria-current": page === id ? "page" : undefined }))),
     el("footer", {}, el("strong", {}, "Created by Daniel Horvath"), link("dahorvath@microsoft.com", "mailto:dahorvath@microsoft.com"),
-      link("GitHub & materials", REPO),
-      el("span", {}, "Local-first public edition · No live AI"), el("span", {}, "Not an official Microsoft product.")));
+      link("Full original app", FULL_RELEASE), link("GitHub & materials", REPO),
+      el("span", {}, "Reduced local-only companion · No live AI"), el("span", {}, "Not an official Microsoft product.")));
   const main = el("main", { id: "main", className: page === "board" ? "board-view" : "" },
     el("div", { className: "topbar row spread" }, el("span", {}, record.workspace.name),
       el("div", { className: "row" }, el("span", { className: "badge", id: "save-state" }, "Saved locally"),

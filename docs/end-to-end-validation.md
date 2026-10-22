@@ -4,13 +4,56 @@ This report separates software checks from corporate approval and AI quality.
 All modifying tests use fictional data in isolated directories or disposable
 GitHub-hosted Windows runners. No existing customer database is reset or seeded.
 
-## Browser-first public edition — 22 October 2026
+## Full portable local application — 22 October 2026
 
-The supported public entry point is the
-[GitHub Pages Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/).
+The supported public route for the original full application is the
+[universal portable ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.1).
+Users extract one folder and open `Start-Hackathon-Facilitator.cmd`; there is no
+Store installation, admin requirement or separate Node/npm setup.
+
+The package contains native x64 and ARM64 payloads and automatically selects the
+matching official Node runtime. It starts the unchanged full Next.js application
+behind a fresh-capability local browser gateway. Both listeners bind to numeric
+loopback only, anonymous gateway/backend requests are rejected, and inherited
+cloud credentials/runtime injection variables are not passed to the backend.
+
+| Portable full-app check | x64 | Native ARM64 |
+| --- | --- | --- |
+| Complete ZIP extraction, architecture selection and payload hashes | Passed | Passed |
+| Upstream Authenticode signature on bundled Node runtime | Passed | Passed |
+| Six fictional seed cases only | Passed | Passed |
+| Create/evaluate use case and generate mock build guide | Passed | Passed |
+| Production/CAF guards, shared handoff and readiness persistence | Passed | Passed |
+| Dashboard, print-ready view and CSV export | Passed | Passed |
+| Graceful stop, restart and saved-workspace preservation | Passed | Passed |
+| Timestamped local database backup | Passed | Passed |
+
+[Native CI evidence](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39770207915).
+The exact CI-produced candidate was also downloaded and passed the complete
+lifecycle again on native ARM64 before publication. After publication, the
+release asset was downloaded back from GitHub; its SHA-256 matched and the full
+startup, workflow, restart/data-preservation and backup lifecycle passed again
+on native ARM64.
+
+Package: `Hackathon-Facilitator-Full-Portable-0.3.2.zip`,
+**145,234,745 bytes**. SHA-256:
+
+```text
+d802ccca1b35686aac0610aed965518383d4009ffd7c44daa535d9eb1b59ce56
+```
+
+The ZIP is not a Store-certified or Authenticode-signed installer. Windows or
+organizational policy may still block downloaded CMD/binary files; no protection
+was disabled or bypassed. The app remains local, single-user and mock-AI only.
+
+## Optional light Browser Edition — 22 October 2026
+
+The reduced
+[GitHub Pages Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)
+remains available as an optional Kanban-only companion.
 It requires no download, installer, account, subscription, Azure key or admin
-rights. Windows installer and Microsoft Store distribution are paused because no
-authorized Windows publisher approved that release path.
+rights, but it does not include the full evaluator, build guides, contacts or
+server-backed workspace.
 
 The browser edition is now an installable progressive web app. After one
 successful online load, its allowlisted static files are cached for offline

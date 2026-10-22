@@ -42,7 +42,7 @@ async function main() {
   });
   await check('install metadata and service worker support offline reopening', async () => {
     const manifest = await page.evaluate(async () => (await (await fetch('./manifest.webmanifest')).json()));
-    assert.equal(manifest.name, 'Hackathon Facilitator');
+    assert.equal(manifest.name, 'Hackathon Facilitator Light');
     assert.equal(manifest.display, 'standalone');
     await page.evaluate(async () => {
       await navigator.serviceWorker.ready;

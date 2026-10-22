@@ -2,63 +2,70 @@
 
 **Created by Daniel Horvath** · [dahorvath@microsoft.com](mailto:dahorvath@microsoft.com)
 
-A local-first, Kanban-first browser workspace for AI hackathon use cases: make
-progress visible, keep delivery routes separate, and leave every prototype with
-an owner and a next action.
+A full local, Kanban-first workspace for AI hackathon use cases: evaluate ideas,
+generate mock build guides, make delivery progress visible, check readiness and
+leave every prototype with an owner and a next action.
 
 **Experimental local MVP, not an official Microsoft product or production service.**
 
-## Open and use it now
+## Full original application — portable local package
 
-### **[Open Hackathon Facilitator in your browser](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
+### **[Download the full portable application](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip)**
 
-No download, installer, account, admin rights, Copilot subscription, Azure key or
-server setup is required. It works in a current desktop or mobile browser. After
-the first successful load, it can reopen offline; supported browsers can also
-install it into a dedicated window or add it to the home screen.
+This is the **complete application shown in the product walkthrough**, not the
+reduced Browser Edition. It includes the full Kanban, use-case intake, contacts,
+mock evaluator, mock build guides, readiness/runbook, shared handoffs, dashboard
+and exports.
 
-The public browser edition includes Kanban, use-case intake, independent progress
-and delivery routes, shared handoffs, readiness checks, dashboard counts and
-JSON/CSV exports. Work stays in that browser profile; use **Backup** regularly.
-[Usage, privacy, backup and feature-scope guide](browser/README.md).
+1. Download and extract the complete ZIP into a normal writable folder.
+2. Open **Start-Hackathon-Facilitator.cmd**.
+3. Keep the launcher window open while using the app in your browser.
 
-![Hackathon Facilitator Browser Edition](media/browser-edition.png)
+The package automatically selects native Intel/AMD x64 or Windows ARM64 and uses
+its included official Node.js runtime. No Store installation, admin rights,
+separate Node.js/npm, Azure account, Copilot subscription or cloud AI key is
+required. [Portable start, stop, data and backup guide](portable/README.md).
 
-*Fictional sample workspace. Manually recorded statuses do not imply
+![Original full app with every Kanban progress column visible](media/kanban-progress.png)
+
+*Fictional sample workspace. Mock AI; statuses do not imply
 approval, deployment or a CAF submission.*
 
 ## Choose what you need
 
 | I want to… | Start here | Required |
 | --- | --- | --- |
-| **Start organizing use cases now** | **[Open the Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)** | A current browser; no account or installation |
-| **Use it like an installed app** | Open the Browser Edition, then choose **Install app** or **Add to Home Screen** when offered | Supported browser; one initial online load |
+| **Use the complete original application** | **[Download the full portable ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip)** | Windows x64/ARM64; extract and open one CMD file |
+| **Try only the lightweight Kanban companion** | [Open the reduced Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/) | Current desktop/mobile browser; no AI evaluator or build guides |
 | **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
 | **Use the Copilot agent** | Open the extracted repository in VS Code, then select **hackathon-facilitator** in Copilot Chat | Permitted GitHub Copilot access |
-| **Run the larger developer version from source** | Clone/download this repository and follow the [developer setup](#full-local-web-app-developer-setup) | Node.js 24 and local development permissions |
+| **Run or modify the app from source** | Clone/download this repository and follow the [developer setup](#full-local-web-app-developer-setup) | Node.js 24 and local development permissions |
 
-The browser app and materials **do not require a Copilot subscription or Azure
-API key**. Copilot access is needed only for the separate agent.
+The full portable app, light browser companion and materials **do not require a
+Copilot subscription or Azure API key**. Copilot access is needed only for the
+separate agent.
 
 ## End-to-end checked
 
-The deployment workflow verifies the local data model and runs the complete
-Browser Edition workflow in Chromium and Firefox before publishing. Coverage
-includes first use, persistence, offline reopening, handoffs, readiness evidence,
-production/CAF guards, backup/restore, CSV, multi-tab conflicts, failed storage,
-keyboard cancellation, dark mode and responsive layouts from 320 to 1920 pixels.
+The exact universal portable package passed on native x64 and native ARM64:
 
-[Browser deployment checks](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/workflows/deploy-browser.yml)
-· [Full test report and explicit limitations](docs/end-to-end-validation.md)
+- extraction and automatic architecture selection;
+- protected numeric-loopback startup with upstream-signed Node;
+- the complete original-app workflow, mock evaluation and build guide;
+- production/CAF evidence guards, readiness, dashboard and exports;
+- stop/restart with saved-data preservation; and
+- explicit timestamped workspace backup.
 
-## Windows distribution status
+[Native x64/ARM64 evidence](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39770207915)
+· [Full test report and limitations](docs/end-to-end-validation.md)
 
-Windows installer and Microsoft Store distribution are **paused** because no
-authorized Windows publisher has approved that release path. Historical unsigned
-preview assets may remain attached to older releases for traceability, but they
-are not the supported public entry point and should not be redistributed. Do not
-bypass SmartScreen or organizational protections. The browser edition above is
-the current public experience.
+## Distribution status
+
+This route is a portable ZIP, not a Microsoft Store submission or installed
+Windows product. Store and signed-installer publication remain paused because no
+authorized Windows publisher approved those routes. Historical unsigned installer
+assets are not the supported entry point. Device policy can still block downloaded
+CMD or binary files; do not bypass Windows or organizational protections.
 
 ## Full local web app: developer setup
 

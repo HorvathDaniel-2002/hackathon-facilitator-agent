@@ -2,27 +2,31 @@
 
 **Created by Daniel Horvath** · [dahorvath@microsoft.com](mailto:dahorvath@microsoft.com)
 
-The original full app in an installable, single-user desktop preview with its own window and notification-area
-icon. It bundles the browser shell, Node.js runtime and local app: **users do not
-need to install Node.js, npm, VS Code or GitHub Copilot**.
+This folder documents the historical installable Windows preview. It is unsigned,
+not the recommended public route and should not be redistributed as the current
+release.
+
+For the same original full application without installation or admin rights, use
+the [verified portable local package](../portable/README.md). It automatically
+selects x64/ARM64, bundles the required Node.js runtime and opens in the default
+browser.
 
 **Optional reduced companion, not a replacement for the full app:** the
 [no-install Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)
 has only Kanban, handoffs, compact readiness and exports; it stores data separately
 in your browser and does not import your desktop database. [Scope and backups](../browser/README.md).
 
-## Microsoft Store route (in preparation)
+## Microsoft Store route (paused)
 
-[MSIX packaging and onboarding guide](store/README.md) is available for a future
-Microsoft Store release. No Store account/product identity has been supplied;
-there is no Store download yet. Store MSIX submission does not require buying
-a CA-trusted signing certificate: Microsoft re-signs after certification.
-The EXE preview below remains unsigned and unchanged.
+[MSIX packaging and onboarding guide](store/README.md) records preparation for a
+possible future Microsoft Store release. Publication is paused because no
+authorized Windows publisher approved this route. There is no Store download.
+The historical EXE preview below remains unsigned and unchanged.
 
 Store packaging uses a separate data profile, and uninstall/reset can remove
 that profile. The EXE data-retention instructions below apply only to NSIS.
 
-## Install and open — one EXE, no setup wizard
+## Historical installable preview — not the supported public route
 
 1. [Download **Hackathon-Facilitator-Setup-0.3.2.exe**](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2/Hackathon-Facilitator-Setup-0.3.2.exe).
 2. Open the downloaded EXE. It selects x64/ARM64, installs for your Windows account

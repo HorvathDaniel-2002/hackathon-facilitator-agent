@@ -1,13 +1,13 @@
 {
   "name": "hackathon-facilitator",
   "version": "0.3.2",
-  "status": "public-toolkit-portable-candidate",
+  "status": "public-full-portable",
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
   "creator": {
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "Primary Browser Edition remains live while a full original-app portable Windows package is built and validated. The portable path uses native x64/ARM64 payloads, bundled signed Node, a protected numeric-loopback browser gateway, no installer/admin rights, local SQLite data and explicit backup/stop commands.",
+  "publication": "The verified full original application is published as the primary portable Windows x64/ARM64 package at v0.3.2-portable.1. It uses bundled upstream-signed Node, a protected numeric-loopback browser gateway, local SQLite data and explicit stop/backup commands without Store installation, admin rights or separate Node/npm. The reduced Browser Edition remains available only as an optional lightweight companion.",
   "exclusions": [
     "customer records",
     "databases",
@@ -93,7 +93,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "1e47c9d92e2082e29000fa312ef8838a6983b8e1649a915d3e8ee1f8e331e07b"
+      "sha256": "48213d7fea247b7bfacf60b5b9855bdba1f020ed20649803502141c7d1db2b48"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -869,11 +869,11 @@
     },
     {
       "path": "browser/README.md",
-      "sha256": "e705fff4352a885b9c3fee85dfa2f3cd9d939b921ed325eaea2749f13d92a7a0"
+      "sha256": "c55118d9cd0d8c463977dd76cc2bcfbe646ffb4a3f9e1d5f006cc1740937bcef"
     },
     {
       "path": "browser/app.mjs",
-      "sha256": "620a09a608e3a2219ddf44507dbf6caae1d8b8cdac5f0e13cf8cb6076210a803"
+      "sha256": "5b61521ae810cd128177a1aba3ef412866fe5d94254606ed8f791d2235d0959d"
     },
     {
       "path": "browser/icon-192.png",
@@ -889,11 +889,11 @@
     },
     {
       "path": "browser/index.html",
-      "sha256": "3370716105eee9b8854ed976bc8b3f632b1f434cf271505cf87c9712bb3ae6ee"
+      "sha256": "386754d59315a1b862b15f0ae9c0d4375676ff6d8186e752e9046a2907614e19"
     },
     {
       "path": "browser/manifest.webmanifest",
-      "sha256": "5ab025418e69a9b5beb715ed6395c7aab3092fd89d3123b548260dc2e4dd811c"
+      "sha256": "b4b41eed4092a59485df4049caf0e282d48546ea57ae1870dcd8f08291ad64c8"
     },
     {
       "path": "browser/model.mjs",
@@ -917,7 +917,7 @@
     },
     {
       "path": "browser/tests/e2e.cjs",
-      "sha256": "d08a0bade6489636a6bc67ad4df458f342fb9184e424f989a49378f0fb054b46"
+      "sha256": "fd0b294f6b18c506edf9806ac0f9fcb7006759dbcd2cf6973e6a700eeb51d8f4"
     },
     {
       "path": "browser/tests/model.test.mjs",
@@ -941,7 +941,7 @@
     },
     {
       "path": "desktop/README.md",
-      "sha256": "23b49f84a182c454fc4777e4765bc6dc32073c0885f36eaf6baaea08a09cc026"
+      "sha256": "22022adb71167f9291a9d3a7b8ec3c20520e0076f02a91318bbc6fe828eeb4c2"
     },
     {
       "path": "desktop/assets/icon.ico",
@@ -1105,7 +1105,7 @@
     },
     {
       "path": "docs/colleague-distribution.md",
-      "sha256": "a785be24a9cf69c3eecc2ffbc7516bf991fec03793e5a5f4d531b3554e5a2f19"
+      "sha256": "f5e9c912c83bcf4c848f190a29524f4e2da556447f4ae212675343359419e90b"
     },
     {
       "path": "docs/copilot-agent-installation.md",
@@ -1117,7 +1117,7 @@
     },
     {
       "path": "docs/end-to-end-validation.md",
-      "sha256": "fd8f06dad21f231567212d4b229ba17025cf561d3c4b9b7abaa88044810718e1"
+      "sha256": "09380d1152621a77dfc9741e4b5a7aace9b7840ca2ccde6eee0ca3a0369baa9d"
     },
     {
       "path": "docs/official-hackathon-submission.md",
@@ -1170,6 +1170,10 @@
     {
       "path": "portable/Open-Hackathon-Data-Folder.cmd",
       "sha256": "1cd87acebb53f9a25f74b430f28e6958d266c21c3bbcdb9fb75f54b125ae3cb2"
+    },
+    {
+      "path": "portable/README.md",
+      "sha256": "4da4131a4d92843d38e41da803d2a03d0b6fd917e6b1bc174c46b52d069101c1"
     },
     {
       "path": "portable/README.txt",
