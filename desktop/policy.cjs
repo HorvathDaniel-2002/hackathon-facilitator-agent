@@ -62,10 +62,13 @@ function sanitizeEnvironment(source) {
   return result;
 }
 
-function backendEnvironment(source, { databasePath, port, token }) {
+function backendEnvironment(source, { databasePath, port, token, appUrl = loopbackOrigin(port) }) {
   assertToken(token);
   if (typeof databasePath !== 'string' || !path.isAbsolute(databasePath)) {
     throw new TypeError('An absolute workspace database path is required.');
+  }
+  if (!isTrustedBackendUrl(appUrl, appUrl) || new URL(appUrl).pathname !== '/') {
+    throw new TypeError('APP_URL must be an exact numeric loopback origin.');
   }
   return {
     ...sanitizeEnvironment(source),
@@ -75,7 +78,7 @@ function backendEnvironment(source, { databasePath, port, token }) {
     DATABASE_URL: `file:${databasePath}`,
     HOSTNAME: '127.0.0.1',
     PORT: String(port),
-    APP_URL: loopbackOrigin(port),
+    APP_URL: appUrl,
     HF_DESKTOP_SESSION_TOKEN: token,
     NEXT_TELEMETRY_DISABLED: '1',
     HF_DESKTOP_PACKAGE: '1',

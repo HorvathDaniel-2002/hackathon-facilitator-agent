@@ -144,10 +144,12 @@ function backendExitError() {
 
 async function waitForBackend({
   origin, token, child, signal, timeoutMs = 90_000, pollIntervalMs = 250,
-  requestTimeoutMs = 2_000, fetchImpl = globalThis.fetch,
+  requestTimeoutMs = 2_000, appUrl = origin, fetchImpl = globalThis.fetch,
 }) {
   assertToken(token);
   if (!isTrustedBackendUrl(origin, origin)) throw new TypeError('A loopback backend origin is required.');
+  if (!isTrustedBackendUrl(appUrl, appUrl)) throw new TypeError('A loopback APP_URL origin is required.');
+  const expectedHost = new URL(appUrl).host;
   const controller = new AbortController();
   const cancel = () => controller.abort(new DesktopRuntimeError('STARTUP_CANCELLED', 'Desktop startup was cancelled.'));
   const onExit = () => controller.abort(backendExitError());
@@ -166,7 +168,11 @@ async function waitForBackend({
     while (!controller.signal.aborted) {
       try {
         const response = await fetchImpl(`${origin}/api/desktop-health`, {
-          headers: { [TOKEN_HEADER]: token },
+          headers: {
+            host: expectedHost,
+            'x-forwarded-host': expectedHost,
+            [TOKEN_HEADER]: token,
+          },
           redirect: 'error',
           cache: 'no-store',
           signal: AbortSignal.any([controller.signal, AbortSignal.timeout(requestTimeoutMs)]),
@@ -232,7 +238,7 @@ async function stopBackend(child, { graceMs = 3_000, forceMs = 2_000, platform =
 
 async function startDesktopRuntime({
   directory, userDataPath, arch = process.arch, environment = process.env, signal,
-  timeoutMs = 90_000, onUnexpectedExit = () => {}, spawnImpl = spawn, fetchImpl = globalThis.fetch,
+  timeoutMs = 90_000, appUrl, onUnexpectedExit = () => {}, spawnImpl = spawn, fetchImpl = globalThis.fetch,
 }) {
   const payload = await validatePayload(directory, arch);
   const workspace = await initializeData(userDataPath, payload);
@@ -245,7 +251,7 @@ async function startDesktopRuntime({
   try {
     child = spawnImpl(payload.nodePath, ['server.js'], {
       cwd: payload.serverDirectory,
-      env: backendEnvironment(environment, { databasePath: workspace.databasePath, port, token }),
+      env: backendEnvironment(environment, { databasePath: workspace.databasePath, port, token, appUrl }),
       windowsHide: true,
       shell: false,
       // Backend output can contain workspace content; never persist or relay it into desktop logs.
@@ -269,7 +275,7 @@ async function startDesktopRuntime({
     return stopPromise;
   };
   try {
-    await waitForBackend({ origin, token, child, signal, timeoutMs, fetchImpl });
+    await waitForBackend({ origin, token, child, signal, timeoutMs, appUrl: appUrl || origin, fetchImpl });
     if (childHasExited(child)) throw backendExitError();
     signal?.throwIfAborted();
     ready = true;

@@ -59,6 +59,15 @@ test('backend environment is an allowlist with fixed local-only production setti
   assert.equal(env.NODE_ENV, 'production');
   assert.equal(env.HOSTNAME, '127.0.0.1');
   assert.equal(env.APP_URL, origin);
+  const proxyOrigin = 'http://127.0.0.1:43124';
+  assert.equal(backendEnvironment(inherited, {
+    databasePath, port: 43123, token, appUrl: proxyOrigin,
+  }).APP_URL, proxyOrigin);
+  for (const appUrl of ['http://localhost:43124', 'https://127.0.0.1:43124', 'http://127.0.0.1:43124/path']) {
+    assert.throws(() => backendEnvironment(inherited, {
+      databasePath, port: 43123, token, appUrl,
+    }), /numeric loopback origin/);
+  }
   assert.equal(env.PORT, '43123');
   assert.equal(env.HF_DESKTOP_SESSION_TOKEN, token);
   assert.equal(env.NEXT_TELEMETRY_DISABLED, '1');

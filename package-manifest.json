@@ -1,13 +1,13 @@
 {
   "name": "hackathon-facilitator",
   "version": "0.3.2",
-  "status": "public-browser-toolkit",
+  "status": "public-toolkit-portable-candidate",
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
   "creator": {
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "Primary no-install Browser Edition with optional PWA installation and offline reopening, plus the full local developer app, Copilot agent and workshop materials. Windows installer and Microsoft Store distribution are paused pending authorized publisher approval.",
+  "publication": "Primary Browser Edition remains live while a full original-app portable Windows package is built and validated. The portable path uses native x64/ARM64 payloads, bundled signed Node, a protected numeric-loopback browser gateway, no installer/admin rights, local SQLite data and explicit backup/stop commands.",
   "exclusions": [
     "customer records",
     "databases",
@@ -58,6 +58,10 @@
     {
       "path": ".github/workflows/build-desktop.yml",
       "sha256": "7aa9fbb49dd58dabb862d0753ac6193e6198f44217640dc19de93370b3ba39bc"
+    },
+    {
+      "path": ".github/workflows/build-portable.yml",
+      "sha256": "c09bb99fd52971f7330d16daa34e2e1bb561abffb6555e902cd1f7f1927801dc"
     },
     {
       "path": ".github/workflows/build-store-msix.yml",
@@ -969,11 +973,11 @@
     },
     {
       "path": "desktop/policy.cjs",
-      "sha256": "3bd2ba64c60618dc60cf67087a4d9413a12c16211b3a14090fd21e95a7f8f50c"
+      "sha256": "110059541f0c72505d6156c086b28186d7eb6eeec71c593ac1b863cfb84ef28a"
     },
     {
       "path": "desktop/runtime.cjs",
-      "sha256": "b77d4b39f78c1e81a0b38dddce91215f707c8e06a92da1076ff78dc4a5031865"
+      "sha256": "0ca3354a44730de8cbcb378744b3826138662a91dc45fbdee8d92ed1399c8ca0"
     },
     {
       "path": "desktop/scripts/build-universal.cjs",
@@ -1081,11 +1085,11 @@
     },
     {
       "path": "desktop/tests/policy.test.cjs",
-      "sha256": "f2dd8d670e11d875c270280eb591291acbf54c43e1a85ad44982ca5eb16011f0"
+      "sha256": "5abe84e1c05dbe08b32bd4fad6d1839d863bce683d1dfc6ce4b75fd1289fb8be"
     },
     {
       "path": "desktop/tests/runtime.test.cjs",
-      "sha256": "235a4a828ea21227245aa8e113db699f633077fcf976228b76c6f7054e313ee9"
+      "sha256": "5d15d5729c984750eccf3e9d84fd94e27b67ea343026a770952c86f482e219d0"
     },
     {
       "path": "desktop/tests/signing-verification.ps1",
@@ -1154,6 +1158,50 @@
     {
       "path": "media/kanban-route.png",
       "sha256": "ebb3a7cba51eb0fbded33e80f65003e8d95700d7e80c63942d124adc2ffd4210"
+    },
+    {
+      "path": "portable/.gitignore",
+      "sha256": "28de684393c1de2a61971f90fbde79d8efbbf69778261220adf5f9101f6e8494"
+    },
+    {
+      "path": "portable/Backup-Hackathon-Workspace.cmd",
+      "sha256": "3044673b86ea61275e8c035c0d24adeffb81b39fe8a13bc78a65776406493fb3"
+    },
+    {
+      "path": "portable/Open-Hackathon-Data-Folder.cmd",
+      "sha256": "1cd87acebb53f9a25f74b430f28e6958d266c21c3bbcdb9fb75f54b125ae3cb2"
+    },
+    {
+      "path": "portable/README.txt",
+      "sha256": "2f3827c566b094208543883e96383b7de784f1f51daccb4000019ffd064a97eb"
+    },
+    {
+      "path": "portable/Start-Hackathon-Facilitator.cmd",
+      "sha256": "74b35ffac9a3d1e29081a6883ab0f0fda3016a715708af894f43381533c64a79"
+    },
+    {
+      "path": "portable/Stop-Hackathon-Facilitator.cmd",
+      "sha256": "f316df7613ae039af0c3a952a68d10e19893bac85acd6a1023b3cea97c5dd985"
+    },
+    {
+      "path": "portable/build-package.cjs",
+      "sha256": "4b39ae61fdf96a750c2b6d2170efab631d8eef60fde7bfb713e4b1344e4c6d41"
+    },
+    {
+      "path": "portable/e2e-portable.cjs",
+      "sha256": "ae542c425cd7e713389a8e11c89b6319357a439cf925ffbed0a22608398a1ede"
+    },
+    {
+      "path": "portable/launcher.cjs",
+      "sha256": "396ec872036c4c888818f3f852bb0cfb0ea8669fa5d55491f6aa240eb77b7a60"
+    },
+    {
+      "path": "portable/tests/launcher.test.cjs",
+      "sha256": "a9a1b32344d84d5de80116a11cad33cd2b3a83f9ae9871c514e02c160adf572e"
+    },
+    {
+      "path": "portable/verify-portable.ps1",
+      "sha256": "80ddf72283e0ce4a08edbdad614b768215e863f79796f960606bdc3d65a83efe"
     },
     {
       "path": "scripts/install-copilot-agent.mjs",

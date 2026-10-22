@@ -1,0 +1,135 @@
+name: Build full portable local app
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - portable/**
+      - desktop/runtime.cjs
+      - desktop/policy.cjs
+      - desktop/tests/**
+      - desktop/scripts/prepare-app.mjs
+      - app/src/lib/auth/**
+      - app/src/app/api/desktop-health/**
+      - .github/workflows/build-portable.yml
+
+permissions:
+  contents: read
+
+jobs:
+  native-payload:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: desktop
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: node ..\portable\tests\launcher.test.cjs
+      - run: npm run prepare:app
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: portable-native-payload-${{ matrix.arch }}
+          path: desktop/payload/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+
+  package:
+    needs: native-payload
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: portable-native-payload-x64
+          path: desktop/payload-x64
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: portable-native-payload-arm64
+          path: desktop/payload-arm64
+      - run: node portable/build-package.cjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: portable-candidate
+          path: |
+            portable/dist/*.zip
+            portable/dist/*.sha256
+          if-no-files-found: error
+          retention-days: 3
+
+  native-lifecycle:
+    needs: package
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+          - os: windows-11-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: portable-candidate
+          path: candidate
+      - run: npm ci --prefix desktop/e2e-harness --no-audit --no-fund
+      - run: node desktop/e2e-harness/node_modules/@playwright/test/cli.js install chromium
+      - name: Extract, launch, exercise, restart, back up and stop the full app
+        shell: pwsh
+        run: |
+          $version = (Get-Content desktop/package.json -Raw | ConvertFrom-Json).version
+          .\portable\verify-portable.ps1 `
+            -Architecture '${{ matrix.arch }}' `
+            -ZipPath ".\candidate\Hackathon-Facilitator-Full-Portable-$version.zip"
+      - name: Retain synthetic lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: portable-evidence-${{ matrix.arch }}
+          path: |
+            ${{ runner.temp }}/hf-portable-${{ matrix.arch }}/*.json
+            ${{ runner.temp }}/hf-portable-${{ matrix.arch }}/*.png
+            ${{ runner.temp }}/hf-portable-${{ matrix.arch }}/*.csv
+          if-no-files-found: warn
+          retention-days: 14
+
+  verified-portable:
+    needs: native-lifecycle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: portable-candidate
+          path: verified
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: full-portable-verified
+          path: verified/
+          if-no-files-found: error
+          retention-days: 14

@@ -210,8 +210,10 @@ test('startup uses the included runtime, fixed working directory, fresh token, a
   const data = await fixture(t);
   const child = new FakeChild();
   let spawnOptions;
+  const appUrl = 'http://127.0.0.1:54321';
   const runtime = await startDesktopRuntime({
     directory: data.directory, userDataPath: data.userDataPath,
+    appUrl,
     environment: { PATH: 'system-path', NODE_OPTIONS: 'injection', OPENAI_API_KEY: 'secret' },
     spawnImpl(executable, args, options) {
       assert.equal(executable, path.join(data.directory, 'node', 'node.exe'));
@@ -223,6 +225,8 @@ test('startup uses the included runtime, fixed working directory, fresh token, a
       assert.equal(new URL(url).pathname, '/api/desktop-health');
       assert.match(options.headers[TOKEN_HEADER], /^[a-f0-9]{64}$/);
       assert.equal(options.headers[TOKEN_HEADER], spawnOptions.env.HF_DESKTOP_SESSION_TOKEN);
+      assert.equal(options.headers.host, new URL(appUrl).host);
+      assert.equal(options.headers['x-forwarded-host'], new URL(appUrl).host);
       return { status: 200, json: async () => ({ ready: true }) };
     },
   });
@@ -232,7 +236,7 @@ test('startup uses the included runtime, fixed working directory, fresh token, a
   assert.equal(spawnOptions.stdio, 'ignore');
   assert.equal(spawnOptions.env.NODE_OPTIONS, undefined);
   assert.equal(spawnOptions.env.OPENAI_API_KEY, undefined);
-  assert.equal(spawnOptions.env.APP_URL, runtime.origin);
+  assert.equal(spawnOptions.env.APP_URL, appUrl);
   assert.equal(spawnOptions.env.DATABASE_URL, `file:${runtime.databasePath}`);
   await Promise.all([runtime.stop(), runtime.stop()]);
   assert.deepEqual(child.kills, ['SIGTERM']);
