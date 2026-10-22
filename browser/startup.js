@@ -5,3 +5,15 @@ setTimeout(() => {
     status.setAttribute("role", "alert");
   }
 }, 15000);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("./sw.js");
+      await navigator.serviceWorker.ready;
+      window.dispatchEvent(new Event("hackathon-offline-ready"));
+    } catch {
+      window.dispatchEvent(new Event("hackathon-offline-unavailable"));
+    }
+  });
+}

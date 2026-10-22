@@ -4,6 +4,35 @@ This report separates software checks from corporate approval and AI quality.
 All modifying tests use fictional data in isolated directories or disposable
 GitHub-hosted Windows runners. No existing customer database is reset or seeded.
 
+## Browser-first public edition — 22 October 2026
+
+The supported public entry point is the
+[GitHub Pages Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/).
+It requires no download, installer, account, subscription, Azure key or admin
+rights. Windows installer and Microsoft Store distribution are paused because no
+authorized Windows publisher approved that release path.
+
+The browser edition is now an installable progressive web app. After one
+successful online load, its allowlisted static files are cached for offline
+reopening. Workspace records remain in IndexedDB in that browser profile; the
+service worker does not upload or synchronize workspace data.
+
+| Check | Result |
+| --- | --- |
+| Domain, validation, backup and strict deployment-allowlist tests | **10 passed** |
+| Complete Chromium browser workflows | **19 passed** |
+| Complete Firefox browser workflows | **19 passed** |
+| Manifest, install metadata, service-worker control and offline reload | **Passed in both browsers** |
+| Persistence, handoffs, readiness, production/CAF guards and exports | **Passed in both browsers** |
+| Multi-tab conflict, failed/corrupt storage and untrusted-text handling | **Passed in both browsers** |
+| Responsive layouts from 320 to 1920 pixels and dark mode | **Passed in both browsers** |
+
+The same checks gate every
+[Browser Edition deployment](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/workflows/deploy-browser.yml).
+GitHub Pages and browser/network policy can still block access. Local browser
+storage is neither an encrypted user boundary nor a durable backup; users must
+download JSON backups and use approved, non-sensitive data.
+
 ## One-click full desktop app — 28 September 2026
 
 Version **0.3.2** changes packaging, not the original application's functionality.

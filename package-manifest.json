@@ -1,13 +1,13 @@
 {
   "name": "hackathon-facilitator",
   "version": "0.3.2",
-  "status": "public-toolkit",
+  "status": "public-browser-toolkit",
   "repository": "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent",
   "creator": {
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "Full Windows desktop app with a native x64/ARM64 one-click installer, full local web app, optional lightweight browser edition, Copilot agent and workshop materials. Desktop EXE is unsigned; Store certification and official hackathon submission remain pending.",
+  "publication": "Primary no-install Browser Edition with optional PWA installation and offline reopening, plus the full local developer app, Copilot agent and workshop materials. Windows installer and Microsoft Store distribution are paused pending authorized publisher approval.",
   "exclusions": [
     "customer records",
     "databases",
@@ -89,7 +89,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "1c3e67fd88a9b9cdf4359fc82bb53da295f9a6c3128abc895787f05f82c4252e"
+      "sha256": "1e47c9d92e2082e29000fa312ef8838a6983b8e1649a915d3e8ee1f8e331e07b"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -865,11 +865,19 @@
     },
     {
       "path": "browser/README.md",
-      "sha256": "127c3aeb99a614e0210e30a46e8ddee4db9c3f089450c30689b17cb7544fa984"
+      "sha256": "e705fff4352a885b9c3fee85dfa2f3cd9d939b921ed325eaea2749f13d92a7a0"
     },
     {
       "path": "browser/app.mjs",
-      "sha256": "81d11a27316236a85b8cf8baa3c507894fa2a7f7a76e1c0fa41d672d03048090"
+      "sha256": "620a09a608e3a2219ddf44507dbf6caae1d8b8cdac5f0e13cf8cb6076210a803"
+    },
+    {
+      "path": "browser/icon-192.png",
+      "sha256": "656ada132a3a80128a3359d7d819d8ba001a2deac246162f2c27763d29a08e99"
+    },
+    {
+      "path": "browser/icon-512.png",
+      "sha256": "f62f4dc344ea7b8a0d2596329275988f7378708ed43c707024dfe245ddf97fd0"
     },
     {
       "path": "browser/icon.png",
@@ -877,7 +885,11 @@
     },
     {
       "path": "browser/index.html",
-      "sha256": "62c36e9021ccec2ecee2c42de522910a1ffe23a62a62cc94697604afcc6b54d8"
+      "sha256": "3370716105eee9b8854ed976bc8b3f632b1f434cf271505cf87c9712bb3ae6ee"
+    },
+    {
+      "path": "browser/manifest.webmanifest",
+      "sha256": "5ab025418e69a9b5beb715ed6395c7aab3092fd89d3123b548260dc2e4dd811c"
     },
     {
       "path": "browser/model.mjs",
@@ -885,7 +897,7 @@
     },
     {
       "path": "browser/startup.js",
-      "sha256": "25e67a02ae0b6f0d54f2d9800b4c44ec7c042deb50bfec0c63eb4ae16d6e4056"
+      "sha256": "88dcd79de78f1674e227b2e4ae1e182150d3b119d8ffa0854003419f203ece9a"
     },
     {
       "path": "browser/storage.mjs",
@@ -896,8 +908,12 @@
       "sha256": "b819faba1946412b8c864015b5255b06f1a0cf8b69b4d7f48cc672181bb6cce6"
     },
     {
+      "path": "browser/sw.js",
+      "sha256": "9c2e6d79a33e9615d84418a58e6ed1b63db04f1a7f064b55da530f96637d9ef5"
+    },
+    {
       "path": "browser/tests/e2e.cjs",
-      "sha256": "b610d265cd8fdf658c815e8e6b96842b2a69757091c132d2d3b52eb71031c6ce"
+      "sha256": "d08a0bade6489636a6bc67ad4df458f342fb9184e424f989a49378f0fb054b46"
     },
     {
       "path": "browser/tests/model.test.mjs",
@@ -909,11 +925,11 @@
     },
     {
       "path": "browser/tools/build.mjs",
-      "sha256": "7a4c6d300dd3e4b848928bd9b2813bcf3835100dc8855fb1dfd9fca005f46e49"
+      "sha256": "d1526a9dddacce254bff3c58eb2ddba037013907b3383e988c1d3364eaa4a515"
     },
     {
       "path": "browser/tools/serve.mjs",
-      "sha256": "1cb01aeec6a142f7584e0c0408e4c91d860ab4eb31c1369638c09ac601934d57"
+      "sha256": "1323b9aca7aa5d199fff418c917d8bea362971c102aed1f9ea45b3bed587ef6e"
     },
     {
       "path": "desktop/.gitignore",
@@ -1085,7 +1101,7 @@
     },
     {
       "path": "docs/colleague-distribution.md",
-      "sha256": "17e76851408dca6b3281534f3345e29c8d060425b570da3e7e695c912f9c2bbf"
+      "sha256": "a785be24a9cf69c3eecc2ffbc7516bf991fec03793e5a5f4d531b3554e5a2f19"
     },
     {
       "path": "docs/copilot-agent-installation.md",
@@ -1097,7 +1113,7 @@
     },
     {
       "path": "docs/end-to-end-validation.md",
-      "sha256": "b967b9c2029738fd1e6eb01c5bb696ba3c999a387338ad84aa149cfacbf8dfce"
+      "sha256": "fd8f06dad21f231567212d4b229ba17025cf561d3c4b9b7abaa88044810718e1"
     },
     {
       "path": "docs/official-hackathon-submission.md",

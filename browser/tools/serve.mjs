@@ -6,7 +6,14 @@ import { FILES } from "./build.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const base = "/hackathon-facilitator-agent/";
-const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".mjs": "text/javascript", ".png": "image/png" };
+const types = {
+  ".html": "text/html",
+  ".css": "text/css",
+  ".js": "text/javascript",
+  ".mjs": "text/javascript",
+  ".png": "image/png",
+  ".webmanifest": "application/manifest+json",
+};
 const server = http.createServer((request, response) => {
   const pathname = new URL(request.url, "http://127.0.0.1").pathname;
   const file = pathname === base ? "index.html" : pathname.startsWith(base) ? pathname.slice(base.length) : "";

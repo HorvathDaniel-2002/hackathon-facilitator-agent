@@ -5,6 +5,8 @@ const REPO = "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent"
 const root = document.querySelector("#app"), dialog = document.querySelector("#editor");
 let store, record = null, page = "board", grouping = "stage", query = "", routeFilter = "All routes";
 let busy = false, dirty = false, draftReader, toastTimer;
+let installPrompt = null;
+let offlineReady = Boolean(navigator.serviceWorker?.controller);
 const clone = value => structuredClone(value);
 const el = (tag, props = {}, ...children) => {
   const node = document.createElement(tag);
@@ -37,6 +39,21 @@ function action(fn) {
 const button = (label, fn, style = "", props = {}) => el("button", { type: "button", className: style, onClick: action(fn), ...props }, label);
 const link = (label, href) => el("a", { href, target: "_blank", rel: "noopener noreferrer" }, label);
 const badge = (text, style = "") => el("span", { className: `badge ${style}` }, text);
+const standalone = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+async function installApp() {
+  if (!installPrompt) throw new Error("Use your browser menu and choose Install app or Add to Home Screen.");
+  const prompt = installPrompt;
+  installPrompt = null;
+  await prompt.prompt();
+  const choice = await prompt.userChoice;
+  message(choice.outcome === "accepted" ? "App installation accepted." : "App installation was not started.");
+  render();
+}
+function installControl() {
+  if (standalone()) return badge("Installed on this device", "completed");
+  if (installPrompt) return button("Install on this device", installApp, "primary");
+  return el("span", { className: "hint" }, "Optional: use your browser menu and choose Install app or Add to Home Screen.");
+}
 const field = (name, label, value, { options, area = false, maxLength = 2000, type = "text", required = false } = {}) => {
   const control = el(options ? "select" : area ? "textarea" : "input", {
     name, id: `field-${name}`, ...(options || area ? {} : { type }), required,
@@ -296,6 +313,12 @@ async function reloadSaved() {
 }
 function dataView() {
   return el("div", { className: "stack" },
+    el("section", { className: "panel stack" }, el("h2", {}, "Use it like an app"),
+      el("p", {}, "Open the link immediately, or install it from a supported browser for a dedicated window and home-screen or app-menu shortcut."),
+      el("p", { id: "offline-detail" }, offlineReady
+        ? "Offline reopening is ready on this device. Your workspace remains stored locally in this browser."
+        : "Keep this page open after the first online load while offline support is prepared. A new device still needs one online load."),
+      el("div", { className: "row" }, installControl())),
     el("section", { className: "panel stack" }, el("h2", {}, "Your workspace, your browser"),
       el("p", {}, "Saved only in this browser profile on this device. There is no account, cloud backup, cross-device sync or shared team workspace."),
       el("p", {}, "Clearing site data, private browsing or browser cleanup can remove your work. Download a JSON backup regularly and before switching devices. CSV is a report, not a restorable backup."),
@@ -312,9 +335,9 @@ function dataView() {
     el("section", { className: "panel stack" }, el("h2", {}, "Privacy and scope"),
       el("p", {}, "This app has no analytics, no live AI and no workspace upload. GitHub Pages serves the public app files and can process normal web request metadata. External links open only when you select them."),
       el("p", {}, "Browser storage is not an access-control or encryption boundary. Other scripts on the same GitHub Pages origin and anyone using this browser profile can potentially access it. Use only approved, non-sensitive information. Do not enter credentials, regulated data or confidential customer records."),
-      el("p", {}, "A lightweight companion to the desktop app, not the complete server-backed toolkit. It includes Kanban, shared handoffs, a compact readiness checklist and exports. It does not include AI evaluation, accounts, audit history, server integrations or automatic desktop migration."),
+      el("p", {}, "This public browser edition includes Kanban, shared handoffs, a compact readiness checklist and exports. It does not include AI evaluation, accounts, audit history, server integrations or automatic migration from older desktop data."),
       el("p", {}, "No corporate approval is implied. Network/browser policies can still restrict access; do not disable them."),
-      el("div", { className: "row" }, link("Full toolkit and materials", REPO), link("Browser guide", `${REPO}/blob/main/browser/README.md`))),
+      el("div", { className: "row" }, link("Source and materials", REPO), link("Browser guide", `${REPO}/blob/main/browser/README.md`))),
   );
 }
 function renderWelcome() {
@@ -329,8 +352,10 @@ function renderWelcome() {
     el("p", { className: "eyebrow" }, "Open. Organize. Follow through."),
     el("h1", {}, "From hackathon idea", el("br"), "to an owned next step."),
     el("p", { className: "lead" }, "Your Kanban board, readiness checks and handoffs. No installer, login, subscription or setup."),
-    el("p", { className: "hint" }, "This is a lightweight companion, not the original full app. ",
-      link("Download the full Windows application", `${REPO}/releases/latest`)),
+    el("div", { className: "row" }, installControl()),
+    el("p", { className: "hint", id: "offline-detail" }, offlineReady
+      ? "Ready to reopen offline on this device after the first successful load."
+      : "Works immediately in a current desktop or mobile browser. Offline reopening is prepared after the first load."),
     el("div", { className: "choices" },
       el("section", { className: "panel stack" }, el("h2", {}, "Start your own workspace"), name, button("Create empty workspace", () => start(false), "primary")),
       el("section", { className: "panel stack" }, el("h2", {}, "Take a quick look"), el("p", { className: "muted" }, "Start with three fictional use cases. Edit them, move cards and explore the shared handoff."),
@@ -351,11 +376,13 @@ function render() {
     el("nav", { "aria-label": "Workspace" }, Object.entries(PAGES).map(([id, [title]]) =>
       button(title, () => { page = id; render(); }, "", { "aria-current": page === id ? "page" : undefined }))),
     el("footer", {}, el("strong", {}, "Created by Daniel Horvath"), link("dahorvath@microsoft.com", "mailto:dahorvath@microsoft.com"),
-      link("Full Windows application", `${REPO}/releases/latest`), link("GitHub & materials", REPO),
-      el("span", {}, "Local-only companion · No live AI"), el("span", {}, "Not an official Microsoft product.")));
+      link("GitHub & materials", REPO),
+      el("span", {}, "Local-first public edition · No live AI"), el("span", {}, "Not an official Microsoft product.")));
   const main = el("main", { id: "main", className: page === "board" ? "board-view" : "" },
     el("div", { className: "topbar row spread" }, el("span", {}, record.workspace.name),
-      el("div", { className: "row" }, el("span", { className: "badge", id: "save-state" }, "Saved locally"), button("Backup", () => backupDownload()))),
+      el("div", { className: "row" }, el("span", { className: "badge", id: "save-state" }, "Saved locally"),
+        el("span", { className: "badge", id: "offline-state" }, offlineReady ? "Available offline" : "Online first load"),
+        ...(installPrompt && !standalone() ? [button("Install app", installApp)] : []), button("Backup", () => backupDownload()))),
     el("div", { className: "title-block" }, el("p", { className: "eyebrow" }, PAGES[page][1]), el("h1", { tabindex: "-1" }, PAGES[page][0]),
       el("p", { className: "muted" }, page === "board" ? "One board for progress. One shared handoff for every use case." : "Single-user browser workspace · changes stay on this device.")),
     page === "board" ? boardView() : page === "handoff" ? handoffView() :
@@ -368,6 +395,25 @@ window.addEventListener("focus", action(async () => {
   const latest = await store.read();
   if ((latest?.revision ?? 0) !== (record?.revision ?? 0)) { record = latest; render(); message("Loaded changes saved by another tab."); }
 }));
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  installPrompt = event;
+  if (!dialog.open && !busy) render();
+});
+window.addEventListener("appinstalled", () => {
+  installPrompt = null;
+  message("Hackathon Facilitator is installed on this device.");
+  render();
+});
+window.addEventListener("hackathon-offline-ready", () => {
+  offlineReady = true;
+  const state = document.querySelector("#offline-state");
+  if (state) state.textContent = "Available offline";
+  const detail = document.querySelector("#offline-detail");
+  if (detail) detail.textContent = record
+    ? "Offline reopening is ready on this device. Your workspace remains stored locally in this browser."
+    : "Ready to reopen offline on this device after the first successful load.";
+});
 
 try {
   store = await openStore(); record = await store.read(); render();

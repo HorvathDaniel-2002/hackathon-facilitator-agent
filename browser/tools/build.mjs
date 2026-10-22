@@ -3,7 +3,20 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 
-export const FILES = ["index.html", "styles.css", "theme.js", "startup.js", "app.mjs", "model.mjs", "storage.mjs", "icon.png"];
+export const FILES = [
+  "index.html",
+  "styles.css",
+  "theme.js",
+  "startup.js",
+  "app.mjs",
+  "model.mjs",
+  "storage.mjs",
+  "manifest.webmanifest",
+  "sw.js",
+  "icon.png",
+  "icon-192.png",
+  "icon-512.png",
+];
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export function build(output) {
   const target = path.resolve(output);

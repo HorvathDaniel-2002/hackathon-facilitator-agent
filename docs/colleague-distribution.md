@@ -1,6 +1,8 @@
 # Distribute Hackathon Facilitator to colleagues
 
-**Current state:** public GitHub app, agent and no-install materials at
+**Current state:** public no-install browser app at
+https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/ ,
+with source, agent and materials at
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
 No colleague access grant, announcement or official hackathon submission has been performed.
 
@@ -8,7 +10,7 @@ No colleague access grant, announcement or official hackathon submission has bee
 
 | Route | Who acts | What colleagues need |
 | --- | --- | --- |
-| Public web-app demo | Anyone can download | Node.js 24; use the launcher. No Copilot subscription or Azure key |
+| Public Browser Edition | Anyone with the link | Current desktop/mobile browser; no install, account, subscription or Azure key |
 | Public agent repository / latest release | Anyone can download | Permitted Copilot access; no repository invitation or Azure key |
 | Approved private/internal GitHub repository | Repository owner | Repository access, Copilot entitlement/policy, profile on the default branch |
 | Reviewed agent-only ZIP via an approved internal channel | Owner of the artifact and channel | ZIP, installation guide, a permitted Copilot host |
@@ -34,33 +36,31 @@ the author's complete working folder, databases or original git history.
 
 ## Copy-ready Teams / email announcement
 
-**Subject:** Try Hackathon Facilitator: blue Kanban, shared handoffs and no-install materials
+**Subject:** Try Hackathon Facilitator in your browser
 
 Hi colleagues,
 
-I have built **Hackathon Facilitator**, a Kanban-first workspace for use-case
-progress, delivery routes, readiness and accountable handoffs. The public toolkit
-also includes an optional GitHub Copilot agent and editable workshop materials.
+I have built **Hackathon Facilitator**, a local-first Kanban workspace for use-case
+progress, delivery routes, readiness and accountable handoffs. It opens directly
+in a desktop or mobile browser and can optionally be installed from the browser
+menu for an app-like window.
 
 I am looking for a small pilot group to try it with synthetic scenarios and
-provide feedback on installation, planning completeness and recommendation
-quality.
+provide feedback on first-use clarity, planning completeness and usefulness.
 
-**Package/repository:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
+**Open the app:** https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/
 
-**Try the app:** install Node.js 24, extract the latest release, and run
-`Start-Hackathon.cmd` on Windows. Alternatively, run
-`node app/scripts/start-demo.mjs` from the extracted folder. The local synthetic
-demo needs no Copilot subscription or Azure key.
+No download, installer, account, admin rights, Copilot subscription or Azure key
+is needed. Work is stored in that browser profile, not uploaded to an application
+server. Use **Backup** regularly and use only approved, non-sensitive information.
 
 **No technical setup needed:** download the Word playbook, PowerPoint workshop or
 PDFs from https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/tree/main/materials .
 Use the editable templates and checklists manually; no agent or Copilot
 subscription is needed for that route.
 
-The repository is public; no invitation is needed.
-Download and extract the ZIP from
-https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/latest .
+The repository is public; no invitation is needed:
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent
 
 **Install guide:** https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/blob/main/docs/copilot-agent-installation.md
 
@@ -70,14 +70,14 @@ Opening the extracted folder in VS Code requires no Node.js, Azure key or app
 dependencies; you still need GitHub Copilot access and applicable policy permission.
 
 This is an experimental planning aid, not an official Microsoft policy authority
-or production service. The optional web app uses demo authentication and mock
-scoring by default. Do not supply unapproved customer data or treat mock scores
-as validated assessments. Work IQ access and corporate approvals are not bundled.
+or production service. The public browser edition has no live AI, login or cloud
+workspace. Do not supply unapproved customer data. Corporate approvals are not
+bundled.
 
 Please send sanitized feedback through
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/issues , covering:
-installation, one useful output, one wrong/missing recommendation and whether the
-tool helped you identify a better next action.
+first use, one useful workflow, one confusing or missing capability and whether
+the tool helped identify a better next action.
 
 Thanks,
 Daniel Horvath
@@ -85,8 +85,8 @@ dahorvath@microsoft.com
 
 ## Short project description
 
-Hackathon Facilitator is a reusable GitHub Copilot custom agent and optional local
-workspace app for customer AI hackathons. It structures sponsorship, use-case
+Hackathon Facilitator is a local-first browser workspace and optional GitHub
+Copilot custom agent for AI hackathons. It structures sponsorship, use-case
 intake, evidence-based scoping, technical readiness, event agendas, demos and
 ownership handoffs. It distinguishes project defaults from verified Microsoft
 guidance, unknowns from approvals, and working software from validated AI quality.

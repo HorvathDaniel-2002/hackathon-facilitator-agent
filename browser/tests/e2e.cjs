@@ -40,6 +40,23 @@ async function main() {
     await expect(page.locator('.card')).toHaveCount(3);
     await expect(page.getByText('Contoso workshop · fictional sample', { exact: true })).toBeVisible();
   });
+  await check('install metadata and service worker support offline reopening', async () => {
+    const manifest = await page.evaluate(async () => (await (await fetch('./manifest.webmanifest')).json()));
+    assert.equal(manifest.name, 'Hackathon Facilitator');
+    assert.equal(manifest.display, 'standalone');
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready;
+      if (!navigator.serviceWorker.controller) {
+        await new Promise(resolve => navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true }));
+      }
+    });
+    await expect(page.locator('#offline-state')).toHaveText('Available offline');
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.getByRole('heading', { name: 'Kanban', exact: true })).toBeVisible();
+    await expect(page.locator('.card')).toHaveCount(3);
+    await context.setOffline(false);
+  });
   await check('all six lanes fit desktop without horizontal/page scrolling', async () => {
     for (const width of [1280, 1366, 1440, 1920]) {
       await page.setViewportSize({ width, height: 900 });

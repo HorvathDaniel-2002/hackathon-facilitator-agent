@@ -1,0 +1,29 @@
+{
+  "id": "./",
+  "name": "Hackathon Facilitator",
+  "short_name": "Facilitator",
+  "description": "A no-install, local-first Kanban workspace for hackathon use cases, readiness and handoffs.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
