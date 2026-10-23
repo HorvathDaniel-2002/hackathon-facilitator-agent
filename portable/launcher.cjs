@@ -88,10 +88,14 @@ async function removeOwnLock(lockPath) {
   if (lock?.pid === process.pid) await fsp.rm(lockPath, { force: true });
 }
 
-function openBrowser(url, environment = process.env) {
-  const command = environment.ComSpec || environment.COMSPEC || 'cmd.exe';
+function openBrowser(url, environment = process.env, spawnImpl = spawn) {
+  const windowsDirectory = environment.SystemRoot || environment.WINDIR;
+  if (!windowsDirectory || !path.win32.isAbsolute(windowsDirectory)) {
+    throw new Error('A valid Windows system directory is required to open the default browser.');
+  }
+  const command = path.win32.join(windowsDirectory, 'System32', 'rundll32.exe');
   return new Promise((resolve, reject) => {
-    const child = spawn(command, ['/d', '/s', '/c', `start "" "${url}"`], {
+    const child = spawnImpl(command, ['url.dll,FileProtocolHandler', url], {
       windowsHide: true,
       shell: false,
       stdio: 'ignore',
@@ -100,6 +104,14 @@ function openBrowser(url, environment = process.env) {
     child.once('error', reject);
     child.once('exit', code => code === 0 ? resolve() : reject(new Error('The default browser could not be opened.')));
   });
+}
+
+async function openBrowserOrWarn(url, environment = process.env) {
+  try {
+    await openBrowser(url, environment);
+  } catch (error) {
+    console.warn(`WARNING: ${error.message}\nOpen this URL manually:\n${url}\n`);
+  }
 }
 
 function safeEqual(left, right) {
@@ -264,7 +276,7 @@ async function start(options, profile) {
   const current = await readLock(lockPath);
   if (current && pidIsActive(current.pid)) {
     const active = await waitForExisting(lockPath);
-    if (options.open && active) await openBrowser(active.launchUrl);
+    if (options.open && active) await openBrowserOrWarn(active.launchUrl);
     console.log('Hackathon Facilitator is already running.');
     return;
   }
@@ -363,7 +375,7 @@ async function start(options, profile) {
     console.log(`\nHackathon Facilitator ${runtime.metadata.appVersion} is ready.`);
     console.log(`Data: ${runtime.dataDirectory}`);
     console.log('Keep this window open. Use Stop-Hackathon-Facilitator.cmd or Ctrl+C to stop.\n');
-    if (options.open) await openBrowser(launchUrl);
+    if (options.open) await openBrowserOrWarn(launchUrl);
     await exited;
   } catch (error) {
     await shutdown(error);
@@ -394,5 +406,5 @@ if (require.main === module) {
 }
 
 module.exports = {
-  parseArgs, profileDirectory, pidIsActive, cookieValue, safeEqual, backendFetch,
+  parseArgs, profileDirectory, pidIsActive, openBrowser, cookieValue, safeEqual, backendFetch,
 };

@@ -4,7 +4,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');
 const path = require('node:path');
-const { parseArgs, profileDirectory, cookieValue, safeEqual, backendFetch } = require('../launcher.cjs');
+const { EventEmitter } = require('node:events');
+const { parseArgs, profileDirectory, openBrowser, cookieValue, safeEqual, backendFetch } = require('../launcher.cjs');
 
 test('portable command modes are explicit and mutually exclusive', () => {
   assert.deepEqual(parseArgs([]), { open: true, stop: false, backup: false, check: false });
@@ -22,6 +23,24 @@ test('portable profile defaults to APPDATA and supports an explicit absolute tes
   assert.equal(profileDirectory({ APPDATA: 'C:\\ignored', HF_PORTABLE_PROFILE: 'C:\\test\\profile' }),
     path.resolve('C:\\test\\profile'));
   assert.throws(() => profileDirectory({ APPDATA: 'relative' }), /valid APPDATA/);
+});
+
+test('default browser opens through the Windows URL protocol handler without cmd quoting', async () => {
+  let invocation;
+  const spawnImpl = (command, args, options) => {
+    invocation = { command, args, options };
+    const child = new EventEmitter();
+    process.nextTick(() => child.emit('exit', 0));
+    return child;
+  };
+  const environment = { SystemRoot: 'C:\\Windows' };
+  const url = 'http://127.0.0.1:54321/_hf_launch/' + 'a'.repeat(64);
+  await openBrowser(url, environment, spawnImpl);
+  assert.equal(invocation.command, 'C:\\Windows\\System32\\rundll32.exe');
+  assert.deepEqual(invocation.args, ['url.dll,FileProtocolHandler', url]);
+  assert.equal(invocation.options.shell, false);
+  assert.equal(invocation.options.windowsHide, true);
+  assert.equal(invocation.options.env, environment);
 });
 
 test('session cookie parsing and constant-time equality reject missing or altered values', () => {

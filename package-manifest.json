@@ -1197,11 +1197,11 @@
     },
     {
       "path": "portable/launcher.cjs",
-      "sha256": "396ec872036c4c888818f3f852bb0cfb0ea8669fa5d55491f6aa240eb77b7a60"
+      "sha256": "271000a86555cac8888f5785c28fff059ce1227569263dfd1f6e2f4ac2b21360"
     },
     {
       "path": "portable/tests/launcher.test.cjs",
-      "sha256": "a9a1b32344d84d5de80116a11cad33cd2b3a83f9ae9871c514e02c160adf572e"
+      "sha256": "1ed728ff96cf1c2862767721c53b5e387cfb78dfc97e67d27d8d09cad9679afd"
     },
     {
       "path": "portable/verify-portable.ps1",
