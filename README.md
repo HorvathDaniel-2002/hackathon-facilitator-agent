@@ -10,7 +10,7 @@ leave every prototype with an owner and a next action.
 
 ## Full original application — portable local package
 
-### **[Download the full portable application](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip)**
+### **[Download the full portable application](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.2/Hackathon-Facilitator-Full-Portable-0.3.2.zip)**
 
 This is the **complete application shown in the product walkthrough**, not the
 reduced Browser Edition. It includes the full Kanban, use-case intake, contacts,
@@ -35,7 +35,7 @@ approval, deployment or a CAF submission.*
 
 | I want to… | Start here | Required |
 | --- | --- | --- |
-| **Use the complete original application** | **[Download the full portable ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip)** | Windows x64/ARM64; extract and open one CMD file |
+| **Use the complete original application** | **[Download the full portable ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.2/Hackathon-Facilitator-Full-Portable-0.3.2.zip)** | Windows x64/ARM64; extract and open one CMD file |
 | **Try only the lightweight Kanban companion** | [Open the reduced Browser Edition](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/) | Current desktop/mobile browser; no AI evaluator or build guides |
 | **Use the materials without installing anything** | [Word playbook](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Playbook.docx), [PowerPoint workshop](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/raw/refs/heads/main/materials/Hackathon-Facilitator-Workshop.pptx), or [PDFs](materials/README.md) | Word/PowerPoint-compatible app, or a PDF viewer |
 | **Use the Copilot agent** | Open the extracted repository in VS Code, then select **hackathon-facilitator** in Copilot Chat | Permitted GitHub Copilot access |
@@ -56,7 +56,7 @@ The exact universal portable package passed on native x64 and native ARM64:
 - stop/restart with saved-data preservation; and
 - explicit timestamped workspace backup.
 
-[Native x64/ARM64 evidence](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39770207915)
+[Native x64/ARM64 evidence](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39904667838)
 · [Full test report and limitations](docs/end-to-end-validation.md)
 
 ## Distribution status

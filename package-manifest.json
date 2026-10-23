@@ -7,7 +7,7 @@
     "name": "Daniel Horvath",
     "email": "dahorvath@microsoft.com"
   },
-  "publication": "The verified full original application is published as the primary portable Windows x64/ARM64 package at v0.3.2-portable.1. It uses bundled upstream-signed Node, a protected numeric-loopback browser gateway, local SQLite data and explicit stop/backup commands without Store installation, admin rights or separate Node/npm. The reduced Browser Edition remains available only as an optional lightweight companion.",
+  "publication": "The verified full original application is published as the primary portable Windows x64/ARM64 package at v0.3.2-portable.2. It uses bundled upstream-signed Node, a protected numeric-loopback browser gateway, direct Windows URL protocol browser opening, local SQLite data and explicit stop/backup commands without Store installation, admin rights or separate Node/npm. The reduced Browser Edition remains available only as an optional lightweight companion.",
   "exclusions": [
     "customer records",
     "databases",
@@ -93,7 +93,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "48213d7fea247b7bfacf60b5b9855bdba1f020ed20649803502141c7d1db2b48"
+      "sha256": "fc68cda0f3b04902b9df463d671b3425a25de556166fa9072bbf2974b9fe381a"
     },
     {
       "path": "Start-Hackathon.cmd",
@@ -869,11 +869,11 @@
     },
     {
       "path": "browser/README.md",
-      "sha256": "c55118d9cd0d8c463977dd76cc2bcfbe646ffb4a3f9e1d5f006cc1740937bcef"
+      "sha256": "e4ce5516495c1ad5a6154d85a9629c348e9b54ffed45e7b47c2684b54d754b82"
     },
     {
       "path": "browser/app.mjs",
-      "sha256": "5b61521ae810cd128177a1aba3ef412866fe5d94254606ed8f791d2235d0959d"
+      "sha256": "09789acb00a893bbab10ac79ae11f6c41cf2ca4447f6017163cbcd593de925cc"
     },
     {
       "path": "browser/icon-192.png",
@@ -1105,7 +1105,7 @@
     },
     {
       "path": "docs/colleague-distribution.md",
-      "sha256": "f5e9c912c83bcf4c848f190a29524f4e2da556447f4ae212675343359419e90b"
+      "sha256": "d3d66d7422ea629feb96a86a4896e4be76c071c99d3ae8ff46bbdaf452aa32d5"
     },
     {
       "path": "docs/copilot-agent-installation.md",
@@ -1117,7 +1117,7 @@
     },
     {
       "path": "docs/end-to-end-validation.md",
-      "sha256": "09380d1152621a77dfc9741e4b5a7aace9b7840ca2ccde6eee0ca3a0369baa9d"
+      "sha256": "7211cf2b6d315b2cd12c0f5cac2f47b8a383b888cabb2c69c0fa16bd97871517"
     },
     {
       "path": "docs/official-hackathon-submission.md",
@@ -1173,7 +1173,7 @@
     },
     {
       "path": "portable/README.md",
-      "sha256": "4da4131a4d92843d38e41da803d2a03d0b6fd917e6b1bc174c46b52d069101c1"
+      "sha256": "83397949a36a86bc1bfcddb995634459cda3acf9f64cada4a2571a990642af0c"
     },
     {
       "path": "portable/README.txt",

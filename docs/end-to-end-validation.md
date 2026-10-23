@@ -7,7 +7,7 @@ GitHub-hosted Windows runners. No existing customer database is reset or seeded.
 ## Full portable local application — 22 October 2026
 
 The supported public route for the original full application is the
-[universal portable ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.1).
+[universal portable ZIP](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.2).
 Users extract one folder and open `Start-Hackathon-Facilitator.cmd`; there is no
 Store installation, admin requirement or separate Node/npm setup.
 
@@ -28,7 +28,7 @@ cloud credentials/runtime injection variables are not passed to the backend.
 | Graceful stop, restart and saved-workspace preservation | Passed | Passed |
 | Timestamped local database backup | Passed | Passed |
 
-[Native CI evidence](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39770207915).
+[Native CI evidence](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39904667838).
 The exact CI-produced candidate was also downloaded and passed the complete
 lifecycle again on native ARM64 before publication. After publication, the
 release asset was downloaded back from GitHub; its SHA-256 matched and the full
@@ -36,11 +36,17 @@ startup, workflow, restart/data-preservation and backup lifecycle passed again
 on native ARM64.
 
 Package: `Hackathon-Facilitator-Full-Portable-0.3.2.zip`,
-**145,234,745 bytes**. SHA-256:
+**145,160,646 bytes**. SHA-256:
 
 ```text
-d802ccca1b35686aac0610aed965518383d4009ffd7c44daa535d9eb1b59ce56
+aa2fa0f9fc2ffc819e2cede845942d4d5c479ccd13b935abe5c7cf9ca1f172a2
 ```
+
+The `v0.3.2-portable.2` package also replaces a `cmd.exe start` invocation that
+could hang after a successful backend start. It now calls the Windows URL
+protocol handler directly. The packaged automatic-open path was exercised on
+native Windows ARM64; when browser launch is blocked, the app remains running
+and prints the protected manual URL.
 
 The ZIP is not a Store-certified or Authenticode-signed installer. Windows or
 organizational policy may still block downloaded CMD/binary files; no protection

@@ -1,7 +1,7 @@
 # Distribute Hackathon Facilitator to colleagues
 
 **Current state:** verified full portable application at
-https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.1 ,
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.2 ,
 with source, optional light browser companion, agent and materials at
 https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent .
 No colleague access grant, announcement or official hackathon submission has been performed.
@@ -50,7 +50,7 @@ I am looking for a small pilot group to try it with synthetic scenarios and
 provide feedback on first-use clarity, planning completeness and usefulness.
 
 **Download the full application:**
-https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip
+https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.2/Hackathon-Facilitator-Full-Portable-0.3.2.zip
 
 1. Extract the complete ZIP into a normal writable folder.
 2. Open `Start-Hackathon-Facilitator.cmd`.

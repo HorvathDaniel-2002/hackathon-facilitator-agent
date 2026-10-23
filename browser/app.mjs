@@ -2,7 +2,7 @@ import { STAGES, ROUTES, CAF, CHECKS, TEXT_LIMITS, LIMIT, newCard, newWorkspace,
 import { openStore } from "./storage.mjs";
 
 const REPO = "https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent";
-const FULL_RELEASE = `${REPO}/releases/tag/v0.3.2-portable.1`;
+const FULL_RELEASE = `${REPO}/releases/tag/v0.3.2-portable.2`;
 const root = document.querySelector("#app"), dialog = document.querySelector("#editor");
 let store, record = null, page = "board", grouping = "stage", query = "", routeFilter = "All routes";
 let busy = false, dirty = false, draftReader, toastTimer;

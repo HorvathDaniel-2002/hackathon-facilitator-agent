@@ -1,6 +1,6 @@
 # Full portable local application
 
-**[Download the complete original app](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.1/Hackathon-Facilitator-Full-Portable-0.3.2.zip)**
+**[Download the complete original app](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/download/v0.3.2-portable.2/Hackathon-Facilitator-Full-Portable-0.3.2.zip)**
 
 This is the full application shown in the product walkthrough, including Kanban,
 use-case intake, contacts, mock evaluation, mock build guides, readiness/runbook,
@@ -51,10 +51,10 @@ non-sensitive information only.
 The exact universal ZIP passed the complete original-app workflow, restart/data
 preservation and backup creation on native x64 and native ARM64:
 
-[GitHub Actions run 39770207915](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39770207915)
+[GitHub Actions run 39904667838](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/actions/runs/39904667838)
 
 SHA-256:
 
 ```text
-d802ccca1b35686aac0610aed965518383d4009ffd7c44daa535d9eb1b59ce56
+aa2fa0f9fc2ffc819e2cede845942d4d5c479ccd13b935abe5c7cf9ca1f172a2
 ```

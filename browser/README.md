@@ -2,7 +2,7 @@
 
 **This is not the complete application shown in the product walkthrough.**
 For the evaluator, build guides, contacts, dashboard and full workflow, download
-the [full portable application](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.1).
+the [full portable application](https://github.com/HorvathDaniel-2002/hackathon-facilitator-agent/releases/tag/v0.3.2-portable.2).
 
 **[Open the light browser companion](https://horvathdaniel-2002.github.io/hackathon-facilitator-agent/)**
 
